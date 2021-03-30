@@ -1,0 +1,401 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		2C066B5A21F1942700DCF5AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B5921F1942700DCF5AD /* AppDelegate.swift */; };
+		2C066B5C21F1942700DCF5AD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B5B21F1942700DCF5AD /* ViewController.swift */; };
+		2C066B5E21F1942800DCF5AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C066B5D21F1942800DCF5AD /* Assets.xcassets */; };
+		2C066B6C21F1944A00DCF5AD /* DIMBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B6B21F1944A00DCF5AD /* DIMBridge.swift */; };
+		2C066B6E21F1945800DCF5AD /* DIM.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B6D21F1945800DCF5AD /* DIM.applescript */; };
+		2C066B7121F1A67F00DCF5AD /* AppleScriptObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C066B7021F1A67F00DCF5AD /* AppleScriptObjC.framework */; };
+		2C066B9621F320F700DCF5AD /* EditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B9521F320F700DCF5AD /* EditSheet.swift */; };
+		2C728A2C2365239500D65798 /* ChangeArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C728A2B2365239500D65798 /* ChangeArrangement.swift */; };
+		2C728A2E2370B0BE00D65798 /* Hider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C728A2D2370B0BE00D65798 /* Hider.swift */; };
+		2C728A322372238500D65798 /* DIM 4.0.help in Resources */ = {isa = PBXBuildFile; fileRef = 2C728A312372238500D65798 /* DIM 4.0.help */; };
+		2C79D9CE21F8EF1400C612B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C79D9CC21F8EF1400C612B4 /* Main.storyboard */; };
+		2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */; };
+		2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7240521FA56CE00788C31 /* ErrorSheet.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		2C066B5621F1942700DCF5AD /* DIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C066B5921F1942700DCF5AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		2C066B5B21F1942700DCF5AD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		2C066B5D21F1942800DCF5AD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		2C066B6221F1942800DCF5AD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2C066B6B21F1944A00DCF5AD /* DIMBridge.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DIMBridge.swift; sourceTree = "<group>"; };
+		2C066B6D21F1945800DCF5AD /* DIM.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = DIM.applescript; sourceTree = "<group>"; };
+		2C066B7021F1A67F00DCF5AD /* AppleScriptObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptObjC.framework; path = System/Library/Frameworks/AppleScriptObjC.framework; sourceTree = SDKROOT; };
+		2C066B9521F320F700DCF5AD /* EditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSheet.swift; sourceTree = "<group>"; };
+		2C728A2B2365239500D65798 /* ChangeArrangement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeArrangement.swift; sourceTree = "<group>"; };
+		2C728A2D2370B0BE00D65798 /* Hider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hider.swift; sourceTree = "<group>"; };
+		2C728A312372238500D65798 /* DIM 4.0.help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "DIM 4.0.help"; path = "DIM/Resources/DIM 4.0.help"; sourceTree = "<group>"; };
+		2C79D9CD21F8EF1400C612B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArrangement.swift; sourceTree = "<group>"; };
+		2CE7240521FA56CE00788C31 /* ErrorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSheet.swift; sourceTree = "<group>"; };
+		2CE7240921FA73B300788C31 /* DIM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIM.entitlements; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		2C066B5321F1942700DCF5AD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C066B7121F1A67F00DCF5AD /* AppleScriptObjC.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2C066B4D21F1942600DCF5AD = {
+			isa = PBXGroup;
+			children = (
+				2C066B5821F1942700DCF5AD /* DIM */,
+				2C728A312372238500D65798 /* DIM 4.0.help */,
+				2C066B5721F1942700DCF5AD /* Products */,
+				2C066B6F21F1A67F00DCF5AD /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		2C066B5721F1942700DCF5AD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				2C066B5621F1942700DCF5AD /* DIM.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		2C066B5821F1942700DCF5AD /* DIM */ = {
+			isa = PBXGroup;
+			children = (
+				2C066B5921F1942700DCF5AD /* AppDelegate.swift */,
+				2C728A2D2370B0BE00D65798 /* Hider.swift */,
+				2C066B5B21F1942700DCF5AD /* ViewController.swift */,
+				2C066B9521F320F700DCF5AD /* EditSheet.swift */,
+				2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */,
+				2C728A2B2365239500D65798 /* ChangeArrangement.swift */,
+				2CE7240521FA56CE00788C31 /* ErrorSheet.swift */,
+				2C066B6B21F1944A00DCF5AD /* DIMBridge.swift */,
+				2C066B6D21F1945800DCF5AD /* DIM.applescript */,
+				2C79D9CC21F8EF1400C612B4 /* Main.storyboard */,
+				2C066B5D21F1942800DCF5AD /* Assets.xcassets */,
+				2CE7240921FA73B300788C31 /* DIM.entitlements */,
+				2C066B6221F1942800DCF5AD /* Info.plist */,
+			);
+			path = DIM;
+			sourceTree = "<group>";
+		};
+		2C066B6F21F1A67F00DCF5AD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				2C066B7021F1A67F00DCF5AD /* AppleScriptObjC.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		2C066B5521F1942700DCF5AD /* DIM */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C066B6621F1942800DCF5AD /* Build configuration list for PBXNativeTarget "DIM" */;
+			buildPhases = (
+				2C066B5221F1942700DCF5AD /* Sources */,
+				2C066B5321F1942700DCF5AD /* Frameworks */,
+				2C066B5421F1942700DCF5AD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DIM;
+			productName = "DIM 3.0";
+			productReference = 2C066B5621F1942700DCF5AD /* DIM.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		2C066B4E21F1942600DCF5AD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1220;
+				ORGANIZATIONNAME = "G.J. Parker";
+				TargetAttributes = {
+					2C066B5521F1942700DCF5AD = {
+						CreatedOnToolsVersion = 10.1;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.Mac = {
+								enabled = 0;
+							};
+							com.apple.HardenedRuntime = {
+								enabled = 1;
+							};
+							com.apple.Sandbox = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = 2C066B5121F1942600DCF5AD /* Build configuration list for PBXProject "DIM" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 2C066B4D21F1942600DCF5AD;
+			productRefGroup = 2C066B5721F1942700DCF5AD /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				2C066B5521F1942700DCF5AD /* DIM */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2C066B5421F1942700DCF5AD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C728A322372238500D65798 /* DIM 4.0.help in Resources */,
+				2C79D9CE21F8EF1400C612B4 /* Main.storyboard in Resources */,
+				2C066B5E21F1942800DCF5AD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		2C066B5221F1942700DCF5AD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */,
+				2C066B6E21F1945800DCF5AD /* DIM.applescript in Sources */,
+				2C066B5C21F1942700DCF5AD /* ViewController.swift in Sources */,
+				2C066B6C21F1944A00DCF5AD /* DIMBridge.swift in Sources */,
+				2C728A2C2365239500D65798 /* ChangeArrangement.swift in Sources */,
+				2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */,
+				2C728A2E2370B0BE00D65798 /* Hider.swift in Sources */,
+				2C066B5A21F1942700DCF5AD /* AppDelegate.swift in Sources */,
+				2C066B9621F320F700DCF5AD /* EditSheet.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		2C79D9CC21F8EF1400C612B4 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2C79D9CD21F8EF1400C612B4 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		2C066B6421F1942800DCF5AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		2C066B6521F1942800DCF5AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+			};
+			name = Release;
+		};
+		2C066B6721F1942800DCF5AD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DIM/DIM.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = DIM/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 4.0.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Debug;
+		};
+		2C066B6821F1942800DCF5AD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = DIM/DIM.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = DIM/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MARKETING_VERSION = 4.0.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.2;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		2C066B5121F1942600DCF5AD /* Build configuration list for PBXProject "DIM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C066B6421F1942800DCF5AD /* Debug */,
+				2C066B6521F1942800DCF5AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C066B6621F1942800DCF5AD /* Build configuration list for PBXNativeTarget "DIM" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C066B6721F1942800DCF5AD /* Debug */,
+				2C066B6821F1942800DCF5AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 2C066B4E21F1942600DCF5AD /* Project object */;
+}
