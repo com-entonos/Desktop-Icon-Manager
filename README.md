@@ -7,7 +7,7 @@ It also can toggle between showing and hiding Desktop icons- useful for privacy 
 ![image](https://user-images.githubusercontent.com/51520928/113028909-ad845f00-9140-11eb-9caa-68ff983b6a4b.png)
 <br>
 
-For control over icon posititions, DIM uses AppleScript via AppleScriptObjC.
+For control over icon posititions, DIM uses AppleScript via AppleScriptObjC to request various Finder actions.
 
 Binaries can be found at:<br>
 
