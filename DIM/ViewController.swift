@@ -283,7 +283,7 @@ class ViewController: NSViewController {
             }
         } else {   // first run or no user data or fatal problem reading user data
             restoreAtStart = false  // these are the defaults
-            quitAfterStart = true
+            quitAfterStart = false  // let's force user to select this, perhaps it will reduce confusion
             automaticSave = false
             currentName = "Default"
             timerSeconds = -1
