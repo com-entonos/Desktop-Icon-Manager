@@ -590,15 +590,15 @@ Gw
                                 </connections>
                             </button>
                             <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gU9-tS-bgT">
-                                <rect key="frame" x="124" y="74" width="222" height="11"/>
+                                <rect key="frame" x="74" y="67" width="322" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="(Hold ⌘ while starting DIM  to reach this window)" id="vGv-Gd-Dvc">
-                                    <font key="font" metaFont="miniSystem"/>
+                                    <font key="font" metaFont="systemBold"/>
                                     <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PkV-EO-1tK">
-                                <rect key="frame" x="86" y="61" width="174" height="18"/>
+                                <rect key="frame" x="86" y="64" width="174" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="uE5-oA-dFY"/>
                                 </constraints>
@@ -611,7 +611,7 @@ Gw
                                 </connections>
                             </button>
                             <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="MhN-1z-ysc">
-                                <rect key="frame" x="260" y="60" width="123" height="22"/>
+                                <rect key="frame" x="260" y="63" width="123" height="22"/>
                                 <popUpButtonCell key="cell" type="smallSquare" title="every 30 minutes" bezelStyle="smallSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" selectedItem="7XQ-wm-cTe" id="RuE-wd-oiz">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -641,7 +641,7 @@ Gw
                             <constraint firstAttribute="bottom" secondItem="2Or-ax-3hg" secondAttribute="bottom" constant="18" id="QIE-iG-gks"/>
                             <constraint firstItem="wIc-zU-Lta" firstAttribute="leading" secondItem="YOj-kM-lfG" secondAttribute="trailing" constant="5" id="RSa-XP-dVO"/>
                             <constraint firstItem="YOj-kM-lfG" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="35" id="VNO-PM-YLO"/>
-                            <constraint firstItem="gU9-tS-bgT" firstAttribute="top" secondItem="YOj-kM-lfG" secondAttribute="bottom" constant="1" id="ZTi-Ey-iSb"/>
+                            <constraint firstItem="gU9-tS-bgT" firstAttribute="top" secondItem="YOj-kM-lfG" secondAttribute="bottom" constant="3" id="ZTi-Ey-iSb"/>
                             <constraint firstAttribute="trailing" secondItem="uO3-a2-taD" secondAttribute="trailing" constant="1" id="bJj-H5-A10"/>
                             <constraint firstItem="1ML-jo-5DP" firstAttribute="leading" relation="lessThanOrEqual" secondItem="DZ9-EQ-FiY" secondAttribute="trailing" constant="75" id="bPF-2S-abR"/>
                             <constraint firstItem="uO3-a2-taD" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="cjk-Ty-TPl"/>
@@ -655,12 +655,12 @@ Gw
                             <constraint firstItem="h7P-oV-ure" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="lMl-Ea-BoZ"/>
                             <constraint firstItem="MhN-1z-ysc" firstAttribute="leading" secondItem="PkV-EO-1tK" secondAttribute="trailing" id="m3D-S6-KrR"/>
                             <constraint firstAttribute="bottom" secondItem="mY5-36-2f7" secondAttribute="bottom" constant="20" id="nSL-Gy-lIo"/>
-                            <constraint firstItem="MhN-1z-ysc" firstAttribute="top" secondItem="wIc-zU-Lta" secondAttribute="bottom" constant="4" id="o06-Jj-F86"/>
+                            <constraint firstItem="MhN-1z-ysc" firstAttribute="top" secondItem="wIc-zU-Lta" secondAttribute="bottom" constant="1" id="o06-Jj-F86"/>
                             <constraint firstItem="wIc-zU-Lta" firstAttribute="top" secondItem="1ML-jo-5DP" secondAttribute="bottom" constant="15" id="obq-ea-5ms"/>
                             <constraint firstItem="1ML-jo-5DP" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="p9C-T3-E6i"/>
                             <constraint firstItem="ZTL-f0-jOz" firstAttribute="leading" relation="lessThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="137" id="pAa-9e-bxz"/>
                             <constraint firstItem="gU9-tS-bgT" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="r1H-CF-6LZ"/>
-                            <constraint firstItem="PkV-EO-1tK" firstAttribute="top" secondItem="YOj-kM-lfG" secondAttribute="bottom" constant="8" id="tj9-qf-AeH"/>
+                            <constraint firstItem="PkV-EO-1tK" firstAttribute="top" secondItem="YOj-kM-lfG" secondAttribute="bottom" constant="5" id="tj9-qf-AeH"/>
                             <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ZkN-Eo-i6U" secondAttribute="trailing" constant="149" id="uCM-5A-OHa"/>
                             <constraint firstItem="2Or-ax-3hg" firstAttribute="top" secondItem="KLe-R5-x8e" secondAttribute="bottom" id="uZF-iN-fvX"/>
                             <constraint firstItem="ZTL-f0-jOz" firstAttribute="top" secondItem="DZ9-EQ-FiY" secondAttribute="bottom" constant="23" id="xgL-79-10I"/>
