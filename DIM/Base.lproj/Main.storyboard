@@ -511,12 +511,12 @@ Gw
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="K36-TN-t2J">
-                                <rect key="frame" x="4" y="0.0" width="106" height="14"/>
+                                <rect key="frame" x="4" y="0.0" width="104" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="E6v-cl-NWw"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="Zs3-o4-peg"/>
                                 </constraints>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="G.J. Parker © 2020" id="RVM-0p-Rrz">
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="G.J. Parker © 2021" id="RVM-0p-Rrz">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
