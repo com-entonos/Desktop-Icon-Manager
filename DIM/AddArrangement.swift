@@ -13,6 +13,7 @@ class AddArrangement: NSViewController {
     var newName = ""  // default new arrangement name, will be set by the parent viewcontroller
     var dim : DIM?
     var orderedArrangements = [String]()
+    var notDesktop = false
     //var toDo = ""  // we are either making a new arrangement or we are renaming an existing arrangement, will be set by parent viewcontroller
     
     @IBOutlet weak var newArrangement: NSTextField!
@@ -31,8 +32,9 @@ class AddArrangement: NSViewController {
         dim?.saveWindowPosition = false
         dim?.saveWindowBounds = false
         whichWindow.selectItem(at: 0)  // default to doing Desktop
-        windowPosition.isEnabled = false
-        windowSize.isEnabled = false
+        notDesktop = false
+        windowPosition.isEnabled = notDesktop
+        windowSize.isEnabled = notDesktop
         newArrangement.stringValue = newName  // grab default
         okButton.title = "Add"
     }
@@ -44,6 +46,7 @@ class AddArrangement: NSViewController {
         for i in 0..<getWindows.count {
             getWindows[i] += " window"
         }
+        notDesktop = false
         getWindows.insert("Desktop", at: 0)
         whichWindow.addItems(withTitles: getWindows)
         whichWindow.menu?.addItem(NSMenuItem.separator()) // simple seperator
@@ -52,17 +55,19 @@ class AddArrangement: NSViewController {
     }
     
     @IBAction func containerButton(_ sender: NSPopUpButton) {
-        let idx = sender.indexOfSelectedItem //{ //selectedItem?.title {
+        let idx = sender.indexOfSelectedItem
         if idx >= getWindows.count { //} == "Update this list..." {
-            print("loadMenu()...")
+            //print("loadMenu()...")
             loadMenu()
         } else if idx == 0 {
-            windowPosition.isEnabled = false
-            windowSize.isEnabled = false
+            notDesktop = false
+            windowPosition.isEnabled = notDesktop
+            windowSize.isEnabled = notDesktop
             newArrangement.stringValue = newName.replacingOccurrences(of: " window", with: "")
         } else {
-            windowPosition.isEnabled = true
-            windowSize.isEnabled = true
+            notDesktop = true
+            windowPosition.isEnabled = notDesktop
+            windowSize.isEnabled = notDesktop
             let name = sender.titleOfSelectedItem!
             var possible = name
             var j = 1
@@ -100,8 +105,8 @@ class AddArrangement: NSViewController {
         containerLabel.stringValue = "Container to memorize:"
         newArrangement.isEnabled = true
         okButton.isEnabled = true
-        windowPosition.isEnabled = true
-        windowSize.isEnabled = true
+        windowPosition.isEnabled = notDesktop
+        windowSize.isEnabled = notDesktop
         whichWindow.isEnabled = true
     }
     
@@ -109,7 +114,7 @@ class AddArrangement: NSViewController {
     @IBAction func okPressed(_ sender: NSButton) {
         let editVC = presentingViewController as! EditSheet
         let idx = whichWindow.indexOfSelectedItem
-        print("idx: \(idx)")
+        //print("idx: \(idx)")
         dim?.targetWindow = idx  // bug fix for 4.0.1
         if idx > 0 { // doing a window?
             let win = dim!.targetWindow
@@ -119,7 +124,7 @@ class AddArrangement: NSViewController {
                 return
             }
         }
-        print("idx: \(idx)")
+        //print("idx: \(idx)")
         editVC.addArrangment(newArrangement.stringValue, oldName: newName, what: okButton.title) // either Desktop or existing window
         self.dismiss(self)
     }
