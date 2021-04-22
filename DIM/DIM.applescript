@@ -1,5 +1,5 @@
 
--- G.J. Parker (c) 2019
+-- G.J. Parker (c) 2021
 -- simple AppleScript routines for dealing w/ icons on desktop
 
 script ApplescriptBridge

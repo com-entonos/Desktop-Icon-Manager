@@ -1,9 +1,9 @@
 //
 //  AppDelegate.swift
-//  DIM 3.0
+//  DIM
 //
 //  Created by G.J. Parker on 19/1/17.
-//  Copyright © 2019 G.J. Parker. All rights reserved.
+//  Copyright © 2021 G.J. Parker. All rights reserved.
 //
 
 import Cocoa
