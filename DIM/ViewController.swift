@@ -1,9 +1,9 @@
 //
 //  ViewController.swift
-//  DIM 3.0
+//  DIM
 //
 //  Created by G.J. Parker on 19/1/17.
-//  Copyright © 2019 G.J. Parker. All rights reserved.
+//  Copyright © 2021 G.J. Parker. All rights reserved.
 //
 
 import Cocoa
@@ -18,11 +18,14 @@ class ViewController: NSViewController {
     var arrangements = [String: Any]()  // dictionary keyed to name w/ corresponding iconSet (AppleScript data object)
     var orderedArrangements = [String]()  // an ordered list of Arrangement names to populate drop down menu and Edit sheet
     var timerSeconds = -1
+    let thisVer = 4000003
     
     // these are disposable run variables
     var start = true     // did we just start?
     var overrideSetting = false  // is user holding command (⌘) during start?
     var saveTimer: Timer?
+    var dataVer = 0
+    var quitTimer: Timer?
     
     // our outlets to various labels, buttons, etc on the main storyboard
     @IBOutlet weak var doingTF: NSTextField!
@@ -71,6 +74,9 @@ class ViewController: NSViewController {
         }
         if saveTimer != nil { saveTimer?.invalidate(); saveTimer = nil }    // get rid of any timers
     }
+    @objc func terminate() {
+        NSApp.terminate(self)
+    }
     @objc func atTimer() { // called if we're doing automatic saves
         if saveTimer != nil {   // make sure we are called from a timer
             arrangements[currentName] = refetchSet() // w/o gui
@@ -87,12 +93,14 @@ class ViewController: NSViewController {
     
     // Button pressed to Memorize...
     @IBAction func do_memorize(_ sender: NSButton) {
+        quitTimer?.invalidate()
         memorize(currentName)
         refreshTimer()
     }
     
     // Button pressedd to Restore...
     @IBAction func do_restore(_ sender: NSButton) {
+        quitTimer?.invalidate()
         restore(currentName)
         refreshTimer()
     }
@@ -179,19 +187,17 @@ class ViewController: NSViewController {
     // Check for Restore at start was toggled
     @IBAction func restoreQuitCheck(_ sender: NSButton) { // Restore at Start?
         restoreAtStart = (sender.state.rawValue == 1)             // "1" is checked, return true in that case
-        warningTF.isHidden = !(restoreAtStart && quitAfterStart)  // if this is checked AND quit after Restore, warn the user
-        automaticSaveButton.isHidden = (restoreAtStart && quitAfterStart)
-        automaticSaveButton.isEnabled = !automaticSaveButton.isHidden
-        timeMenu.isHidden = automaticSaveButton.isHidden
-        timeMenu.isEnabled = !timeMenu.isHidden && automaticSaveButton.state == .on
-        quitButton.isEnabled = restoreAtStart                     // enable Quit after Restore if latter is checked
-        savePrefs()
-        refreshTimer()
+        sanitize()
     }
     
     // Check for Quit after Restore was toggled
     @IBAction func quitThenCheck(_ sender: NSButton) {
         quitAfterStart = (sender.state.rawValue == 1)             // "1" is checked
+        sanitize()
+    }
+    func sanitize() {
+        quitTimer?.invalidate()
+        quitButton.isEnabled = restoreAtStart                     // enable Quit after Restore if latter is checked
         warningTF.isHidden = !(restoreAtStart && quitAfterStart)  // if this is checked (we know Restore is), warn the user
         automaticSaveButton.isHidden = (restoreAtStart && quitAfterStart)
         automaticSaveButton.isEnabled = !automaticSaveButton.isHidden
@@ -209,6 +215,7 @@ class ViewController: NSViewController {
     }
     
     @IBAction func automaticSaveCheck(_ sender: NSButton) {
+        quitTimer?.invalidate()
         automaticSave = (sender.state.rawValue == 1)            // 1 if checked
         savePrefs()
         refreshTimer()
@@ -239,6 +246,7 @@ class ViewController: NSViewController {
     }
     
     @IBAction func timerInterval(_ sender: NSPopUpButton) {
+        quitTimer?.invalidate()
         if let name = sender.selectedItem?.title {
             var newTimerSeconds = 0
             switch name {
@@ -268,13 +276,12 @@ class ViewController: NSViewController {
     // let's read user's preferences
     func loadPrefs() {  // go read user's perferences
         if goodLoadPrefs() {  // try to be robust in reading them back in, if there is an unrecoverable problem (or data doesn't exist), start afresh
-            if restoreAtStart && !overrideSetting {  // did they want us to restore automatically at start?
+            if restoreAtStart {  // did they want us to restore automatically at start?
 //              restore(currentName) //doesn't seem to work, so just brute force a restore  (instead of the next line)
                 setSet(set: arrangements[currentName]!)
-                if quitAfterStart {
-                    exit(0)
-                } else {
-                    dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
+                dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
+                if quitAfterStart && !overrideSetting && dataVer == thisVer {  // should we quit in 5 seconds?
+                    quitTimer = Timer.scheduledTimer(timeInterval: TimeInterval(5.0), target: self, selector: #selector(self.terminate), userInfo: nil, repeats: false)
                 }
             } else {
                 dim!.iconSet = arrangements[currentName]!  // no automatic restore, so just load AppleScript data (iconSet, numDesktop and numSet) for current arrangment
@@ -321,6 +328,8 @@ class ViewController: NSViewController {
         if defaults.string(forKey: "donate") != nil {donateLabel.textColor = NSColor.labelColor}
         if defaults.object(forKey: "automaticSave") != nil {automaticSave = defaults.bool(forKey: "automaticSave")}
         
+        if defaults.object(forKey: "dataVer") != nil { dataVer = defaults.integer(forKey: "dataVer")}
+        
         // in a perfect world we would be done. but let's not assume perfect and instead assume non-perfect
         // first, let's construct a new array using the data we (supposedly) have in arrangements dictionary
         var valid = [String]()  // valid will be a copy of arrangements but must be 'valid' (i.e. dictionary can be cast to NSArray with 5 or more elements)
@@ -362,6 +371,7 @@ class ViewController: NSViewController {
         defaults.set(arrangements, forKey: "arrangements")
         defaults.set(automaticSave, forKey: "automaticSave")
         defaults.set(timerSeconds, forKey: "timerSeconds")
+        defaults.set(thisVer, forKey: "dataVer") // since we ran, update dataVer
     }
     
     // construct the Arrangement popdown menu
@@ -417,6 +427,7 @@ class ViewController: NSViewController {
     
     // user selected a different(?) arrangement
     @IBAction func arrangeButton(_ sender: NSPopUpButton) {
+        quitTimer?.invalidate()
         if let name = sender.selectedItem?.title {
             if name != currentName {
                 currentName = name
@@ -432,6 +443,7 @@ class ViewController: NSViewController {
     
     // toggle hiding/unhiding Desktop icons
     @objc func doHider(_ sender: NSMenuItem) {
+        quitTimer?.invalidate()
         NotificationCenter.default.post(name: NSNotification.Name("doHide"), object: nil)
         hiding = !hiding // toggle state
         loadMenu()
@@ -439,11 +451,13 @@ class ViewController: NSViewController {
     
     // user wants to highlight new icons...
     @objc func showNewIcons(_ sender: NSMenuItem) {
+        quitTimer?.invalidate()
         dim!.showNewIcons()
     }
     
     // user wants to edit arrangements...
     @objc func editArrangement(_ sender: NSMenuItem) {
+        quitTimer?.invalidate()
         performSegue(withIdentifier: "toEditSheet", sender: self)
     }
     
@@ -459,6 +473,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var donateLabel: NSTextField!
     // hardcoded URL for donations (oh please!)
     @IBAction func donateClicked(_ sender: NSButton) {
+        quitTimer?.invalidate()
         let url = URL(string: "http://www.parker9.com/d")
         NSWorkspace.shared.open(url!)
         donateLabel.textColor = NSColor.systemGray  //labelColor.withAlphaComponent(0.2)
@@ -467,7 +482,8 @@ class ViewController: NSViewController {
     
     // hardcoded URL for home
     @IBAction func homeClicked(_ sender: NSButton) {
-        let url = URL(string: "http://www.parker9.com/desktopIconManager3.html#d")
+        quitTimer?.invalidate()
+        let url = URL(string: "http://www.parker9.com/desktopIconManager4.html#d")
         NSWorkspace.shared.open(url!)
     }
     
