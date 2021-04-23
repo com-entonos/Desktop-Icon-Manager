@@ -75,7 +75,11 @@ class ViewController: NSViewController {
         if saveTimer != nil { saveTimer?.invalidate(); saveTimer = nil }    // get rid of any timers
     }
     @objc func terminate() {
-        NSApp.terminate(self)
+        if NSEvent.modifierFlags == .command {
+            warningTF.stringValue = "(Hold ⌘ while starting DIM to reach this window)"
+        } else {
+            NSApp.terminate(self)
+        }
     }
     @objc func atTimer() { // called if we're doing automatic saves
         if saveTimer != nil {   // make sure we are called from a timer
@@ -276,11 +280,12 @@ class ViewController: NSViewController {
     // let's read user's preferences
     func loadPrefs() {  // go read user's perferences
         if goodLoadPrefs() {  // try to be robust in reading them back in, if there is an unrecoverable problem (or data doesn't exist), start afresh
-            if restoreAtStart {  // did they want us to restore automatically at start?
+            if restoreAtStart && !overrideSetting {  // did they want us to restore automatically at start?
 //              restore(currentName) //doesn't seem to work, so just brute force a restore  (instead of the next line)
                 setSet(set: arrangements[currentName]!)
                 dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
-                if quitAfterStart && !overrideSetting && dataVer == thisVer {  // should we quit in 5 seconds?
+                if quitAfterStart && dataVer == thisVer {  // should we quit in 5 seconds?
+                    warningTF.stringValue = "(Hold ⌘ to abort Quit)"
                     quitTimer = Timer.scheduledTimer(timeInterval: TimeInterval(5.0), target: self, selector: #selector(self.terminate), userInfo: nil, repeats: false)
                 }
             } else {
