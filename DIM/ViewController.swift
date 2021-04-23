@@ -329,6 +329,7 @@ class ViewController: NSViewController {
         if defaults.object(forKey: "automaticSave") != nil {automaticSave = defaults.bool(forKey: "automaticSave")}
         
         if defaults.object(forKey: "dataVer") != nil { dataVer = defaults.integer(forKey: "dataVer")}
+        defaults.set(thisVer, forKey: "dataVer") // since we ran, update dataVer
         
         // in a perfect world we would be done. but let's not assume perfect and instead assume non-perfect
         // first, let's construct a new array using the data we (supposedly) have in arrangements dictionary
@@ -371,7 +372,6 @@ class ViewController: NSViewController {
         defaults.set(arrangements, forKey: "arrangements")
         defaults.set(automaticSave, forKey: "automaticSave")
         defaults.set(timerSeconds, forKey: "timerSeconds")
-        defaults.set(thisVer, forKey: "dataVer") // since we ran, update dataVer
     }
     
     // construct the Arrangement popdown menu
