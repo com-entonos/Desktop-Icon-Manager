@@ -26,6 +26,7 @@ class ViewController: NSViewController {
     var saveTimer: Timer?
     var dataVer = 0
     var quitTimer: Timer?
+    var quitCount = 5
     
     // our outlets to various labels, buttons, etc on the main storyboard
     @IBOutlet weak var doingTF: NSTextField!
@@ -75,9 +76,14 @@ class ViewController: NSViewController {
         if saveTimer != nil { saveTimer?.invalidate(); saveTimer = nil }    // get rid of any timers
     }
     @objc func terminate() {
+        quitCount -= 1
         if NSEvent.modifierFlags == .command {
             warningTF.stringValue = "(Hold ⌘ while starting DIM to reach this window)"
+            quitTimer?.invalidate()
+        } else if quitCount > 0 {
+            warningTF.stringValue = "Hold ⌘ to abort Quit (\(quitCount))"
         } else {
+            quitTimer?.invalidate()
             NSApp.terminate(self)
         }
     }
@@ -285,8 +291,8 @@ class ViewController: NSViewController {
                 setSet(set: arrangements[currentName]!)
                 dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
                 if quitAfterStart && dataVer == thisVer {  // should we quit in 5 seconds?
-                    warningTF.stringValue = "(Hold ⌘ to abort Quit)"
-                    quitTimer = Timer.scheduledTimer(timeInterval: TimeInterval(5.0), target: self, selector: #selector(self.terminate), userInfo: nil, repeats: false)
+                    warningTF.stringValue = "Hold ⌘ to abort Quit (\(quitCount))"
+                    quitTimer = Timer.scheduledTimer(timeInterval: TimeInterval(1.0), target: self, selector: #selector(self.terminate), userInfo: nil, repeats: true)
                 }
             } else {
                 dim!.iconSet = arrangements[currentName]!  // no automatic restore, so just load AppleScript data (iconSet, numDesktop and numSet) for current arrangment
