@@ -81,7 +81,7 @@ class ViewController: NSViewController {
             warningTF.stringValue = "(Hold ⌘ while starting DIM to reach this window)"
             quitTimer?.invalidate()
         } else if quitCount > 0 {
-            warningTF.stringValue = "Hold ⌘ to abort Quit (\(Int(0.9 + quitCount/5.0)))" // triggers every 0.2 seconds
+            warningTF.stringValue = "Hold ⌘ to abort Quit (\(Int(0.9 + Double(quitCount)/5.0)))" // triggers every 0.2 seconds
         } else {
             quitTimer?.invalidate()
             NSApp.terminate(self)
