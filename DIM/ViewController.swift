@@ -27,6 +27,7 @@ class ViewController: NSViewController {
     var dataVer = 0
     var quitTimer: Timer?
     var quitCount = 20
+    var hider : Hider?
     
     // our outlets to various labels, buttons, etc on the main storyboard
     @IBOutlet weak var doingTF: NSTextField!
@@ -455,7 +456,11 @@ class ViewController: NSViewController {
     // toggle hiding/unhiding Desktop icons
     @objc func doHider(_ sender: NSMenuItem) {
         quitTimer?.invalidate()
-        NotificationCenter.default.post(name: NSNotification.Name("doHide"), object: nil)
+        if hider != nil {
+            NotificationCenter.default.post(name: NSNotification.Name("doHide"), object: nil)
+        } else {
+            hider = Hider()
+        }
         hiding = !hiding // toggle state
         loadMenu()
     }
