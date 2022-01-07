@@ -15,8 +15,8 @@
 		2C066B7121F1A67F00DCF5AD /* AppleScriptObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C066B7021F1A67F00DCF5AD /* AppleScriptObjC.framework */; };
 		2C066B9621F320F700DCF5AD /* EditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B9521F320F700DCF5AD /* EditSheet.swift */; };
 		2C728A2C2365239500D65798 /* ChangeArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C728A2B2365239500D65798 /* ChangeArrangement.swift */; };
-		2C728A2E2370B0BE00D65798 /* Hider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C728A2D2370B0BE00D65798 /* Hider.swift */; };
 		2C728A322372238500D65798 /* DIM 4.0.help in Resources */ = {isa = PBXBuildFile; fileRef = 2C728A312372238500D65798 /* DIM 4.0.help */; };
+		2C73DC292788C7C8005F7BFC /* Hider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C73DC282788C7C8005F7BFC /* Hider.swift */; };
 		2C79D9CE21F8EF1400C612B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C79D9CC21F8EF1400C612B4 /* Main.storyboard */; };
 		2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */; };
 		2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7240521FA56CE00788C31 /* ErrorSheet.swift */; };
@@ -33,8 +33,8 @@
 		2C066B7021F1A67F00DCF5AD /* AppleScriptObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptObjC.framework; path = System/Library/Frameworks/AppleScriptObjC.framework; sourceTree = SDKROOT; };
 		2C066B9521F320F700DCF5AD /* EditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSheet.swift; sourceTree = "<group>"; };
 		2C728A2B2365239500D65798 /* ChangeArrangement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeArrangement.swift; sourceTree = "<group>"; };
-		2C728A2D2370B0BE00D65798 /* Hider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hider.swift; sourceTree = "<group>"; };
 		2C728A312372238500D65798 /* DIM 4.0.help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "DIM 4.0.help"; path = "DIM/Resources/DIM 4.0.help"; sourceTree = "<group>"; };
+		2C73DC282788C7C8005F7BFC /* Hider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hider.swift; sourceTree = "<group>"; };
 		2C79D9CD21F8EF1400C612B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArrangement.swift; sourceTree = "<group>"; };
 		2CE7240521FA56CE00788C31 /* ErrorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSheet.swift; sourceTree = "<group>"; };
@@ -75,7 +75,7 @@
 			isa = PBXGroup;
 			children = (
 				2C066B5921F1942700DCF5AD /* AppDelegate.swift */,
-				2C728A2D2370B0BE00D65798 /* Hider.swift */,
+				2C73DC282788C7C8005F7BFC /* Hider.swift */,
 				2C066B5B21F1942700DCF5AD /* ViewController.swift */,
 				2C066B9521F320F700DCF5AD /* EditSheet.swift */,
 				2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */,
@@ -183,11 +183,11 @@
 			files = (
 				2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */,
 				2C066B6E21F1945800DCF5AD /* DIM.applescript in Sources */,
+				2C73DC292788C7C8005F7BFC /* Hider.swift in Sources */,
 				2C066B5C21F1942700DCF5AD /* ViewController.swift in Sources */,
 				2C066B6C21F1944A00DCF5AD /* DIMBridge.swift in Sources */,
 				2C728A2C2365239500D65798 /* ChangeArrangement.swift in Sources */,
 				2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */,
-				2C728A2E2370B0BE00D65798 /* Hider.swift in Sources */,
 				2C066B5A21F1942700DCF5AD /* AppDelegate.swift in Sources */,
 				2C066B9621F320F700DCF5AD /* EditSheet.swift in Sources */,
 			);
