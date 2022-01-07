@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="19529"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -149,7 +149,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="AxU-pS-2M1">
-                                                            <rect key="frame" x="11" y="1" width="414" height="17"/>
+                                                            <rect key="frame" x="1" y="1" width="414" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="zdq-IJ-DFh">
@@ -537,7 +537,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YOj-kM-lfG">
-                                <rect key="frame" x="33" y="85" width="294" height="16"/>
+                                <rect key="frame" x="33" y="85" width="293" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="GHF-0T-gh3"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="286" id="LJk-5J-Zv0"/>
@@ -551,7 +551,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wIc-zU-Lta">
-                                <rect key="frame" x="330" y="84" width="112" height="18"/>
+                                <rect key="frame" x="329" y="84" width="112" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="103" id="qXZ-Lx-oFV"/>
                                 </constraints>
@@ -723,7 +723,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BZE-Es-dML">
-                                <rect key="frame" x="355" y="13" width="82" height="33"/>
+                                <rect key="frame" x="356" y="13" width="81" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="gT3-fn-auH"/>
                                 </constraints>
@@ -739,7 +739,7 @@ DQ
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="P5Y-XG-2u9">
-                                <rect key="frame" x="262" y="13" width="84" height="33"/>
+                                <rect key="frame" x="263" y="13" width="84" height="33"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="21" id="B2M-Ft-Azj"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="FKi-Bk-I8K"/>
@@ -929,7 +929,7 @@ Gw
     </scenes>
     <resources>
         <image name="NSActionTemplate" width="15" height="15"/>
-        <image name="NSAddTemplate" width="15" height="13"/>
-        <image name="NSRemoveTemplate" width="15" height="4"/>
+        <image name="NSAddTemplate" width="14" height="13"/>
+        <image name="NSRemoveTemplate" width="14" height="4"/>
     </resources>
 </document>
