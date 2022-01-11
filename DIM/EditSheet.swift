@@ -76,7 +76,7 @@ class EditSheet: NSViewController {
     func addArrangment(_ newName: String, oldName: String, what: String) {
         if what == "Change" && newName != oldName && myContainerViewDelegate!.arrangements[newName] == nil {  // rename is only valid if name changed AND there isn't one already w/ that name, otherwise silently fail
             myContainerViewDelegate!.currentName = newName
-            myContainerViewDelegate!.orderedArrangements[myContainerViewDelegate!.orderedArrangements.index(of: oldName)!] = newName
+            myContainerViewDelegate!.orderedArrangements[myContainerViewDelegate!.orderedArrangements.firstIndex(of: oldName)!] = newName
             myContainerViewDelegate!.arrangements[newName] = myContainerViewDelegate!.arrangements[oldName]
             myContainerViewDelegate!.arrangements[oldName] = nil
             myContainerViewDelegate!.savePrefs()
@@ -159,7 +159,7 @@ class EditSheet: NSViewController {
     
     // helper function to set the selection to the arrangement w/ specified name
     func setRowSelection(name: String) {
-        editTableView.selectRowIndexes(IndexSet(integer: myContainerViewDelegate!.orderedArrangements.index(of: name)!), byExtendingSelection: false)
+        editTableView.selectRowIndexes(IndexSet(integer: myContainerViewDelegate!.orderedArrangements.firstIndex(of: name)!), byExtendingSelection: false)
     }
 }
 
