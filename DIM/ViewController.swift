@@ -18,7 +18,7 @@ class ViewController: NSViewController {
     var arrangements = [String: Any]()  // dictionary keyed to name w/ corresponding iconSet (AppleScript data object)
     var orderedArrangements = [String]()  // an ordered list of Arrangement names to populate drop down menu and Edit sheet
     var timerSeconds = -1
-    let thisVer = 4000003
+    let thisVer = 4000004
     
     // these are disposable run variables
     var start = true     // did we just start?
