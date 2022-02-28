@@ -161,8 +161,8 @@ script ApplescriptBridge
                     tell application "Finder"
                         try
                             set tWindow to make new Finder window
-                            set current view of tWindow to icon view
                             set target of tWindow to posix file (item 6 of iconSet as text)  -- (POSIX file p as text)
+                            set current view of tWindow to icon view
                         on error
                             tell application "Finder" to close tWindow
                             set tWindow to missing value
@@ -251,12 +251,11 @@ script ApplescriptBridge
             
             if notWindow then
                 tell application "Finder" to set newIconNames to name of items of desktop  -- get current list of icon names
-                set numDesktop to (count of newIconNames) -- might as well update numDesktop...
             else
                 if tWindow is missing value then return
                 tell application "Finder" to set newIconNames to name of items in tWindow
-                set numDesktop to (count of newIconNames)
             end if
+            set numDesktop to (count of newIconNames)
             
             set newIcons to {}  -- find new icons
             repeat with x in newIconNames
