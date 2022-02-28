@@ -98,7 +98,6 @@ class Hider {  // class that covers Desktop w/ pictures of Desktop- invoked by n
     }
     
     @objc func createDesktops(_ notifier : Any?) {          // make window for each desktop
-        let h0 = NSHeight((NSScreen.screens.filter({$0.frame.origin == CGPoint.zero}).first?.frame)!) // height of Screen that has menu bar
         
         // need to find Desktop windows... (let's use apple's approved way so we don't trip up security guards)
         let windows = CGWindowListCopyWindowInfo([.optionAll], kCGNullWindowID)! as! [[String: AnyObject]]  // get all the windows everywhere
@@ -126,6 +125,7 @@ class Hider {  // class that covers Desktop w/ pictures of Desktop- invoked by n
         for (_, wins) in myScreen { for win in wins { win.orderOut(nil)} } // if there any windows, don't show them anymore
         myScreen = [:]
         
+        let h0 = NSHeight((NSScreen.screens.filter({$0.frame.origin == CGPoint.zero}).first?.frame)!) // height of Screen that has menu bar
         for screen in NSScreen.screens { // need to create a list of windows for this screen to accomodate the number of Spaces it has
             let rectNS = screen.frame   // get frame of Screen in screen coordinates
             let origin = CGPoint(x: rectNS.origin.x, y: h0 - rectNS.origin.y - rectNS.height)   // translate from Screen to CG origin: y_CG = h0 - y_Screen - height
