@@ -1,6 +1,6 @@
 //
 //  ErrorSheet.swift
-//  DIM 3.0
+//  DIM
 //
 //  Created by G.J. Parker on 19/1/24.
 //  Copyright © 2021 G.J. Parker. All rights reserved.
