@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -125,8 +125,9 @@
 		2C066B4E21F1942600DCF5AD /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1010;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "G.J. Parker";
 				TargetAttributes = {
 					2C066B5521F1942700DCF5AD = {
