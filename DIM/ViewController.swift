@@ -18,7 +18,7 @@ class ViewController: NSViewController {
     var arrangements = [String: Any]()  // dictionary keyed to name w/ corresponding iconSet (AppleScript data object)
     var orderedArrangements = [String]()  // an ordered list of Arrangement names to populate drop down menu and Edit sheet
     var timerSeconds = -1
-    let thisVer = 4000004
+    let thisVer = 4000005
     
     // these are disposable run variables
     var start = true     // did we just start?
@@ -27,7 +27,6 @@ class ViewController: NSViewController {
     var dataVer = 0
     var quitTimer: Timer?
     var quitCount = 20
-    var hider : Hider?
     
     // our outlets to various labels, buttons, etc on the main storyboard
     @IBOutlet weak var doingTF: NSTextField!
@@ -47,6 +46,7 @@ class ViewController: NSViewController {
     var dim: DIM?
     
     var hiding = false
+    var hider : Hider? //= Hider(false)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,6 +56,19 @@ class ViewController: NSViewController {
 
     override func viewDidAppear() {
         super.viewDidAppear()
+        if start {
+            DispatchQueue.global(qos: .userInteractive).async {
+                if self.dim == nil { self.dim = DIM() }
+                DispatchQueue.main.async {
+                    if self.dim == nil || self.dim!.testBridge == "no" || self.dim!.testBridge == nil {
+                        self.errorwithAS()
+                    } else {
+                        self.loadPrefs()
+                        self.start = false
+                    }
+                }
+            }
+        } /*
         if start {  // first time through?
             if dim == nil { //inject AppleScript stuff... if we haven't yet
                 dim = DIM()
@@ -66,7 +79,7 @@ class ViewController: NSViewController {
                 loadPrefs()     // load user preferences and get going
                 start = false   // flag to say we did this once, no need to do it again (since viewDidAppear can be called again, say, if app was Hid or not...
             }
-        }
+        }*/
     }
     
     @objc func atEnd() { // called just before quit
@@ -337,11 +350,12 @@ class ViewController: NSViewController {
         orderedArrangements = defaults.array(forKey: "orderedArrangements") as! [String]
         arrangements = defaults.dictionary(forKey: "arrangements")!
         if defaults.object(forKey: "timerSeconds") != nil {timerSeconds = defaults.integer(forKey: "timerSeconds")}
-        if defaults.string(forKey: "donate") != nil {donateLabel.textColor = NSColor.labelColor}
         if defaults.object(forKey: "automaticSave") != nil {automaticSave = defaults.bool(forKey: "automaticSave")}
         
         if defaults.object(forKey: "dataVer") != nil { dataVer = defaults.integer(forKey: "dataVer")}
         defaults.set(thisVer, forKey: "dataVer") // since we ran, update dataVer
+        if dataVer != thisVer { defaults.removeObject(forKey: "donate") }
+        if defaults.string(forKey: "donate") != nil {donateLabel.textColor = NSColor.labelColor}
         
         // in a perfect world we would be done. but let's not assume perfect and instead assume non-perfect
         // first, let's construct a new array using the data we (supposedly) have in arrangements dictionary
@@ -457,7 +471,7 @@ class ViewController: NSViewController {
     @objc func doHider(_ sender: NSMenuItem) {
         quitTimer?.invalidate()
         if hider != nil {
-            NotificationCenter.default.post(name: NSNotification.Name("doHide"), object: nil)
+            NotificationCenter.default.post(name: .doHide, object: nil)
         } else {
             hider = Hider()
         }
@@ -504,7 +518,11 @@ class ViewController: NSViewController {
     }
     
     func errorwithAS() {
-        performSegue(withIdentifier: "toError", sender: self)
+        if  ProcessInfo.processInfo.operatingSystemVersion.majorVersion > 12 {
+            performSegue(withIdentifier: "toErrorVentura", sender: self)
+        } else {
+            performSegue(withIdentifier: "toError", sender: self)
+        }
     }
 }
 

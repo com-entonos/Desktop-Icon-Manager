@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -523,7 +523,7 @@ Gw
                                     <constraint firstAttribute="height" constant="14" id="E6v-cl-NWw"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="Zs3-o4-peg"/>
                                 </constraints>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="G.J. Parker © 2022" id="RVM-0p-Rrz">
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="G.J. Parker © 2023" id="RVM-0p-Rrz">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -698,6 +698,7 @@ Gw
                         <outlet property="warningTF" destination="gU9-tS-bgT" id="sd9-Rk-UXK"/>
                         <segue destination="B76-Dz-KLR" kind="sheet" identifier="toEditSheet" id="hCJ-ZW-xOI"/>
                         <segue destination="6zE-aO-Tg4" kind="sheet" identifier="toError" id="35K-5H-9cC"/>
+                        <segue destination="CS6-np-vhQ" kind="sheet" identifier="toErrorVentura" id="gKu-6F-0lV"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -945,10 +946,135 @@ Gw
             </objects>
             <point key="canvasLocation" x="-957" y="1336"/>
         </scene>
+        <!--Error Sheet-->
+        <scene sceneID="kjL-xK-yZa">
+            <objects>
+                <viewController id="CS6-np-vhQ" customClass="ErrorSheet" customModule="DIM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="1Aj-A5-HLF">
+                        <rect key="frame" x="0.0" y="0.0" width="318" height="220"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="24M-9O-ZTK">
+                                <rect key="frame" x="25" y="182" width="269" height="18"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="18" id="gcf-sH-u5I"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="265" id="q69-D2-GPV"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="DIM can not communicate with Finder!" id="1b4-Re-30O">
+                                    <font key="font" metaFont="systemBold" size="14"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1OX-b8-ecf">
+                                <rect key="frame" x="23" y="131" width="277" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="273" id="KZz-Jo-JJN"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="1. Open System Settings... under  menu" id="tLw-rT-IWL">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JYE-WO-s6R">
+                                <rect key="frame" x="23" y="113" width="214" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="162" id="n3z-Ba-FLm"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="2. Select Privacy &amp; Security on left" id="T8L-se-73o">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Zr-aH-42d">
+                                <rect key="frame" x="23" y="77" width="201" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="192" id="ZrF-HG-7sE"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="4. Expand DIM entry on the right" id="C5I-xh-8Bg">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jkx-eJ-4xZ">
+                                <rect key="frame" x="23" y="59" width="239" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="235" id="mRw-Rg-4ig"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="5. Check Finder under DIM on right" id="h00-Ny-xuU">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7bU-c8-psR">
+                                <rect key="frame" x="245" y="13" width="60" height="32"/>
+                                <buttonCell key="cell" type="push" title="Quit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="e7w-c4-tie">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="quitButton:" target="CS6-np-vhQ" id="lxA-JZ-sZE"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ez1-kq-hCm">
+                                <rect key="frame" x="18" y="151" width="44" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="To fix:" id="zUW-qy-NuG">
+                                    <font key="font" metaFont="systemBold"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o81-th-Vef">
+                                <rect key="frame" x="23" y="95" width="204" height="16"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="125" id="LwC-Ru-9yC"/>
+                                </constraints>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="3. Select Automation on the right" id="Wq4-VU-UBZ">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Jkx-eJ-4xZ" secondAttribute="trailing" constant="20" symbolic="YES" id="0Nk-wp-Npv"/>
+                            <constraint firstItem="JYE-WO-s6R" firstAttribute="top" secondItem="1OX-b8-ecf" secondAttribute="bottom" constant="2" id="5hM-0E-S2c"/>
+                            <constraint firstItem="1OX-b8-ecf" firstAttribute="top" secondItem="Ez1-kq-hCm" secondAttribute="bottom" constant="4" id="5vN-wk-OnN"/>
+                            <constraint firstAttribute="trailing" secondItem="7bU-c8-psR" secondAttribute="trailing" constant="20" id="7fn-93-HXE"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="JYE-WO-s6R" secondAttribute="trailing" constant="20" symbolic="YES" id="81g-8I-7kQ"/>
+                            <constraint firstItem="o81-th-Vef" firstAttribute="top" secondItem="JYE-WO-s6R" secondAttribute="bottom" constant="2" id="97k-7b-fwD"/>
+                            <constraint firstItem="Ez1-kq-hCm" firstAttribute="top" secondItem="24M-9O-ZTK" secondAttribute="bottom" constant="15" id="Beo-0K-MbF"/>
+                            <constraint firstItem="Jkx-eJ-4xZ" firstAttribute="top" secondItem="2Zr-aH-42d" secondAttribute="bottom" constant="2" id="Dkt-eR-124"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="1OX-b8-ecf" secondAttribute="trailing" constant="20" symbolic="YES" id="DnV-6u-VHp"/>
+                            <constraint firstItem="2Zr-aH-42d" firstAttribute="top" secondItem="o81-th-Vef" secondAttribute="bottom" constant="2" id="E7o-pq-yGc"/>
+                            <constraint firstItem="1OX-b8-ecf" firstAttribute="leading" secondItem="Ez1-kq-hCm" secondAttribute="leading" constant="5" id="EMp-Zu-GSt"/>
+                            <constraint firstItem="o81-th-Vef" firstAttribute="leading" secondItem="1OX-b8-ecf" secondAttribute="leading" id="GGm-AC-Kty"/>
+                            <constraint firstItem="Ez1-kq-hCm" firstAttribute="leading" secondItem="1Aj-A5-HLF" secondAttribute="leading" constant="20" id="Lkw-7D-ChB"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Ez1-kq-hCm" secondAttribute="trailing" constant="20" symbolic="YES" id="MBv-Lf-t8H"/>
+                            <constraint firstItem="Jkx-eJ-4xZ" firstAttribute="leading" secondItem="1OX-b8-ecf" secondAttribute="leading" id="MhV-0f-K0C"/>
+                            <constraint firstItem="24M-9O-ZTK" firstAttribute="top" secondItem="1Aj-A5-HLF" secondAttribute="top" constant="20" id="Qgg-Yv-gMa"/>
+                            <constraint firstItem="JYE-WO-s6R" firstAttribute="leading" secondItem="1OX-b8-ecf" secondAttribute="leading" id="RoH-UA-vo8"/>
+                            <constraint firstAttribute="bottom" secondItem="7bU-c8-psR" secondAttribute="bottom" constant="20" id="SJT-hr-wYY"/>
+                            <constraint firstItem="2Zr-aH-42d" firstAttribute="leading" secondItem="1OX-b8-ecf" secondAttribute="leading" id="Tsw-MD-b9f"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2Zr-aH-42d" secondAttribute="trailing" constant="20" symbolic="YES" id="X2L-ut-rNu"/>
+                            <constraint firstItem="7bU-c8-psR" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1Aj-A5-HLF" secondAttribute="leading" constant="20" symbolic="YES" id="Xon-Gm-6ys"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="o81-th-Vef" secondAttribute="trailing" constant="20" symbolic="YES" id="gUJ-PF-PUn"/>
+                            <constraint firstItem="24M-9O-ZTK" firstAttribute="centerX" secondItem="1Aj-A5-HLF" secondAttribute="centerX" id="oAf-BU-iMz"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="FfU-u2-2R7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-446" y="909"/>
+        </scene>
     </scenes>
     <resources>
-        <image name="NSActionTemplate" width="15" height="15"/>
-        <image name="NSAddTemplate" width="14" height="13"/>
-        <image name="NSRemoveTemplate" width="14" height="4"/>
+        <image name="NSActionTemplate" width="20" height="20"/>
+        <image name="NSAddTemplate" width="18" height="17"/>
+        <image name="NSRemoveTemplate" width="18" height="5"/>
     </resources>
 </document>
