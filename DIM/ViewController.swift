@@ -419,7 +419,7 @@ class ViewController: NSViewController {
             let showMenu = NSMenuItem(title: "Select unmemorized Icons", action: #selector(showNewIcons), keyEquivalent: "")    // "Select unmemorized icons" option
             arrangementButton.menu?.addItem(showMenu)
             arrangementButton.menu?.addItem(NSMenuItem.separator())
-            let hiderMenu = NSMenuItem(title: hiding ? "Unhide Desktop icons" : "Hide Desktop icons", action: #selector(doHider), keyEquivalent: "")    // "Hide/Unhide Desktop icons" option
+            let hiderMenu = NSMenuItem(title: hiding ? "Show Desktop icons" : "Hide Desktop icons", action: #selector(doHider), keyEquivalent: "")    // "Hide/Show Desktop icons" option
             arrangementButton.menu?.addItem(hiderMenu)
             
             // for 4.0.1
