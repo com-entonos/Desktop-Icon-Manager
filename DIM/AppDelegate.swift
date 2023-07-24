@@ -11,8 +11,13 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
+    @IBOutlet weak var exportMenuItem : NSMenuItem!
+    
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.powerOff), name: NSWorkspace.willPowerOffNotification, object: nil)
+        if !FileManager.default.fileExists(atPath: FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/com.parker9.DIM-4.plist") {
+            exportMenuItem.isEnabled = false
+        }
     }
     func applicationWillTerminate(_ aNotification: Notification) {
         NotificationCenter.default.post(name: NSNotification.Name("atEnd"), object: nil)

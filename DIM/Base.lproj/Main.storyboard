@@ -56,11 +56,21 @@
                             </menuItem>
                             <menuItem title="File" id="dMs-cI-mzQ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="File" id="bib-Uj-vzu">
+                                <menu key="submenu" title="File" autoenablesItems="NO" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="Close" keyEquivalent="w" id="DVo-aG-piG">
+                                        <menuItem title="Import Settings File..." keyEquivalent="o" identifier="OpenSettingsFile" id="QqU-1B-97r">
                                             <connections>
-                                                <action selector="performClose:" target="Ady-hI-5gd" id="HmO-Ls-i7Q"/>
+                                                <action selector="readPlist:" target="Ady-hI-5gd" id="VnP-kF-cro"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Export Settings File..." keyEquivalent="s" identifier="ExportSettingsFile" id="1mP-c5-nut">
+                                            <connections>
+                                                <action selector="writePlist:" target="Ady-hI-5gd" id="tvU-Ui-cl3"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Close" keyEquivalent="w" id="zge-up-Q1z">
+                                            <connections>
+                                                <action selector="performClose:" target="Ady-hI-5gd" id="Kva-yD-sm4"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -84,7 +94,11 @@
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
                     </connections>
                 </application>
-                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="DIM" customModuleProvider="target"/>
+                <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="DIM" customModuleProvider="target">
+                    <connections>
+                        <outlet property="exportMenuItem" destination="1mP-c5-nut" id="dXs-vZ-xYG"/>
+                    </connections>
+                </customObject>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -281,7 +295,7 @@ Gw
                 </viewController>
                 <customObject id="0T9-dr-oaB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1213" y="946"/>
+            <point key="canvasLocation" x="-1214" y="1032"/>
         </scene>
         <!--Error Sheet-->
         <scene sceneID="cEC-Kk-Qsh">
@@ -406,7 +420,7 @@ Gw
                 </viewController>
                 <customObject id="lZf-AS-aiQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-795" y="909"/>
+            <point key="canvasLocation" x="-785" y="995"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="hIz-AP-VOD">
@@ -699,11 +713,114 @@ Gw
                         <segue destination="B76-Dz-KLR" kind="sheet" identifier="toEditSheet" id="hCJ-ZW-xOI"/>
                         <segue destination="6zE-aO-Tg4" kind="sheet" identifier="toError" id="35K-5H-9cC"/>
                         <segue destination="CS6-np-vhQ" kind="sheet" identifier="toErrorVentura" id="gKu-6F-0lV"/>
+                        <segue destination="gWv-8h-0zM" kind="sheet" identifier="toPlistOption" id="UTe-Ry-Js1"/>
+                        <segue destination="tAA-mJ-ajw" kind="sheet" identifier="toBadFile" id="Z6m-yA-UtU"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1213" y="577"/>
+            <point key="canvasLocation" x="-1213" y="583"/>
+        </scene>
+        <!--Plist Options-->
+        <scene sceneID="WAw-3X-zbW">
+            <objects>
+                <viewController title="Plist Options" id="gWv-8h-0zM" customClass="PlistOption" customModule="DIM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="0e9-Fj-C0Z">
+                        <rect key="frame" x="0.0" y="0.0" width="301" height="160"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kec-La-loO">
+                                <rect key="frame" x="30" y="99" width="176" height="18"/>
+                                <buttonCell key="cell" type="radio" title="Replace current Settings" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="DZy-um-rxp">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="radioButtonSelected:" target="gWv-8h-0zM" id="jYl-fZ-qJX"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xt3-su-vjh">
+                                <rect key="frame" x="30" y="55" width="251" height="18"/>
+                                <buttonCell key="cell" type="radio" title="Merge imported into current Settings" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="ECL-2x-p4s">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="radioButtonSelected:" target="gWv-8h-0zM" id="vWB-bY-NEX"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t8V-l2-0hN">
+                                <rect key="frame" x="30" y="77" width="251" height="18"/>
+                                <buttonCell key="cell" type="radio" title="Merge current into imported Settings" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="g4D-gA-K9D">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="radioButtonSelected:" target="gWv-8h-0zM" id="khh-n9-xWf"/>
+                                </connections>
+                            </button>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yZQ-HZ-zu2">
+                                <rect key="frame" x="30" y="124" width="273" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Choose one option:" id="eWt-GM-kb1">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Dq-cZ-bbP">
+                                <rect key="frame" x="235" y="13" width="53" height="32"/>
+                                <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aGh-1Z-YYK">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="buttonPressed:" target="gWv-8h-0zM" id="8Rd-w3-AX1"/>
+                                </connections>
+                            </button>
+                            <button identifier="cancel" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YBO-lB-nva">
+                                <rect key="frame" x="161" y="13" width="76" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fee-mG-8AY">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="buttonPressed:" target="gWv-8h-0zM" id="hWo-VL-eN0"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="t8V-l2-0hN" firstAttribute="leading" secondItem="Xt3-su-vjh" secondAttribute="leading" id="E7R-KJ-8sb"/>
+                            <constraint firstItem="YBO-lB-nva" firstAttribute="leading" secondItem="0e9-Fj-C0Z" secondAttribute="leading" constant="168" id="FWd-Ha-3t1"/>
+                            <constraint firstAttribute="trailing" secondItem="yZQ-HZ-zu2" secondAttribute="trailing" id="JXT-by-UNC"/>
+                            <constraint firstItem="Kec-La-loO" firstAttribute="top" secondItem="yZQ-HZ-zu2" secondAttribute="bottom" constant="8" symbolic="YES" id="Ttp-Cy-fsf"/>
+                            <constraint firstItem="5Dq-cZ-bbP" firstAttribute="leading" secondItem="YBO-lB-nva" secondAttribute="trailing" constant="12" symbolic="YES" id="UOJ-kF-5t1"/>
+                            <constraint firstAttribute="bottom" secondItem="5Dq-cZ-bbP" secondAttribute="bottom" constant="20" symbolic="YES" id="bbZ-dw-Ux1"/>
+                            <constraint firstItem="t8V-l2-0hN" firstAttribute="top" secondItem="Kec-La-loO" secondAttribute="bottom" constant="6" symbolic="YES" id="bfW-XK-MMq"/>
+                            <constraint firstItem="Xt3-su-vjh" firstAttribute="trailing" secondItem="5Dq-cZ-bbP" secondAttribute="trailing" id="fXg-dI-XBf"/>
+                            <constraint firstItem="Xt3-su-vjh" firstAttribute="top" secondItem="t8V-l2-0hN" secondAttribute="bottom" constant="6" symbolic="YES" id="gO9-Vq-dKx"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Kec-La-loO" secondAttribute="trailing" constant="90" id="h9Y-u4-kfa"/>
+                            <constraint firstItem="yZQ-HZ-zu2" firstAttribute="leading" secondItem="Kec-La-loO" secondAttribute="leading" id="i50-TW-rMp"/>
+                            <constraint firstAttribute="trailing" secondItem="t8V-l2-0hN" secondAttribute="trailing" constant="20" symbolic="YES" id="inL-ks-SR5"/>
+                            <constraint firstItem="Kec-La-loO" firstAttribute="leading" secondItem="t8V-l2-0hN" secondAttribute="leading" id="jzj-u2-SfG"/>
+                            <constraint firstItem="YBO-lB-nva" firstAttribute="baseline" secondItem="5Dq-cZ-bbP" secondAttribute="baseline" id="nIc-Bg-cXM"/>
+                            <constraint firstItem="yZQ-HZ-zu2" firstAttribute="top" secondItem="0e9-Fj-C0Z" secondAttribute="top" constant="20" symbolic="YES" id="pc5-fa-meD"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="mergeIntoCurrentButton" destination="Xt3-su-vjh" id="sy7-xp-Ock"/>
+                        <outlet property="mergeIntoImportedButton" destination="t8V-l2-0hN" id="KOn-ZR-5Po"/>
+                        <outlet property="replaceButton" destination="Kec-La-loO" id="aed-BE-6vi"/>
+                    </connections>
+                </viewController>
+                <customObject id="e8d-1g-j8c" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1630" y="965"/>
         </scene>
         <!--Change Arrangement-->
         <scene sceneID="68q-aa-AOu">
@@ -795,7 +912,7 @@ Gw
                     </connections>
                 </viewController>
             </objects>
-            <point key="canvasLocation" x="-1449" y="1283"/>
+            <point key="canvasLocation" x="-1441" y="1445"/>
         </scene>
         <!--Add Arrangement-->
         <scene sceneID="Mlg-ua-Lrl">
@@ -944,7 +1061,7 @@ Gw
                 </viewController>
                 <customObject id="nCS-Xf-c7R" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-957" y="1336"/>
+            <point key="canvasLocation" x="-959" y="1498"/>
         </scene>
         <!--Error Sheet-->
         <scene sceneID="kjL-xK-yZa">
@@ -1069,7 +1186,61 @@ Gw
                 </viewController>
                 <customObject id="FfU-u2-2R7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-446" y="909"/>
+            <point key="canvasLocation" x="-442" y="995"/>
+        </scene>
+        <!--toBadFile-->
+        <scene sceneID="Yam-uu-2oj">
+            <objects>
+                <viewController title="toBadFile" id="tAA-mJ-ajw" customClass="ErrorSheet" customModule="DIM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="NfH-E6-jds">
+                        <rect key="frame" x="0.0" y="0.0" width="415" height="128"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tFm-hv-sXF">
+                                <rect key="frame" x="35" y="91" width="346" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="This file does not appear to be a DIM Settings file!" id="Gg0-c1-yhh">
+                                    <font key="font" metaFont="systemBold" size="14"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MuF-EO-2T5">
+                                <rect key="frame" x="63" y="60" width="290" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Import failed. Perhaps try another Settings file?" id="tXa-2I-jQ1">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xP1-4O-4KL">
+                                <rect key="frame" x="349" y="13" width="53" height="32"/>
+                                <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aJ3-bO-g5l">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="okButton:" target="tAA-mJ-ajw" id="W94-hu-MSY"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="tFm-hv-sXF" firstAttribute="centerX" secondItem="MuF-EO-2T5" secondAttribute="centerX" id="9Jw-0y-tw5"/>
+                            <constraint firstAttribute="trailing" secondItem="xP1-4O-4KL" secondAttribute="trailing" constant="20" symbolic="YES" id="CGL-34-YN9"/>
+                            <constraint firstItem="MuF-EO-2T5" firstAttribute="top" secondItem="tFm-hv-sXF" secondAttribute="bottom" constant="15" id="EiZ-T2-6Xd"/>
+                            <constraint firstItem="xP1-4O-4KL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NfH-E6-jds" secondAttribute="leading" constant="300" id="Jkv-0w-9iY"/>
+                            <constraint firstItem="xP1-4O-4KL" firstAttribute="top" secondItem="MuF-EO-2T5" secondAttribute="bottom" constant="20" id="MOe-XJ-Jkp"/>
+                            <constraint firstItem="tFm-hv-sXF" firstAttribute="centerX" secondItem="NfH-E6-jds" secondAttribute="centerX" id="Pux-vV-08l"/>
+                            <constraint firstItem="tFm-hv-sXF" firstAttribute="top" secondItem="NfH-E6-jds" secondAttribute="top" constant="20" symbolic="YES" id="cYH-2O-faE"/>
+                            <constraint firstAttribute="bottom" secondItem="xP1-4O-4KL" secondAttribute="bottom" constant="20" symbolic="YES" id="mnk-tm-dPi"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <customObject id="2l2-XN-ZNa" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2009" y="949"/>
         </scene>
     </scenes>
     <resources>

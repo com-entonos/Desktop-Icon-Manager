@@ -18,4 +18,9 @@ class ErrorSheet: NSViewController {
     @IBAction func quitButton(_ sender: NSButton) {
         exit(0)
     }
+    
+    @IBAction func okButton(_ sender: NSButton) {
+        self.dismiss(self)
+        return
+    }
 }

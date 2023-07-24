@@ -20,6 +20,7 @@
 		2C79D9CE21F8EF1400C612B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C79D9CC21F8EF1400C612B4 /* Main.storyboard */; };
 		2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */; };
 		2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7240521FA56CE00788C31 /* ErrorSheet.swift */; };
+		2CEAC24A2A6E055400F93535 /* PlistOptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEAC2492A6E055400F93535 /* PlistOptionSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArrangement.swift; sourceTree = "<group>"; };
 		2CE7240521FA56CE00788C31 /* ErrorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSheet.swift; sourceTree = "<group>"; };
 		2CE7240921FA73B300788C31 /* DIM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIM.entitlements; sourceTree = "<group>"; };
+		2CEAC2492A6E055400F93535 /* PlistOptionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistOptionSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +80,7 @@
 				2C73DC282788C7C8005F7BFC /* Hider.swift */,
 				2C066B5B21F1942700DCF5AD /* ViewController.swift */,
 				2C066B9521F320F700DCF5AD /* EditSheet.swift */,
+				2CEAC2492A6E055400F93535 /* PlistOptionSheet.swift */,
 				2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */,
 				2C728A2B2365239500D65798 /* ChangeArrangement.swift */,
 				2CE7240521FA56CE00788C31 /* ErrorSheet.swift */,
@@ -184,6 +187,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */,
+				2CEAC24A2A6E055400F93535 /* PlistOptionSheet.swift in Sources */,
 				2C066B6E21F1945800DCF5AD /* DIM.applescript in Sources */,
 				2C73DC292788C7C8005F7BFC /* Hider.swift in Sources */,
 				2C066B5C21F1942700DCF5AD /* ViewController.swift in Sources */,
@@ -341,12 +345,13 @@
 				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = DIM/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.0.5;
+				MARKETING_VERSION = 4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -367,12 +372,13 @@
 				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
 				ENABLE_HARDENED_RUNTIME = YES;
 				INFOPLIST_FILE = DIM/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.0.5;
+				MARKETING_VERSION = 4.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

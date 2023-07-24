@@ -18,7 +18,7 @@ class ViewController: NSViewController {
     var arrangements = [String: Any]()  // dictionary keyed to name w/ corresponding iconSet (AppleScript data object)
     var orderedArrangements = [String]()  // an ordered list of Arrangement names to populate drop down menu and Edit sheet
     var timerSeconds = -1
-    let thisVer = 4000005
+    let thisVer = 4001000
     
     // these are disposable run variables
     var start = true     // did we just start?
@@ -497,6 +497,10 @@ class ViewController: NSViewController {
             if let dvc = segue.destinationController as? EditSheet {
                 dvc.myContainerViewDelegate = self
             }
+        } else if segue.identifier == "toPlistOption" {
+            if let dvc = segue.destinationController as? PlistOption {
+                dvc.myContainerViewDelegate = self
+            }
         }
     }
     
@@ -524,6 +528,100 @@ class ViewController: NSViewController {
             performSegue(withIdentifier: "toError", sender: self)
         }
     }
+    
+// add Import and Export of UserDefaults
+    @IBAction func writePlist(_ sender: NSMenuItem) {  // this will (hopefully) copy the current UserDefaults data to user specified place
+        let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/com.parker9.DIM-4.plist"
+        if FileManager.default.fileExists(atPath: url2) {
+            let panel = NSSavePanel()
+            panel.canCreateDirectories = true
+            panel.message = "Select location to export DIM Settings:"
+            panel.nameFieldStringValue = "com.parker9.DIM-4.plist"
+            panel.prompt = "Export"
+            panel.allowedFileTypes = ["plist"]
+            panel.nameFieldLabel = "Export As:"
+            panel.beginSheetModal(for: self.view.window! ) {(reply) in
+                if reply == .OK {
+                    let fm = FileManager.default
+                    do {
+                        if fm.fileExists(atPath: panel.url!.path) { try fm.removeItem(at: panel.url!)} // delete any old file first
+                        try FileManager.default.copyItem(atPath: url2, toPath: panel.url!.path)
+                    } catch {if #available(macOS 11.0, *) {
+                        Logger.diag.error("could not copy \(url2) to \(panel.url!.path)")
+                    }}
+                }
+            }
+        }
+    }
+    var newData : NSDictionary?
+    @IBAction func readPlist(_ sender: Any) {   // import new UserDefaults
+        let panel = NSOpenPanel()
+        panel.allowsMultipleSelection = false
+        panel.canChooseDirectories = false
+        panel.canChooseFiles = true
+        panel.message = "Select DIM Settings to import:"
+        panel.prompt = "Import"
+        panel.allowedFileTypes = ["plist"]
+        panel.nameFieldLabel = "Import As:"
+        panel.beginSheetModal(for: self.view.window!) { (reply) in
+            if reply == .OK {
+                var segueID = "toBadFile"
+                do {
+                    let newData = try NSDictionary(contentsOf: panel.url!, error: ())   // try to coerce to NSDictionary
+                    if (newData["arrangements"] as? [String: Any])?.count ?? -1 == (newData["orderedArrangements"] as? [String])?.count ?? -2 { segueID = "toPlistOption"}
+                } catch { if #available(macOS 11.0, *) { Logger.diag.error("cast to NSDictionary failed in readPlist")} }
+                self.performSegue(withIdentifier: segueID, sender: self)
+            }
+        }
+    }
+    func doPlistOption(_ plistOption : PlistOptions = .cancel) {    // replace, merge input to current, merge current into import or cancel
+        if plistOption != .cancel && newData?["arrangements"] != nil {
+            switch plistOption {
+            case .mergeIntoCurrent:
+                if let newArrangements = newData!["arrangements"] as? [String: Any] {
+                    if #available(macOS 11.0, *) { Logger.diag.info(".mergIntoCurrent \(newArrangements.count) \(self.arrangements.count)") }
+                    for (name, arrangement) in newArrangements {
+                        if arrangements[name] == nil {
+                            arrangements[name] = arrangement
+                            orderedArrangements.append(name)
+                        }
+                    }
+                }
+            case .replace, .mergeIntoImported:
+                currentName = newData?["currentName"] as? String ?? currentName
+                restoreAtStart = newData?["restoreAtStart"] as? Bool ?? restoreAtStart
+                quitAfterStart = newData?["quitAfterStart"] as? Bool ?? quitAfterStart
+                orderedArrangements = newData?["orderedArrangements"] as? [String] ?? orderedArrangements
+                automaticSave = newData?["automaticSave"] as? Bool ?? automaticSave
+                timerSeconds = newData?["timerSeconds"] as? Int ?? timerSeconds
+                if plistOption == .replace {
+                    arrangements = newData!["arrangements"] as? [String: Any] ?? arrangements
+                    if #available(macOS 11.0, *) { Logger.diag.info(".replace \(self.arrangements.count)") }
+                } else {
+                    if let newArrangements = newData!["arrangements"] as? [String: Any] {
+                        for (name, arrangment) in newArrangements {
+                            arrangements[name] = arrangment
+                            if !orderedArrangements.contains(name) { orderedArrangements.append(name) }
+                        }
+                        if #available(macOS 11.0, *) { Logger.diag.info(".mergeIntoImported \(self.arrangements.count) \(newArrangements.count)") }
+                    }
+                }
+            case .cancel: // should never reach, but compiler complains
+                return
+            }
+            savePrefs()
+            loadPrefs()
+        }
+        newData = nil
+    }
 }
 
+import OSLog // let's do some logging
+@available(macOS 11.0, *)
+extension Logger {
+    /// Using your bundle identifier is a great way to ensure a unique identifier.
+    private static var subsystem = Bundle.main.bundleIdentifier!
 
+    /// All logs related to tracking and analytics.
+    static let diag = Logger(subsystem: subsystem, category: "info")
+}
