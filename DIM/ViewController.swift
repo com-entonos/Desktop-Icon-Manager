@@ -300,7 +300,7 @@ class ViewController: NSViewController {
     // let's read user's preferences
     func loadPrefs() {  // go read user's perferences
         if goodLoadPrefs() {  // try to be robust in reading them back in, if there is an unrecoverable problem (or data doesn't exist), start afresh
-            if restoreAtStart && !overrideSetting && start {  // did they want us to restore automatically at start?
+            if restoreAtStart && !overrideSetting {  // did they want us to restore automatically at start?
 //              restore(currentName) //doesn't seem to work, so just brute force a restore  (instead of the next line)
                 setSet(set: arrangements[currentName]!)
                 dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
@@ -570,7 +570,7 @@ class ViewController: NSViewController {
                 var segueID = "toBadFile"
                 do {
                     let newData = try NSDictionary(contentsOf: importURL, error: ())   // try to coerce to NSDictionary
-                    if let cn = newData["currentName"], newData[cn] != nil,
+                    if let _ = newData["currentName"] as? String,
                         (newData["arrangements"] as? [String: Any])?.count ?? -1 == (newData["orderedArrangements"] as? [String])?.count ?? -2 { // is valid dictionary for DIM?
                         segueID = "toPlistOption"
                         self.newData = newData
@@ -616,7 +616,9 @@ class ViewController: NSViewController {
                 return
             }
             savePrefs()
+            overrideSetting = true
             loadPrefs()
+            overrideSetting = false
         }
         newData = nil
     }
