@@ -8,7 +8,6 @@
 
 import Cocoa
 
-
 enum PlistOptions: Int {    // different options for importing UserDefaults
     case cancel = 0, replace, mergeIntoCurrent, mergeIntoImported
 }
