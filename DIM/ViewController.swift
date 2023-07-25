@@ -300,7 +300,7 @@ class ViewController: NSViewController {
     // let's read user's preferences
     func loadPrefs() {  // go read user's perferences
         if goodLoadPrefs() {  // try to be robust in reading them back in, if there is an unrecoverable problem (or data doesn't exist), start afresh
-            if restoreAtStart && !overrideSetting {  // did they want us to restore automatically at start?
+            if restoreAtStart && !overrideSetting && start {  // did they want us to restore automatically at start?
 //              restore(currentName) //doesn't seem to work, so just brute force a restore  (instead of the next line)
                 setSet(set: arrangements[currentName]!)
                 dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
@@ -541,14 +541,16 @@ class ViewController: NSViewController {
             panel.allowedFileTypes = ["plist"]
             panel.nameFieldLabel = "Export As:"
             panel.beginSheetModal(for: self.view.window! ) {(reply) in
-                if reply == .OK {
-                    let fm = FileManager.default
-                    do {
-                        if fm.fileExists(atPath: panel.url!.path) { try fm.removeItem(at: panel.url!)} // delete any old file first
-                        try FileManager.default.copyItem(atPath: url2, toPath: panel.url!.path)
-                    } catch {if #available(macOS 11.0, *) {
-                        Logger.diag.error("could not copy \(url2) to \(panel.url!.path)")
-                    }}
+                if reply == .OK, let exportURL = panel.url {
+                    let data = NSDictionary(dictionary: [
+                        "currentName" : self.currentName,
+                        "restoreAtStart" : self.restoreAtStart,
+                        "quitAfterStart" : self.quitAfterStart,
+                        "orderedArrangements" : self.orderedArrangements,
+                        "arrangements" : self.arrangements,
+                        "automaticSave" : self.automaticSave,
+                        "timerSeconds" : self.timerSeconds] )
+                    if !data.write(toFile: exportURL.path, atomically: true) {if #available(macOS 11.0, *) { Logger.diag.error("could create exported Settings to \(exportURL.path)")}}
                 }
             }
         }
@@ -564,11 +566,15 @@ class ViewController: NSViewController {
         panel.allowedFileTypes = ["plist"]
         panel.nameFieldLabel = "Import As:"
         panel.beginSheetModal(for: self.view.window!) { (reply) in
-            if reply == .OK {
+            if reply == .OK, let importURL = panel.url {
                 var segueID = "toBadFile"
                 do {
-                    let newData = try NSDictionary(contentsOf: panel.url!, error: ())   // try to coerce to NSDictionary
-                    if (newData["arrangements"] as? [String: Any])?.count ?? -1 == (newData["orderedArrangements"] as? [String])?.count ?? -2 { segueID = "toPlistOption"}
+                    let newData = try NSDictionary(contentsOf: importURL, error: ())   // try to coerce to NSDictionary
+                    if let cn = newData["currentName"], newData[cn] != nil,
+                        (newData["arrangements"] as? [String: Any])?.count ?? -1 == (newData["orderedArrangements"] as? [String])?.count ?? -2 { // is valid dictionary for DIM?
+                        segueID = "toPlistOption"
+                        self.newData = newData
+                    }
                 } catch { if #available(macOS 11.0, *) { Logger.diag.error("cast to NSDictionary failed in readPlist")} }
                 self.performSegue(withIdentifier: segueID, sender: self)
             }
