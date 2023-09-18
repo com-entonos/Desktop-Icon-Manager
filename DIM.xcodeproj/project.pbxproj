@@ -21,6 +21,7 @@
 		2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */; };
 		2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7240521FA56CE00788C31 /* ErrorSheet.swift */; };
 		2CEAC24A2A6E055400F93535 /* PlistOptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEAC2492A6E055400F93535 /* PlistOptionSheet.swift */; };
+		2CF787F22AB64ED70053E8A9 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF787F12AB64ED70053E8A9 /* Update.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		2CE7240521FA56CE00788C31 /* ErrorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSheet.swift; sourceTree = "<group>"; };
 		2CE7240921FA73B300788C31 /* DIM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIM.entitlements; sourceTree = "<group>"; };
 		2CEAC2492A6E055400F93535 /* PlistOptionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistOptionSheet.swift; sourceTree = "<group>"; };
+		2CF787F12AB64ED70053E8A9 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,6 +86,7 @@
 				2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */,
 				2C728A2B2365239500D65798 /* ChangeArrangement.swift */,
 				2CE7240521FA56CE00788C31 /* ErrorSheet.swift */,
+				2CF787F12AB64ED70053E8A9 /* Update.swift */,
 				2C066B6B21F1944A00DCF5AD /* DIMBridge.swift */,
 				2C066B6D21F1945800DCF5AD /* DIM.applescript */,
 				2C79D9CC21F8EF1400C612B4 /* Main.storyboard */,
@@ -186,6 +189,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CF787F22AB64ED70053E8A9 /* Update.swift in Sources */,
 				2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */,
 				2CEAC24A2A6E055400F93535 /* PlistOptionSheet.swift in Sources */,
 				2C066B6E21F1945800DCF5AD /* DIM.applescript in Sources */,
@@ -351,7 +355,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.1;
+				MARKETING_VERSION = 4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -378,7 +382,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.1;
+				MARKETING_VERSION = 4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
