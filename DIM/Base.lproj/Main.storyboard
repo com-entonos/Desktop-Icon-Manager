@@ -14,12 +14,19 @@
                         <items>
                             <menuItem title="DIM" id="1Xt-HY-uBw">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="DIM" systemMenu="apple" id="uQy-DD-JDr">
+                                <menu key="submenu" title="DIM" systemMenu="apple" autoenablesItems="NO" id="uQy-DD-JDr">
                                     <items>
                                         <menuItem title="About DIM" id="5kV-Vb-QxS">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="orderFrontStandardAboutPanel:" target="Ady-hI-5gd" id="Exp-CZ-Vem"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="xDm-GH-15k"/>
+                                        <menuItem title="Check for update..." identifier="checkForUpdate" id="89u-6y-aux">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <connections>
+                                                <action selector="checkForUpdate:" target="Ady-hI-5gd" id="exA-0Y-MOs"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
@@ -96,11 +103,13 @@
                 </application>
                 <customObject id="Voe-Tx-rLC" customClass="AppDelegate" customModule="DIM" customModuleProvider="target">
                     <connections>
+                        <outlet property="checkUpdateMenuItem" destination="89u-6y-aux" id="83d-j0-FPQ"/>
                         <outlet property="exportMenuItem" destination="1mP-c5-nut" id="dXs-vZ-xYG"/>
                     </connections>
                 </customObject>
                 <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
                 <customObject id="Ady-hI-5gd" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="QhR-PF-Rre"/>
             </objects>
             <point key="canvasLocation" x="-1250" y="-37"/>
         </scene>
@@ -715,6 +724,7 @@ Gw
                         <segue destination="CS6-np-vhQ" kind="sheet" identifier="toErrorVentura" id="gKu-6F-0lV"/>
                         <segue destination="gWv-8h-0zM" kind="sheet" identifier="toPlistOption" id="UTe-Ry-Js1"/>
                         <segue destination="tAA-mJ-ajw" kind="sheet" identifier="toBadFile" id="Z6m-yA-UtU"/>
+                        <segue destination="hKp-ko-XVg" kind="sheet" identifier="toUpdate" id="Jqo-DI-ifX"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1241,6 +1251,96 @@ DQ
                 <customObject id="2l2-XN-ZNa" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-2009" y="949"/>
+        </scene>
+        <!--toUpdate-->
+        <scene sceneID="Ixb-Zd-7pJ">
+            <objects>
+                <viewController title="toUpdate" id="hKp-ko-XVg" customClass="UpdateSheet" customModule="DIM" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="wg0-JQ-Yhe">
+                        <rect key="frame" x="0.0" y="0.0" width="415" height="128"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jCN-rC-G0E">
+                                <rect key="frame" x="101" y="91" width="213" height="17"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="An update for DIM is available!" id="X08-3r-ne7">
+                                    <font key="font" metaFont="systemBold" size="14"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField identifier="infoLabel" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hEa-yn-F3q">
+                                <rect key="frame" x="71" y="60" width="274" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="New version is 4, currently running version 4" id="Esy-Jh-qA4">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button identifier="downloadButtom" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rgo-Om-tf3">
+                                <rect key="frame" x="307" y="13" width="95" height="32"/>
+                                <buttonCell key="cell" type="push" title="Download" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Twp-sP-ph1">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="downloadButtom:" target="hKp-ko-XVg" id="WoP-3E-L2l"/>
+                                </connections>
+                            </button>
+                            <button identifier="cancelButton" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NTi-vu-R3H">
+                                <rect key="frame" x="13" y="13" width="76" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hiI-x0-8C5">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="cancelButton:" target="hKp-ko-XVg" id="cB4-uE-zHI"/>
+                                </connections>
+                            </button>
+                            <button identifier="visitButton" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z2Y-ZB-fYa">
+                                <rect key="frame" x="152" y="13" width="111" height="32"/>
+                                <buttonCell key="cell" type="push" title="Visit website" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dX0-Ym-Jsm">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="visitButton:" target="hKp-ko-XVg" id="zch-qO-eEg"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NTi-vu-R3H" secondAttribute="trailing" constant="300" id="1Iw-A0-LxX"/>
+                            <constraint firstItem="z2Y-ZB-fYa" firstAttribute="top" secondItem="hEa-yn-F3q" secondAttribute="bottom" constant="20" id="6nC-Uf-5Kk"/>
+                            <constraint firstAttribute="bottom" secondItem="z2Y-ZB-fYa" secondAttribute="bottom" constant="20" symbolic="YES" id="7bo-zd-ZEW"/>
+                            <constraint firstAttribute="bottom" secondItem="NTi-vu-R3H" secondAttribute="bottom" constant="20" symbolic="YES" id="GRZ-uQ-T5t"/>
+                            <constraint firstItem="NTi-vu-R3H" firstAttribute="leading" secondItem="wg0-JQ-Yhe" secondAttribute="leading" constant="20" symbolic="YES" id="K7k-hs-qX6"/>
+                            <constraint firstItem="NTi-vu-R3H" firstAttribute="top" secondItem="hEa-yn-F3q" secondAttribute="bottom" constant="20" id="VFZ-6s-aCe"/>
+                            <constraint firstItem="hEa-yn-F3q" firstAttribute="top" secondItem="jCN-rC-G0E" secondAttribute="bottom" constant="15" id="YCf-cB-p4e"/>
+                            <constraint firstItem="Rgo-Om-tf3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="wg0-JQ-Yhe" secondAttribute="leading" constant="300" id="c0w-8l-HwN"/>
+                            <constraint firstItem="jCN-rC-G0E" firstAttribute="top" secondItem="wg0-JQ-Yhe" secondAttribute="top" constant="20" symbolic="YES" id="hVd-hA-PKx"/>
+                            <constraint firstAttribute="trailing" secondItem="Rgo-Om-tf3" secondAttribute="trailing" constant="20" symbolic="YES" id="hzm-N5-uIl"/>
+                            <constraint firstItem="jCN-rC-G0E" firstAttribute="centerX" secondItem="wg0-JQ-Yhe" secondAttribute="centerX" id="kty-0Q-Ufa"/>
+                            <constraint firstItem="hEa-yn-F3q" firstAttribute="centerX" secondItem="wg0-JQ-Yhe" secondAttribute="centerX" id="spE-zB-hqq"/>
+                            <constraint firstAttribute="bottom" secondItem="Rgo-Om-tf3" secondAttribute="bottom" constant="20" symbolic="YES" id="wUe-uO-gBa"/>
+                            <constraint firstItem="z2Y-ZB-fYa" firstAttribute="centerX" secondItem="wg0-JQ-Yhe" secondAttribute="centerX" id="wpw-Qt-yL4"/>
+                            <constraint firstItem="Rgo-Om-tf3" firstAttribute="top" secondItem="hEa-yn-F3q" secondAttribute="bottom" constant="20" id="yzw-nW-gqU"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="infoLabel" destination="hEa-yn-F3q" id="Kgg-Ew-vit"/>
+                    </connections>
+                </viewController>
+                <customObject id="mYN-n8-rSW" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-2490" y="958"/>
         </scene>
     </scenes>
     <resources>
