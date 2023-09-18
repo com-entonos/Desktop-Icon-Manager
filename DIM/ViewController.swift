@@ -28,6 +28,12 @@ class ViewController: NSViewController {
     var quitTimer: Timer?
     var quitCount = 20
     
+    // this is for updating
+    var updateAvailable = [String]()
+    var updateDownloaded = false
+    
+
+    
     // our outlets to various labels, buttons, etc on the main storyboard
     @IBOutlet weak var doingTF: NSTextField!
     @IBOutlet weak var doingPI: NSProgressIndicator!
@@ -501,6 +507,10 @@ class ViewController: NSViewController {
             if let dvc = segue.destinationController as? PlistOption {
                 dvc.myContainerViewDelegate = self
             }
+        } else if segue.identifier == "toUpdate" {
+            if let dvc = segue.destinationController as? UpdateSheet {
+                dvc.myContainerViewDelegate = self
+            }
         }
     }
     
@@ -529,6 +539,47 @@ class ViewController: NSViewController {
         }
     }
     
+    func updateError(_ title : String) {
+        //print("in updateError: \(title)")
+        DispatchQueue.main.async {
+            let appDelegate = NSApplication.shared.delegate as! AppDelegate
+            appDelegate.checkUpdateMenuItem.title = title
+            appDelegate.checkUpdateMenuItem.isEnabled = false
+            Timer.scheduledTimer(withTimeInterval: 60*5, repeats: false) { (timer) in
+                appDelegate.checkUpdateMenuItem.title = "Check for update..."
+                appDelegate.checkUpdateMenuItem.isEnabled = true}
+        }
+    }
+    @IBAction func checkForUpdate(_ sender: NSMenuItem) {
+        let prog = Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as! String
+        let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+        let url = URL(string: "https://www.parker9.com/com.parker9.versions.plist")!
+        URLCache.shared.removeAllCachedResponses()
+        if !updateDownloaded {
+            let getDB = URLSession.shared.dataTask(with: url) { data, response, error in
+                if error != nil || data == nil { self.updateError("Error connecting to update server"); return }
+                guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else { self.updateError("Error from update server"); return }
+                do {
+                    let database = try PropertyListSerialization.propertyList(from: data!, format: nil) as! [String : [String]]
+                    if let progData = database[prog] {
+                        if version != progData[0] { self.updateAvailable = progData; DispatchQueue.main.async { self.performSegue(withIdentifier: "toUpdate", sender: nil) }
+                        } else { self.updateError("No update available")}
+                    }
+                } catch { self.updateError("Error understanding server response"); return }
+            }
+            getDB.resume()
+        } else {
+            if updateAvailable.count > 0 {
+                let downloadFile = URL(string: updateAvailable[1])!
+                let downloads = FileManager.default.urls(for: .downloadsDirectory, in: .userDomainMask)[0]
+                let downloadFolder = String(downloadFile.lastPathComponent.dropLast(4))
+                let target = downloads.appendingPathComponent(downloadFolder)
+                let prog = Bundle.main.object(forInfoDictionaryKey: "CFBundleName") as! String
+                let app = target.appendingPathComponent(prog + ".app")
+                NSWorkspace.shared.selectFile(app.path, inFileViewerRootedAtPath: downloads.path)
+            }
+        }
+    }
 // add Import and Export of UserDefaults
     @IBAction func writePlist(_ sender: NSMenuItem) {  // this will (hopefully) copy the current UserDefaults data to user specified place
         let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/com.parker9.DIM-4.plist"
