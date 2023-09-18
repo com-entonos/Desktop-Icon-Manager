@@ -45,7 +45,7 @@ class Hider {  // class that covers Desktop w/ pictures of Desktop- invoked by n
         func setWin(imageView: NSImageView, onScreen: Bool, hidden: Bool) { // update picture and pin if we found the correct Space
             self.contentView = imageView
             if onScreen && !self.collectionBehavior.contains(.stationary) {
-                //if #available(macOS 13.0, *) { self.collectionBehavior = [.stationary, .canJoinAllApplications, .fullScreenNone, .ignoresCycle] } else { self.collectionBehavior = [.stationary, .fullScreenNone, .ignoresCycle] }   // pin this window to this Space
+                // pin this window to this Space
                 self.collectionBehavior = [.stationary, .fullScreenNone, .ignoresCycle]
                 self.level = hidden ? .staticLayer : .hiddenLayer //; print("set")    // move to top of this level
             }
@@ -89,8 +89,11 @@ class Hider {  // class that covers Desktop w/ pictures of Desktop- invoked by n
     
     func setImageView(cgWin: CGWindowID, win : MyWindow, onScreen : Bool) {
         if let color = win.color {
-            let image = NSImage.swatchWithColor(color: color, size: win.frame.size)
+            //let image = NSImage.swatchWithColor(color: color, size: win.frame.size)
+            //let imageView = NSImageView(image: image)
+            let image = NSImage.swatchWithColor(color: color, size: NSSize(width: 1, height: 1))
             let imageView = NSImageView(image: image)
+            imageView.imageScaling = .scaleAxesIndependently
             win.setWin(imageView: imageView, onScreen: onScreen, hidden: hidden)
         } else {
             guard let cgImage = CGWindowListCreateImage(CGRectNull, [.optionIncludingWindow], cgWin, [.nominalResolution]) else { return }
@@ -151,7 +154,7 @@ class Hider {  // class that covers Desktop w/ pictures of Desktop- invoked by n
         }
         //print("number of myDesktops:\(myDesktops.count), \(NSScreen.screens.count)")
         for cgID in myDesktops.filter({ return !$0.value.beingUsed}).keys { //print(cgID,myDesktops[cgID]!.frame,myDesktops[cgID]!.beingUsed)   // remove any myDesktops that are not being used
-            myDesktops[cgID]?.orderOut(nil); myDesktops.removeValue(forKey: cgID)    //?.close()
+            myDesktops[cgID]?.orderOut(nil); myDesktops.removeValue(forKey: cgID)//if let myD = myDesktops.removeValue(forKey: cgID) {myD.close()}    //?.close()
         }   //;print("number of myDesktops:\(myDesktops.count), \(NSScreen.screens.count)")
         myDesktops.forEach({_, win in win.orderFrontRegardless()})
         //print("number of myDesktops:\(myDesktops.count), screens:\(Set(myDesktops.map({$0.value.screen})).count)")
