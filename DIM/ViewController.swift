@@ -311,7 +311,8 @@ class ViewController: NSViewController {
                 setSet(set: arrangements[currentName]!)
                 dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
                 if quitAfterStart && dataVer == thisVer {  // should we quit in 5 seconds?
-                    warningTF.stringValue = "Hold ⌘ to abort Quit (\(quitCount))"
+                    quitCount = UserDefaults.standard.object(forKey: "quitCount") != nil ? UserDefaults.standard.integer(forKey: "quitCount") : 20
+                    warningTF.stringValue = "Hold ⌘ to abort Quit (\(Int(0.9 + Double(quitCount)/5.0)))"
                     quitTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.terminate), userInfo: nil, repeats: true)
                 }
             } else {
