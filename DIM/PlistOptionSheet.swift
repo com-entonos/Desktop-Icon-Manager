@@ -23,7 +23,11 @@ class PlistOption: NSViewController {
     @IBOutlet weak var mergeIntoImportedButton: NSButton!
     @IBOutlet weak var mergeIntoCurrentButton: NSButton!
     
-    @IBAction func radioButtonSelected(_ sender: Any) {}
+    @IBOutlet weak var includeMissing: NSButton!
+    
+    @IBAction func radioButtonSelected(_ sender: NSButton) {
+        includeMissing.isEnabled = sender.title != "Replace current Settings"
+    }
     
     @IBAction func buttonPressed(_ sender: NSButton) {
         var plistOption : PlistOptions = .cancel
@@ -34,7 +38,7 @@ class PlistOption: NSViewController {
             //print(replaceButton.state,mergeIntoCurrentButton.state,mergeIntoImportedButton.state)
         }
         self.dismiss(self)
-        myContainerViewDelegate?.doPlistOption(plistOption)
+        myContainerViewDelegate?.doPlistOption(plistOption, includeMissing : includeMissing.state == .on)
     }
     
 }

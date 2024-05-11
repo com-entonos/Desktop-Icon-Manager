@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="21701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -221,28 +221,28 @@
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jt0-Bm-f0O">
                                 <rect key="frame" x="20" y="20" width="17" height="17"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="17" id="bcw-eT-t5j"/>
-                                    <constraint firstAttribute="height" constant="17" id="qhC-tF-jE0"/>
-                                </constraints>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSAddTemplate" imagePosition="only" alignment="center" controlSize="small" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="R5S-OZ-dHy">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="17" id="bcw-eT-t5j"/>
+                                    <constraint firstAttribute="height" constant="17" id="qhC-tF-jE0"/>
+                                </constraints>
                                 <connections>
                                     <segue destination="6yp-so-59a" kind="sheet" identifier="toAdd" id="iHE-Bj-BuY"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Z1Q-66-tSA">
                                 <rect key="frame" x="37" y="20" width="17" height="17"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="17" id="3Tj-bP-Uxe"/>
-                                    <constraint firstAttribute="width" constant="17" id="XtX-SG-TZO"/>
-                                </constraints>
                                 <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="NSRemoveTemplate" imagePosition="only" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="wyY-Pe-e7F">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="17" id="3Tj-bP-Uxe"/>
+                                    <constraint firstAttribute="width" constant="17" id="XtX-SG-TZO"/>
+                                </constraints>
                                 <connections>
                                     <action selector="removeButtonPressed:" target="B76-Dz-KLR" id="QSq-6r-T2F"/>
                                 </connections>
@@ -260,9 +260,6 @@
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RPs-yy-HEA">
                                 <rect key="frame" x="396" y="11" width="74" height="32"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="gF1-CG-g2i"/>
-                                </constraints>
                                 <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mbV-Z6-X8c">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -270,6 +267,9 @@
 Gw
 </string>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="60" id="gF1-CG-g2i"/>
+                                </constraints>
                                 <connections>
                                     <action selector="donePressed:" target="B76-Dz-KLR" id="rnb-fD-lhf"/>
                                 </connections>
@@ -441,28 +441,28 @@ Gw
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DZ9-EQ-FiY">
                                 <rect key="frame" x="13" y="109" width="190" height="33"/>
+                                <buttonCell key="cell" type="push" title="Memorize Icon Positions" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="QCb-aW-V8r">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="176" id="U3n-a7-t6G"/>
                                     <constraint firstAttribute="height" constant="21" id="qHd-TO-tLC"/>
                                 </constraints>
-                                <buttonCell key="cell" type="push" title="Memorize Icon Positions" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="QCb-aW-V8r">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
                                 <connections>
                                     <action selector="do_memorize:" target="XfG-lQ-9wD" id="BAK-9j-gGf"/>
                                 </connections>
                             </button>
-                            <button horizontalHuggingPriority="249" verticalHuggingPriority="750" imageHugsTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1ML-jo-5DP">
+                            <button imageHugsTitle="YES" horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1ML-jo-5DP">
                                 <rect key="frame" x="264" y="109" width="201" height="33"/>
+                                <buttonCell key="cell" type="push" title="Restore Icon Positions" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="1mv-hk-Kog">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="168" id="QMh-Ui-0kR"/>
                                     <constraint firstAttribute="height" constant="21" id="ums-9D-rrr"/>
                                 </constraints>
-                                <buttonCell key="cell" type="push" title="Restore Icon Positions" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="1mv-hk-Kog">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
                                 <connections>
                                     <action selector="do_restore:" target="XfG-lQ-9wD" id="17w-KR-2ta"/>
                                 </connections>
@@ -521,10 +521,6 @@ Gw
                             </textField>
                             <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="mY5-36-2f7">
                                 <rect key="frame" x="426" y="19" width="35" height="23"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="KE3-JO-zfr"/>
-                                    <constraint firstAttribute="height" constant="21" id="OFa-Eo-vw7"/>
-                                </constraints>
                                 <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="Cba-HP-L2F">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -536,17 +532,21 @@ Gw
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="35" id="KE3-JO-zfr"/>
+                                    <constraint firstAttribute="height" constant="21" id="OFa-Eo-vw7"/>
+                                </constraints>
                                 <connections>
                                     <action selector="arrangeButton:" target="XfG-lQ-9wD" id="gtZ-d6-6O8"/>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="K36-TN-t2J">
-                                <rect key="frame" x="4" y="0.0" width="105" height="14"/>
+                                <rect key="frame" x="4" y="0.0" width="106" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="E6v-cl-NWw"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="Zs3-o4-peg"/>
                                 </constraints>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="G.J. Parker © 2023" id="RVM-0p-Rrz">
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="G.J. Parker © 2024" id="RVM-0p-Rrz">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -554,41 +554,41 @@ Gw
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xOZ-1p-tLp">
                                 <rect key="frame" x="6" y="0.0" width="102" height="14"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="14" id="KHZ-cv-CQX"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="102" id="V2t-jr-xcW"/>
-                                </constraints>
                                 <buttonCell key="cell" type="square" title="hyperlink" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" controlSize="small" focusRingType="none" transparent="YES" inset="2" id="1rA-S4-Msb">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="KHZ-cv-CQX"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="102" id="V2t-jr-xcW"/>
+                                </constraints>
                                 <connections>
                                     <action selector="homeClicked:" target="XfG-lQ-9wD" id="SPh-Po-nxB"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YOj-kM-lfG">
                                 <rect key="frame" x="33" y="85" width="293" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="14" id="GHF-0T-gh3"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="286" id="LJk-5J-Zv0"/>
-                                </constraints>
                                 <buttonCell key="cell" type="check" title="Automatically Restore Icon Positions at start" bezelStyle="regularSquare" imagePosition="left" inset="2" id="S9S-0n-Cm6">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="GHF-0T-gh3"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="286" id="LJk-5J-Zv0"/>
+                                </constraints>
                                 <connections>
                                     <action selector="restoreQuitCheck:" target="XfG-lQ-9wD" id="Nsr-zs-aEj"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wIc-zU-Lta">
                                 <rect key="frame" x="332" y="84" width="112" height="18"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="103" id="qXZ-Lx-oFV"/>
-                                </constraints>
                                 <buttonCell key="cell" type="check" title="and then Quit " bezelStyle="regularSquare" imagePosition="left" inset="2" id="Y98-y3-3eH">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="103" id="qXZ-Lx-oFV"/>
+                                </constraints>
                                 <connections>
                                     <action selector="quitThenCheck:" target="XfG-lQ-9wD" id="Ogg-C6-i3r"/>
                                 </connections>
@@ -607,14 +607,14 @@ Gw
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MgC-82-Vmj">
                                 <rect key="frame" x="429" y="143" width="52" height="14"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="14" id="Myt-Ei-agq"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="46" id="T64-p0-FIr"/>
-                                </constraints>
                                 <buttonCell key="cell" type="square" title="hyperlink" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" controlSize="small" focusRingType="none" transparent="YES" inset="2" id="lU4-PS-emR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystem"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="14" id="Myt-Ei-agq"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="46" id="T64-p0-FIr"/>
+                                </constraints>
                                 <connections>
                                     <action selector="donateClicked:" target="XfG-lQ-9wD" id="RVq-kx-sVh"/>
                                 </connections>
@@ -629,20 +629,20 @@ Gw
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PkV-EO-1tK">
                                 <rect key="frame" x="86" y="64" width="174" height="18"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="uE5-oA-dFY"/>
-                                </constraints>
                                 <buttonCell key="cell" type="check" title="Memorize Icon Positions" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gor-4r-4VB">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="150" id="uE5-oA-dFY"/>
+                                </constraints>
                                 <connections>
                                     <action selector="automaticSaveCheck:" target="XfG-lQ-9wD" id="QeQ-Cp-Kox"/>
                                 </connections>
                             </button>
                             <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="MhN-1z-ysc">
                                 <rect key="frame" x="271" y="63" width="123" height="22"/>
-                                <popUpButtonCell key="cell" type="smallSquare" title="every 30 minutes" bezelStyle="smallSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="border" inset="2" selectedItem="7XQ-wm-cTe" id="RuE-wd-oiz">
+                                <popUpButtonCell key="cell" type="smallSquare" title="every 30 minutes" bezelStyle="smallSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" inset="2" selectedItem="7XQ-wm-cTe" id="RuE-wd-oiz">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="9X0-yF-A7M">
@@ -688,7 +688,7 @@ Gw
                             <constraint firstAttribute="trailing" secondItem="MgC-82-Vmj" secondAttribute="trailing" id="iqd-zk-84l"/>
                             <constraint firstItem="DZ9-EQ-FiY" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="jUt-Zi-inS"/>
                             <constraint firstItem="h7P-oV-ure" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="lMl-Ea-BoZ"/>
-                            <constraint firstItem="MhN-1z-ysc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PkV-EO-1tK" secondAttribute="trailing" symbolic="YES" id="m3D-S6-KrR"/>
+                            <constraint firstItem="MhN-1z-ysc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PkV-EO-1tK" secondAttribute="trailing" constant="8" symbolic="YES" id="m3D-S6-KrR"/>
                             <constraint firstAttribute="bottom" secondItem="mY5-36-2f7" secondAttribute="bottom" constant="20" id="nSL-Gy-lIo"/>
                             <constraint firstItem="MhN-1z-ysc" firstAttribute="top" secondItem="wIc-zU-Lta" secondAttribute="bottom" constant="1" id="o06-Jj-F86"/>
                             <constraint firstAttribute="trailing" secondItem="MhN-1z-ysc" secondAttribute="trailing" constant="87" id="oR0-zO-cxb"/>
@@ -736,11 +736,11 @@ Gw
             <objects>
                 <viewController title="Plist Options" id="gWv-8h-0zM" customClass="PlistOption" customModule="DIM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="0e9-Fj-C0Z">
-                        <rect key="frame" x="0.0" y="0.0" width="301" height="160"/>
+                        <rect key="frame" x="0.0" y="0.0" width="301" height="187"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kec-La-loO">
-                                <rect key="frame" x="30" y="99" width="176" height="18"/>
+                                <rect key="frame" x="30" y="126" width="176" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Replace current Settings" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="DZy-um-rxp">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -750,7 +750,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xt3-su-vjh">
-                                <rect key="frame" x="30" y="55" width="251" height="18"/>
+                                <rect key="frame" x="30" y="82" width="251" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Merge imported into current Settings" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="ECL-2x-p4s">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -760,7 +760,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t8V-l2-0hN">
-                                <rect key="frame" x="30" y="77" width="251" height="18"/>
+                                <rect key="frame" x="30" y="104" width="251" height="18"/>
                                 <buttonCell key="cell" type="radio" title="Merge current into imported Settings" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="g4D-gA-K9D">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -770,7 +770,7 @@ Gw
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yZQ-HZ-zu2">
-                                <rect key="frame" x="30" y="124" width="273" height="16"/>
+                                <rect key="frame" x="30" y="151" width="273" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Choose one option:" id="eWt-GM-kb1">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -803,13 +803,22 @@ Gw
                                     <action selector="buttonPressed:" target="gWv-8h-0zM" id="hWo-VL-eN0"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NVe-Mc-rix">
+                                <rect key="frame" x="59" y="58" width="181" height="18"/>
+                                <buttonCell key="cell" type="check" title="include any missing icons" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="x2o-fw-DKx">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="t8V-l2-0hN" firstAttribute="leading" secondItem="Xt3-su-vjh" secondAttribute="leading" id="E7R-KJ-8sb"/>
+                            <constraint firstItem="NVe-Mc-rix" firstAttribute="centerX" secondItem="0e9-Fj-C0Z" secondAttribute="centerX" id="Epc-mv-4Bf"/>
                             <constraint firstItem="YBO-lB-nva" firstAttribute="leading" secondItem="0e9-Fj-C0Z" secondAttribute="leading" constant="168" id="FWd-Ha-3t1"/>
                             <constraint firstAttribute="trailing" secondItem="yZQ-HZ-zu2" secondAttribute="trailing" id="JXT-by-UNC"/>
                             <constraint firstItem="Kec-La-loO" firstAttribute="top" secondItem="yZQ-HZ-zu2" secondAttribute="bottom" constant="8" symbolic="YES" id="Ttp-Cy-fsf"/>
                             <constraint firstItem="5Dq-cZ-bbP" firstAttribute="leading" secondItem="YBO-lB-nva" secondAttribute="trailing" constant="12" symbolic="YES" id="UOJ-kF-5t1"/>
+                            <constraint firstItem="NVe-Mc-rix" firstAttribute="top" secondItem="Xt3-su-vjh" secondAttribute="bottom" constant="8" symbolic="YES" id="ah6-Oc-ymh"/>
                             <constraint firstAttribute="bottom" secondItem="5Dq-cZ-bbP" secondAttribute="bottom" constant="20" symbolic="YES" id="bbZ-dw-Ux1"/>
                             <constraint firstItem="t8V-l2-0hN" firstAttribute="top" secondItem="Kec-La-loO" secondAttribute="bottom" constant="6" symbolic="YES" id="bfW-XK-MMq"/>
                             <constraint firstItem="Xt3-su-vjh" firstAttribute="trailing" secondItem="5Dq-cZ-bbP" secondAttribute="trailing" id="fXg-dI-XBf"/>
@@ -823,6 +832,7 @@ Gw
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="includeMissing" destination="NVe-Mc-rix" id="ATd-pJ-4Tk"/>
                         <outlet property="mergeIntoCurrentButton" destination="Xt3-su-vjh" id="sy7-xp-Ock"/>
                         <outlet property="mergeIntoImportedButton" destination="t8V-l2-0hN" id="KOn-ZR-5Po"/>
                         <outlet property="replaceButton" destination="Kec-La-loO" id="aed-BE-6vi"/>
@@ -830,7 +840,7 @@ Gw
                 </viewController>
                 <customObject id="e8d-1g-j8c" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1630" y="965"/>
+            <point key="canvasLocation" x="-1630.5" y="978.5"/>
         </scene>
         <!--Change Arrangement-->
         <scene sceneID="68q-aa-AOu">
@@ -865,9 +875,6 @@ Gw
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BZE-Es-dML">
                                 <rect key="frame" x="356" y="13" width="81" height="33"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="gT3-fn-auH"/>
-                                </constraints>
                                 <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xSz-Y4-7Zk">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -875,16 +882,15 @@ Gw
 DQ
 </string>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="gT3-fn-auH"/>
+                                </constraints>
                                 <connections>
                                     <action selector="okPressed:" target="aD8-x9-Rp2" id="rAT-L6-cME"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="P5Y-XG-2u9">
                                 <rect key="frame" x="263" y="13" width="84" height="33"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="21" id="B2M-Ft-Azj"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="FKi-Bk-I8K"/>
-                                </constraints>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FTI-jV-CUs">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -892,6 +898,10 @@ DQ
 Gw
 </string>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="B2M-Ft-Azj"/>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="70" id="FKi-Bk-I8K"/>
+                                </constraints>
                                 <connections>
                                     <action selector="dismissController:" target="aD8-x9-Rp2" id="S9n-1B-jX5"/>
                                 </connections>
@@ -973,28 +983,28 @@ Gw
                             </popUpButton>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NZF-Fp-dTm">
                                 <rect key="frame" x="18" y="81" width="288" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="286" id="2HS-8q-dMu"/>
-                                    <constraint firstAttribute="height" constant="14" id="cCV-FT-DUf"/>
-                                </constraints>
                                 <buttonCell key="cell" type="check" title="memorize/restore window position" bezelStyle="regularSquare" imagePosition="left" inset="2" id="lrj-hh-yuw">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="286" id="2HS-8q-dMu"/>
+                                    <constraint firstAttribute="height" constant="14" id="cCV-FT-DUf"/>
+                                </constraints>
                                 <connections>
                                     <action selector="savePositionCheck:" target="6yp-so-59a" id="bXJ-SC-53B"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hDU-hg-CL1">
                                 <rect key="frame" x="18" y="61" width="288" height="16"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="286" id="cWf-SK-ICK"/>
-                                    <constraint firstAttribute="height" constant="14" id="eji-GX-YFX"/>
-                                </constraints>
                                 <buttonCell key="cell" type="check" title="memorize/restore window size" bezelStyle="regularSquare" imagePosition="left" inset="2" id="fce-D6-7EV">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <constraints>
+                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="286" id="cWf-SK-ICK"/>
+                                    <constraint firstAttribute="height" constant="14" id="eji-GX-YFX"/>
+                                </constraints>
                                 <connections>
                                     <action selector="saveBoundsCheck:" target="6yp-so-59a" id="Z8h-vn-HD1"/>
                                 </connections>
