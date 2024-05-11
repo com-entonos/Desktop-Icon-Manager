@@ -19,20 +19,22 @@
 <p class="Left Normal">If both “Automatically Restore Icon Positions at start” and “and then Quit” are checked, you will not be able to get back to the DIM screen to change icon arrangements. By holding the command (⌘) when starting, you will get the window to appear (starting this way will not restore the icon positions but will simply present the window). This allows you to reconfigure DIM. If you are having problems doing this, the best way is to find DIM, select it and then hold command (⌘) and press the letter “o” (for Open), let go of “o” but keep command (⌘) pressed until DIM starts. </p>
 <p class="Left Normal"><b>2) If both Automatic Restore and Quit are selected</b></p>
 <p class="Left Normal">Then DIM will simply restore the icon positions using the selected Icon Arrangement (as specified in the “Use Icon Arrangement” line) without asking and quits automatically (wonderful if DIM is specified as a Login Item).</p>
-<p class="Left Normal"><b>3) Restoring Desktop icon positions</b></p>
+<p class="Left Normal"><b>3) Restoring icon positions</b></p>
 <p class="Left Normal">By pressing the “Restore Icon Positions” button, all icon positions (if they still exist!) will be restored according to the selected Icon Arrangement (as specified in the “Use Icon Arrangement” line). If the screen resolution has changed since the last “Memorize Icon Positions” or the original running of DIM, the Desktop icon positions are relatively scaled in the new screen resolution. If there are new icons on the Desktop, they are left where they are. This procedure may take a few seconds, but it’s not like you can’t do something else as it finishes its task.</p>
-<p class="Left Normal"><b>4)  (Re)Memorizing Desktop icon Positions</b></p>
-<p class="Left Normal">By pressing the “Memorize Icon Positions” button, all the icon names and positions will be updated in the preferences file for the currently selected Icon Arrangement (as specified in the “Use Icon Arrangement” line). Previously stored information is lost for that Icon Arrangement.</p>
-<p class="Left Normal"><b>5)  Automatically Memorizing Icon Positions</b></p>
+<p class="Left Normal"><b>4)  (Re)Memorizing icon Positions</b></p>
+<p class="Left Normal">By pressing the “Memorize Icon Positions” button, all the icon names and positions will be updated in the preferences file for the currently selected Icon Arrangement (as specified in the “Use Icon Arrangement” line). Previously stored information is lost for that Icon Arrangement (including any missing icons, see below).</p>
+<p class="Left Normal"><b>5)  Not forgetting Missing Icons</b></p>
+<p class="Left Normal">By holding the option key (⌥) the "Memorize Icon Positions" button turns into "include Any Missing Icons". Pressing this button, any missing icons will still be included in the Icon Arrangement. Otherwise it is identical to having pressed "Memorize Icon Positions". </p>
+<p class="Left Normal"><b>6)  Automatically Memorizing Icon Positions</b></p>
 <p class="Left Normal">By selecting "Memorize Icon Positions" check box, DIM can automatically memorize the current Icon Arrangement either "at Quit" or at selected time intervals. For this to work, DIM needs to stay running, of course. The current Icon Arrangement will be overwritten when this action is triggered.  </p>
-<p class="Left Normal"><b>6) Selecting an Icon Arrangement</b></p>
+<p class="Left Normal"><b>7) Selecting an Icon Arrangement</b></p>
 <p class="Left Normal">By pressing the action (
 <img src="After_the_first_time_use.jpg" alt="" />
 ￼) drop down menu, you can select the Icon Arrangement to use for either Memorizing or Restoring Icon Positions (see above). Depending on how many Icon Arrangements, the action drop down menu can look something like
 <img src="After_the_first_time_use1.jpg" alt="" />
 ￼</p>
 <p class="Left Normal">Once you select an Icon Arrangement, the “Use Icon Arrangement:” and “Number of memorized Desktop Icons:” will be immediately updated.</p>
-<p class="Left Normal"><b>7) Renaming, reordering, deleting and adding Icon Arrangements</b></p>
+<p class="Left Normal"><b>8) Renaming, reordering, deleting and adding Icon Arrangements</b></p>
 <p class="Left Normal">By choosing the “Edit…” option in the action (
 <img src="After_the_first_time_use.jpg" alt="" />
 ￼) drop down menu, you will be presented with a dialog something like:</p>
@@ -53,17 +55,39 @@
 ￼</p>
 <p class="Left Normal">If you select a Finder window, then you can also memorize the position and/or size of that Finder window. The position will be scaled if the screen size/resolution changed. The size will be unscaled.</p>
 <p class="Left Normal">Regardless, you can then input a name for the Icon Arrangement. Pressing “Add” will cause the current icon positions to be saved under this new Icon Arrangement. </p>
-<p class="Left Normal"><b>8) Which icons are not saved in an Arrangement</b></p>
+<p class="Left Normal"><b>9) Which icons are not saved in an Arrangement</b></p>
 <p class="Left Normal">By choosing the “Select unmemorized Icons” option in the action (
 <img src="After_the_first_time_use.jpg" alt="" />
 ) drop down menu, any icons on the Desktop/Finder window that are <b>not</b> in the current Icon Arrangement will be selected on the Desktop/Finder window. If no such icons exists, you will be rewarded with a beep.</p>
-<p class="Left Normal"><b>9) Hiding/unhiding Desktop icons</b></p>
+<p class="Left Normal"><b>10) Hiding/unhiding Desktop icons</b></p>
 <p class="Left Normal">By choosing the “Hide Desktop Icons” option in the action (
 <img src="After_the_first_time_use.jpg" alt="" />
 ) drop down menu, any icons on the Desktop will be hidden. By selecting "Show Desktop Icons", they will be unhidden.</p>
-<p class="Left Normal"><b>10)  Checking for updates</b></p>
+<p class="Left Normal"><b>11)  Checking for updates</b></p>
 <p class="Left Normal">By selecting "Check for update..." in the main DIM menu, you are granting permision for DIM to reach out (via https) to an update server. If there is no update available or an error occurs, then this menu item will be updated accordingling. Otherwise a sheet will appear on the main DIM window giving an option of downloading the update, visiting the website or canceling. If downloading is choosen, the update will be downloaded to the local Downloads folder and the menu item will change to "Locate new update". You should then quit DIM and replace it with the updated version. Otherwise, if there is an error, the menu item will be updated.</p>
-
+<p class="Left Normal"><b>12)  Starting from the command line (Terminal or script)</b></p>
+<p class="Left Normal">One can start DIM from the Terminal command line by typing <em>open -a DIM</em> (or <em>open -b com.parker9.DIM-4</em>. One call also pass command line arguments via <em>open -a DIM --args [...]</em> option. The list of valid command line arguments are:</p>
+<p class="Left Normal">
+<dl>
+    <dt>--memorize [arrangement]</dt>
+    <dd>memorize icon positions to arrangement</dd>
+    <dt>--add [arrangement]</dt>
+    <dd>memorize icon positions including any missing ones to arrangement</dd>
+    <dt>--restore [arrangement]</dt>
+    <dd>restore icon positions from arrangement</dd>
+    <dt>--delete [arrangement]</dt>
+    <dd>delete icon arrangement</dd>
+    <dt>--arrangement [arrangement] </dt>
+    <dd>set current arrangement</dd>
+    <dt>--hide-icons</dt>
+    <dd>hide all Desktop icons</dd>
+    <dt>--select-missing-icons</dt>
+    <dd>select icons missing from current arrangement</dd>
+    <dt>--quit</dt>
+    <dd>quit DIM</dd>
+</dl>
+</p>
+<p class="Left Normal">where [arrangement] is an optional name of the Icon Arrangement to use. If not provided, the current arrangement is assumed. Multiple options can be invoked and they will execute from left to right. Therefore, if "--quit" is present, it should be the last option on the command line. For example, <em>open -a DIM --args --memorize "Start Up" --restore --select-missing-icons</em> would memorize the current Desktop icon arrangment in "Start Up" arrangement (overwriting if it exists or creating it otherwise). Then DIM restores the icons according to the current arrangement. And finally DIM would select any icons that are not present in the current arrangement. DIM will stay open, since the <em>--quit</em> option was not used.</p>
 
 <p class="Left Normal"><a href="Miscellaneous.html">Miscellaneous</a></p><a href="Miscellaneous.html">
 <p class="Left Normal"><a href="index.html">Index</a></p>

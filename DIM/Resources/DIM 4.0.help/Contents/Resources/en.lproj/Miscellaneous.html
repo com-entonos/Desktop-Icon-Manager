@@ -15,7 +15,7 @@
             <span class="Heading1">Miscellaneous</span>
         </p>
 <p class="Left Normal"><b>1) Requirements</b></p>
-<p class="Left Normal">DIM is written in Swift 4.2 with Xcode 12.4. It was compiled to support macOS 10.13 (High Sierra) through macOS 13 (Ventura) for both Apple Silicon and Intel processors. Earlier versions of macOS (10.4 through 10.13) can use <a href="http://www.parker9.com/desktopIconManager4.html#d">DIM 2.1.0</a>.</p>
+<p class="Left Normal">DIM is written in Swift 4.2. It was compiled with Xcode 15.3 to support macOS 10.13 (High Sierra) through macOS 14 (Sonoma) for both Apple Silicon and Intel processors. Earlier versions of macOS (10.4 through 10.13) can use <a href="http://www.parker9.com/desktopIconManager4.html#d">DIM 2.1.0</a>.</p>
 <p class="Left Normal"><b>2) Known Problems/Bugs</p>
 </b><p class="Left Normal">Multiple monitors are <i>technically</i> not supported. However, my own use (along with 100s of users) show no problems if both monitors’ arrangements are not changed between the “Memorize Icon Positions” and “Restore Icon Positions”. The worst case scenario here is that some icons may be placed outside of either monitors’ viewing area. If this is the case, click anywhere on the Desktop and then in the Finder’s View menu, simply select Clean Up and all the icons will reappear, most likely in places you don’t like, but at least you can rearrange them. </p>
 <p class="Left Normal"><b>3) Tricks</b></p>
@@ -23,7 +23,7 @@
 <p class="Left Normal">DIM uses its own preference file (stored in ~/Library/Containers/DIM) so previous versions of DIM will still work and different users can use the same application for their own Desktop and Finder windows.</p>
 <p class="Left Normal">If "Memorize icon Postions" is checked and "at Quit" is selected then quiting, log off, restart and shutdown all trigger a memorization.  </p>
 <p class="Left Normal"><b>4) Exporting/Importing Settings</b></p>
-<p class="Left Normal">You can import/export DIM Settings from the File menu. Please note, Settings may contain sensitive information (e.g. icon names). These Settings are transferrable between different users and/or Macs. Exported Settings can be viewed in Xcode or via Terminal by using "defaults read <i>exported_settings_file</i>" command. During import, one has options to completely replace the current Settings, merge into current Settings or merge current Settings into the imported Settings.</p>
+<p class="Left Normal">You can import/export DIM Settings from the File menu. Please note, Settings may contain sensitive information (e.g. icon names). These Settings are transferrable between different users and/or Macs. Exported Settings can be viewed in Xcode or via Terminal by using "defaults read <i>exported_settings_file</i>" command. During import, one has options to completely replace the current Settings, merge into current Settings or merge current Settings into the imported Settings. For the latter two options, if the current Settings and imported Settings share an icon Arrangment the resulting icon Arrangemnt will be the union of the two if "include any missing icons" is selected otherwise the specified icon Arrangment is used.</p>
 <p class="Left Normal"><b>5) Checking for updates</b></p>
 <p class="Left Normal">DIM allows one to check for updates from the main DIM menu. If an update is available, you can either download directly through DIM or use a browser to retrieve the update. Checking for updates may take awhile depending of local machine load and network connection quality. Regardless, no information is sent to the servers other than your IP number which is only tracked by the hosting servicer.</p>
 <p class="Left Normal"><b>5) FAQ</b></p>
@@ -38,6 +38,8 @@
 <!--
 <p class="Left Normal"><i><u>Instead of icons, can DIM place windows at saved locations?</u></i> Yes, but only for windows in Icon View.</p>
 -->
+quitCount
+<p class="Left Normal"><i><u>When “Automatically Restore Icon Positions at start up” and “and then Quit” are checked, the countdown is too slow/fast!</u></i> The integer <em>quitCount</em> in DIM's plist files which is how many 1/5 of a second to wait before quiting. If not present, the value is assumed to be 20. <em>defaults write com.parker9.DIM-4 quitCount 50</em> in the Terminal would cause DIM to wait 10 seconds before quiting</p>
 <p class="Left Normal"><i><u>Checking for updates doesn't seem to be working</u></i> To check for updates, the Mac must be connected and have access to the internet. If you are getting an error, it probably means that one or more of the servers are down. Simply try again in a few minutes. DIM also needs read/write permission to the Download folders. If it continues fail, please contact us with any errors it is displaying and what version of DIM is being used.</p>
 <p class="Left Normal"><i><u>I want to uninstall DIM, what do I do?</u></i> Uninstalling DIM is done by simply dragging DIM to the Trash. DIM also created a folder in your home directory at ~/Library/Containers/DIM which you can either delete or leave.</p>
 <p class="Left Normal"><i><u>Hey, I want to send you money for such a cool thing, how can I do that?</u></i> Really? I’m sure my wife (and kids) would like that, but it’s not required. If you really do, on the upper right corner, hit the red “Donate?”. Thanks in advance!</p>
