@@ -18,21 +18,20 @@ class ViewController: NSViewController {
     var arrangements = [String: Any]()  // dictionary keyed to name w/ corresponding iconSet (AppleScript data object)
     var orderedArrangements = [String]()  // an ordered list of Arrangement names to populate drop down menu and Edit sheet
     var timerSeconds = -1
-    let thisVer = 4001000
+    var thisVer = "0.0" // change to string so we can fetch it from bundle...
     
     // these are disposable run variables
     var start = true     // did we just start?
     var overrideSetting = false  // is user holding command (⌘) during start?
     var saveTimer: Timer?
-    var dataVer = 0
+    var dataVer = "0.0"
     var quitTimer: Timer?
     var quitCount = 20
+    var optionHeld = false      // is option key being held?
     
     // this is for updating
     var updateAvailable = [String]()
     var updateDownloaded = false
-    
-
     
     // our outlets to various labels, buttons, etc on the main storyboard
     @IBOutlet weak var doingTF: NSTextField!
@@ -63,29 +62,30 @@ class ViewController: NSViewController {
     override func viewDidAppear() {
         super.viewDidAppear()
         if start {
+            thisVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
+            if #available(macOS 11.0, *) { Logger.diag.info("starting DIM \(self.thisVer, privacy: .public)") }
+            NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { self.myFlagsChanged(with: $0); return $0}
             DispatchQueue.global(qos: .userInteractive).async {
                 if self.dim == nil { self.dim = DIM() }
                 DispatchQueue.main.async {
                     if self.dim == nil || self.dim!.testBridge == "no" || self.dim!.testBridge == nil {
+                        if #available(macOS 11.0, *) { Logger.err.error("DIM failed to connect to Finder") }
                         self.errorwithAS()
                     } else {
+                        self.updateUI("Starting...")
                         self.loadPrefs()
                         self.start = false
+                        self.updateUI()
                     }
                 }
             }
-        } /*
-        if start {  // first time through?
-            if dim == nil { //inject AppleScript stuff... if we haven't yet
-                dim = DIM()
-            }
-            if dim == nil || dim!.testBridge == "no" || dim!.testBridge == nil {
-                errorwithAS()   // problems talking to Finder via AppleScript
-            } else {
-                loadPrefs()     // load user preferences and get going
-                start = false   // flag to say we did this once, no need to do it again (since viewDidAppear can be called again, say, if app was Hid or not...
-            }
-        }*/
+        }
+    }
+    
+    func myFlagsChanged(with event: NSEvent) {
+        //super.flagsChanged(with: event)
+        optionHeld = event.modifierFlags.contains(.option)
+        memorizeButton.title = optionHeld ? "include any Missing Icons" : "Memorize Icon Positions"
     }
     
     @objc func atEnd() { // called just before quit
@@ -124,7 +124,7 @@ class ViewController: NSViewController {
     // Button pressed to Memorize...
     @IBAction func do_memorize(_ sender: NSButton) {
         quitTimer?.invalidate()
-        memorize(currentName)
+        memorize(currentName,addTo: optionHeld)
         refreshTimer()
     }
     
@@ -137,10 +137,19 @@ class ViewController: NSViewController {
 
     
     // memorize an arrangement given by name
-    func memorize(_ name: String) {
-        updateUI("Memorizing Icon Positions...")
+    func memorize(_ name: String, addTo: Bool = false) {
+        updateUI(addTo ? "Adding New Icon Positions..." : "Memorizing Icon Positions...")
         DispatchQueue.global(qos: .utility).async { [unowned self] in  // apparently we need to do this otherwise UI isn't updated during AppleScript call
-            self.arrangements[name] = self.refetchSet()
+            let currentArrangement = (name == currentName) ? self.refetchSet() : self.fetchSet()
+            if addTo {
+                self.arrangements[name] = self.mergeArrangements(addArrangement: self.arrangements[name]!, baseArrangement: currentArrangement)
+                self.dim!.iconSet = self.arrangements[name] // tell AppleScript about the new set
+            } else {
+                self.arrangements[name] = currentArrangement
+            }
+            if name != self.currentName {
+                self.dim!.iconSet = self.arrangements[self.currentName]
+            }
             DispatchQueue.main.async {
                 self.savePrefs()
                 self.updateUI()
@@ -154,6 +163,7 @@ class ViewController: NSViewController {
         DispatchQueue.global(qos: .utility).async { [unowned self] in
             self.setSet(set: self.arrangements[name]!)
             self.dim!.numOnDesktop = 0
+            if name != self.currentName { self.dim!.iconSet = self.arrangements[self.currentName]}
             DispatchQueue.main.async {
                 self.updateUI()
             }
@@ -306,7 +316,7 @@ class ViewController: NSViewController {
     // let's read user's preferences
     func loadPrefs() {  // go read user's perferences
         if goodLoadPrefs() {  // try to be robust in reading them back in, if there is an unrecoverable problem (or data doesn't exist), start afresh
-            if restoreAtStart && !overrideSetting {  // did they want us to restore automatically at start?
+            if restoreAtStart && !overrideSetting && noCommandLineArgs(CommandLine.arguments) {  // did they want us to restore automatically at start?
 //              restore(currentName) //doesn't seem to work, so just brute force a restore  (instead of the next line)
                 setSet(set: arrangements[currentName]!)
                 dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
@@ -344,6 +354,9 @@ class ViewController: NSViewController {
         timeMenu.isEnabled = !timeMenu.isHidden && automaticSaveButton.state == .on
         loadMenu()  // finally, construct the arrangement drop down menu
         refreshTimer()
+        
+        //print(CommandLine.arguments)
+        if start && !noCommandLineArgs(CommandLine.arguments) { doCommandLineArgs(CommandLine.arguments) }
     }
     
     //let's assume something bad happened to the stored user data...
@@ -359,8 +372,8 @@ class ViewController: NSViewController {
         if defaults.object(forKey: "timerSeconds") != nil {timerSeconds = defaults.integer(forKey: "timerSeconds")}
         if defaults.object(forKey: "automaticSave") != nil {automaticSave = defaults.bool(forKey: "automaticSave")}
         
-        if defaults.object(forKey: "dataVer") != nil { dataVer = defaults.integer(forKey: "dataVer")}
-        defaults.set(thisVer, forKey: "dataVer") // since we ran, update dataVer
+        if defaults.object(forKey: "dataVerString") != nil { dataVer = defaults.string(forKey: "dataVerString")!}
+        defaults.set(thisVer, forKey: "dataVerString") // since we ran, update dataVer
         if dataVer != thisVer { defaults.removeObject(forKey: "donate") }
         if defaults.string(forKey: "donate") != nil {donateLabel.textColor = NSColor.labelColor}
         
@@ -463,19 +476,26 @@ class ViewController: NSViewController {
         quitTimer?.invalidate()
         if let name = sender.selectedItem?.title {
             if name != currentName {
-                currentName = name
-                dim!.iconSet = arrangements[currentName]!  // sync AppleScript data
-                dim!.numInSet = 0
-                dim!.numOnDesktop = 0
-                savePrefs()
-                loadMenu()
+                _arrangeButton(name)
                 refreshTimer() // refresh timer if it exists
             }
         }
     }
     
+    func _arrangeButton(_ name: String) {
+        currentName = name
+        dim!.iconSet = arrangements[currentName]!  // sync AppleScript data
+        dim!.numInSet = 0
+        dim!.numOnDesktop = 0
+        savePrefs()
+        loadMenu()
+    }
+    
     // toggle hiding/unhiding Desktop icons
     @objc func doHider(_ sender: NSMenuItem) {
+        _doHider()
+    }
+    func _doHider() {
         quitTimer?.invalidate()
         if hider != nil {
             NotificationCenter.default.post(name: .doHide, object: nil)
@@ -581,6 +601,84 @@ class ViewController: NSViewController {
             }
         }
     }
+    
+    func noCommandLineArgs(_ args : [String]) -> Bool {
+        let commands : Set = ["--memorize", "--add", "--restore", "--arrangement", "--hide-icons", "--select-missing-icons", "--delete", "--quit"]
+        return Set(args).intersection(commands).isEmpty
+    }
+    func doCommandLineArgs(_ args : [String]) {
+        if args.isEmpty { return }
+        let isName = (args.count > 1) ? args[1].prefix(2) != "--"  : false
+        var arrangementName = isName ? args[1] : currentName
+        let newArgs = Array(args.dropFirst(isName ? 2 : 1))
+        let arg = args[0]
+        if #available(macOS 11.0, *) {
+            if isName {  Logger.diag.info("parsing DIM argument = \(arg, privacy: .public) \(arrangementName, privacy: .private(mask: .hash))")
+            } else { Logger.diag.info("parsing DIM argument = \(arg, privacy: .public)") }
+        } //.private(mask: .hash)
+        switch arg {
+        case "--delete" :
+            if orderedArrangements.count > 1 && orderedArrangements.contains(arrangementName) && arrangements[arrangementName] != nil {
+                orderedArrangements.remove(at: orderedArrangements.firstIndex(of: arrangementName)!)
+                arrangements.removeValue(forKey: arrangementName)
+                if currentName == arrangementName {
+                    currentName = orderedArrangements[0]
+                    DispatchQueue.main.async {
+                        self._arrangeButton(self.currentName)
+                        self.doCommandLineArgs(newArgs)
+                    }
+                }  else {  doCommandLineArgs(newArgs) }
+            } else {  doCommandLineArgs(newArgs) }
+        case "--memorize" :
+            DispatchQueue.main.async {
+                self.memorize(arrangementName)
+                if !self.orderedArrangements.contains(arrangementName) {
+                    self.orderedArrangements.append(arrangementName)
+                    self._arrangeButton(self.currentName)
+                }
+                self.refreshTimer()
+                self.doCommandLineArgs(newArgs)
+            }
+        case "--add" :
+            if arrangements[arrangementName] != nil {
+                DispatchQueue.main.async {
+                    self.memorize(arrangementName, addTo: true)
+                    if arrangementName != self.currentName { self._arrangeButton(self.currentName)}
+                    self.refreshTimer()
+                    self.doCommandLineArgs(newArgs)
+                }
+            } else {  doCommandLineArgs(newArgs) }
+        case "--restore" :
+            if arrangements[arrangementName] != nil {
+                DispatchQueue.main.async {
+                    self.restore(arrangementName)
+                    if arrangementName != self.currentName { self._arrangeButton(self.currentName)}
+                    self.refreshTimer()
+                    self.doCommandLineArgs(newArgs)
+                }
+            } else {  doCommandLineArgs(newArgs) }
+        case "--arrangement" :
+            if orderedArrangements.contains(arrangementName) && arrangements[arrangementName] != nil && arrangementName != currentName {
+                DispatchQueue.main.async {
+                    self._arrangeButton(arrangementName)
+                    self.refreshTimer()
+                    self.doCommandLineArgs(newArgs)
+                }
+            }  else {  doCommandLineArgs(newArgs) }
+        case "--hide-icons" :
+            _doHider()
+            doCommandLineArgs(newArgs)
+        case "--select-missing-icons" :
+            dim!.showNewIcons()
+            doCommandLineArgs(newArgs)
+        case "--quit" :
+            NSApp.terminate(self)
+        default:
+            arrangementName = "is not known"
+            doCommandLineArgs(newArgs)
+        }
+}
+
 // add Import and Export of UserDefaults
     @IBAction func writePlist(_ sender: NSMenuItem) {  // this will (hopefully) copy the current UserDefaults data to user specified place
         let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/com.parker9.DIM-4.plist"
@@ -602,7 +700,7 @@ class ViewController: NSViewController {
                         "arrangements" : self.arrangements,
                         "automaticSave" : self.automaticSave,
                         "timerSeconds" : self.timerSeconds] )
-                    if !data.write(toFile: exportURL.path, atomically: true) {if #available(macOS 11.0, *) { Logger.diag.error("could create exported Settings to \(exportURL.path)")}}
+                    if !data.write(toFile: exportURL.path, atomically: true) {if #available(macOS 11.0, *) { Logger.err.error("could not create exported Settings to \(exportURL.path, privacy: .private(mask: .hash))")}}
                 }
             }
         }
@@ -627,22 +725,25 @@ class ViewController: NSViewController {
                         segueID = "toPlistOption"
                         self.newData = newData
                     }
-                } catch { if #available(macOS 11.0, *) { Logger.diag.error("cast to NSDictionary failed in readPlist")} }
+                } catch { if #available(macOS 11.0, *) { Logger.err.error("cast to NSDictionary failed in readPlist")} }
                 self.performSegue(withIdentifier: segueID, sender: self)
             }
         }
     }
-    func doPlistOption(_ plistOption : PlistOptions = .cancel) {    // replace, merge input to current, merge current into import or cancel
+    func doPlistOption(_ plistOption : PlistOptions = .cancel, includeMissing : Bool = false) {    // replace, merge input to current, merge current into import or cancel
+        //print("includeMissing? \(includeMissing), plistOption: \(plistOption)")
         if plistOption != .cancel && newData?["arrangements"] != nil {
             switch plistOption {
             case .mergeIntoCurrent:
                 if let newArrangements = newData!["arrangements"] as? [String: Any] {
-                    if #available(macOS 11.0, *) { Logger.diag.info(".mergIntoCurrent \(newArrangements.count) \(self.arrangements.count)") }
+                    if #available(macOS 11.0, *) { Logger.diag.info(".mergIntoCurrent \(newArrangements.count, privacy: .public) \(self.arrangements.count, privacy: .public)") }
                     for (name, arrangement) in newArrangements {
                         if arrangements[name] == nil {
                             arrangements[name] = arrangement
-                            orderedArrangements.append(name)
+                        } else if includeMissing {
+                            arrangements[name] = mergeArrangements(addArrangement: arrangement, baseArrangement: arrangements[name]!)
                         }
+                        if !orderedArrangements.contains(name) { orderedArrangements.append(name) }
                     }
                 }
             case .replace, .mergeIntoImported:
@@ -654,14 +755,24 @@ class ViewController: NSViewController {
                 timerSeconds = newData?["timerSeconds"] as? Int ?? timerSeconds
                 if plistOption == .replace {
                     arrangements = newData!["arrangements"] as? [String: Any] ?? arrangements
-                    if #available(macOS 11.0, *) { Logger.diag.info(".replace \(self.arrangements.count)") }
+                    if #available(macOS 11.0, *) { Logger.diag.info(".replace \(self.arrangements.count, privacy: .public)") }
                 } else {
                     if let newArrangements = newData!["arrangements"] as? [String: Any] {
+                        for (name, arrangement) in newArrangements {
+                            if arrangements[name] == nil || !includeMissing {
+                                arrangements[name] = arrangement
+                            } else if includeMissing {
+                                arrangements[name] = mergeArrangements(addArrangement: arrangements[name]!, baseArrangement: arrangement)
+                            }
+                            if !orderedArrangements.contains(name) { orderedArrangements.append(name) }
+                        }
+                        /*
                         for (name, arrangment) in newArrangements {
                             arrangements[name] = arrangment
                             if !orderedArrangements.contains(name) { orderedArrangements.append(name) }
                         }
-                        if #available(macOS 11.0, *) { Logger.diag.info(".mergeIntoImported \(self.arrangements.count) \(newArrangements.count)") }
+                        */
+                        if #available(macOS 11.0, *) { Logger.diag.info(".mergeIntoImported \(self.arrangements.count, privacy: .public) \(newArrangements.count, privacy: .public)") }
                     }
                 }
             case .cancel: // should never reach, but compiler complains
@@ -674,6 +785,47 @@ class ViewController: NSViewController {
         }
         newData = nil
     }
+    
+    /*
+    for desktop:
+     set iconSet to {iconNames, iconPositions, screenSize, iconSize, textSize}
+    for windows:
+     set iconSet to {iconNames, iconPositions, screenSize, iconSize, textSize, aliasWindow}
+     if saveWindowPosition then set end of iconSet to windowPosition
+     if saveWindowBounds then set end of iconSet to windowBounds
+     */
+    func mergeArrangements(addArrangement: Any, baseArrangement: Any) -> Any {
+        // add any addArrangement icons missing in baseArrangement to baseArrangement
+        if let oldData = addArrangement as? [Any], let newData = baseArrangement as? [Any] {
+            let oldNames = oldData[0] as! [String]
+            let oldPos = oldData[1] as! [[Int]]
+            
+            //let newData = baseArrangement as! [Any]
+            var newNames = newData[0] as! [String]
+            var newPos = newData[1] as! [[Int]]
+            
+            // add any old items to current ones
+            for (index,name) in oldNames.enumerated() {
+                if !newNames.contains(name) {
+                    newNames.append(name)
+                    newPos.append(oldPos[index])
+                }
+            }
+            let mergedArrangement = NSMutableArray.init() // now construct NSMutableArray to hold new iconSet
+            mergedArrangement.add(NSMutableArray(array: newNames))  //first names
+            mergedArrangement.add(NSMutableArray(array: newPos))    //then positions
+            for i in 2..<newData.count { mergedArrangement.add(newData[i])} // and all the other stuff (screenSize, iconSize...)
+            let final : Any = mergedArrangement                     // and wrap it up as an Any
+           /* if #available(macOS 11.0, *) {
+                print("addArrangement: \(addArrangement)")
+                print("baseArrangement: \(baseArrangement)")
+                print("final: \(final)")
+            } */
+            return final // return final merged
+        } else {
+            return baseArrangement  // some problem, just return base (i.e. no merge)
+        }
+    }
 }
 
 import OSLog // let's do some logging
@@ -684,4 +836,5 @@ extension Logger {
 
     /// All logs related to tracking and analytics.
     static let diag = Logger(subsystem: subsystem, category: "info")
+    static let err = Logger(subsystem: subsystem, category: "error")
 }
