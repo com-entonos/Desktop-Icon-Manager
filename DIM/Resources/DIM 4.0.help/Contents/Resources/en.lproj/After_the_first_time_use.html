@@ -24,7 +24,7 @@
 <p class="Left Normal"><b>4)  (Re)Memorizing icon Positions</b></p>
 <p class="Left Normal">By pressing the “Memorize Icon Positions” button, all the icon names and positions will be updated in the preferences file for the currently selected Icon Arrangement (as specified in the “Use Icon Arrangement” line). Previously stored information is lost for that Icon Arrangement (including any missing icons, see below).</p>
 <p class="Left Normal"><b>5)  Not forgetting Missing Icons</b></p>
-<p class="Left Normal">By holding the option key (⌥) the "Memorize Icon Positions" button turns into "include Any Missing Icons". Pressing this button, any missing icons will still be included in the Icon Arrangement. Otherwise it is identical to having pressed "Memorize Icon Positions". </p>
+<p class="Left Normal">By holding the option key (⌥) the "Memorize Icon Positions" button turns into "include Any Missing Icons". Pressing this button, any missing icons will still be included in the Icon Arrangement. Otherwise it is identical to having pressed "Memorize Icon Positions". You may find this useful if you have desktop icons (network drives, for example) that may or may not exist when you want to update the Icon Arrangement.</p>
 <p class="Left Normal"><b>6)  Automatically Memorizing Icon Positions</b></p>
 <p class="Left Normal">By selecting "Memorize Icon Positions" check box, DIM can automatically memorize the current Icon Arrangement either "at Quit" or at selected time intervals. For this to work, DIM needs to stay running, of course. The current Icon Arrangement will be overwritten when this action is triggered.  </p>
 <p class="Left Normal"><b>7) Selecting an Icon Arrangement</b></p>
@@ -66,7 +66,7 @@
 <p class="Left Normal"><b>11)  Checking for updates</b></p>
 <p class="Left Normal">By selecting "Check for update..." in the main DIM menu, you are granting permision for DIM to reach out (via https) to an update server. If there is no update available or an error occurs, then this menu item will be updated accordingling. Otherwise a sheet will appear on the main DIM window giving an option of downloading the update, visiting the website or canceling. If downloading is choosen, the update will be downloaded to the local Downloads folder and the menu item will change to "Locate new update". You should then quit DIM and replace it with the updated version. Otherwise, if there is an error, the menu item will be updated.</p>
 <p class="Left Normal"><b>12)  Starting from the command line (Terminal or script)</b></p>
-<p class="Left Normal">One can start DIM from the Terminal command line by typing <em>open -a DIM</em> (or <em>open -b com.parker9.DIM-4</em>. One call also pass command line arguments via <em>open -a DIM --args [...]</em> option. The list of valid command line arguments are:</p>
+<p class="Left Normal">One can start DIM from the Terminal command line by typing <em>open -a DIM</em> (or <em>open -b com.parker9.DIM-4</em>). One can also pass command line arguments via <em>open -a DIM --args [...]</em> option. The list of valid command line arguments are:</p>
 <p class="Left Normal">
 <dl>
     <dt>--memorize [arrangement]</dt>
@@ -87,7 +87,7 @@
     <dd>quit DIM</dd>
 </dl>
 </p>
-<p class="Left Normal">where [arrangement] is an optional name of the Icon Arrangement to use. If not provided, the current arrangement is assumed. Multiple options can be invoked and they will execute from left to right. Therefore, if "--quit" is present, it should be the last option on the command line. For example, <em>open -a DIM --args --memorize "Start Up" --restore --select-missing-icons</em> would memorize the current Desktop icon arrangment in "Start Up" arrangement (overwriting if it exists or creating it otherwise). Then DIM restores the icons according to the current arrangement. And finally DIM would select any icons that are not present in the current arrangement. DIM will stay open, since the <em>--quit</em> option was not used.</p>
+<p class="Left Normal">where <em>[arrangement]</em> is an optional name of the Icon Arrangement to use. If not provided, the current Arrangement is assumed. Multiple options can be invoked and they will execute from left to right. Therefore, if "--quit" is present, it should be the last option on the command line. For example, <em>open -a DIM --args --memorize "Start Up" --restore --select-missing-icons</em> would memorize the current Desktop icon arrangment in "Start Up" arrangement (overwriting if it exists or creating it otherwise). Then DIM restores the icons according to the current arrangement. And finally DIM would select any icons that are not present in the current arrangement. DIM will stay open, since the <em>--quit</em> option was not used.</p>
 
 <p class="Left Normal"><a href="Miscellaneous.html">Miscellaneous</a></p><a href="Miscellaneous.html">
 <p class="Left Normal"><a href="index.html">Index</a></p>
