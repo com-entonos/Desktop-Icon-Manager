@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSDownloadsFolderUsageDescriptionNSDownloadsFolderUsageDescription</key>
-	<string>So we can download a new version of DIM.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -32,8 +30,10 @@
 	<string>$(MACOSX_DEPLOYMENT_TARGET)</string>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>DIM requires communication with Finder, press OK</string>
+	<key>NSDownloadsFolderUsageDescriptionNSDownloadsFolderUsageDescription</key>
+	<string>So we can download a new version of DIM.</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2024 G.J. Parker. All rights reserved.</string>
+	<string>Copyright © 2025 G.J. Parker. All rights reserved.</string>
 	<key>NSMainStoryboardFile</key>
 	<string>Main</string>
 	<key>NSPrincipalClass</key>

@@ -57,6 +57,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         overrideSetting = NSEvent.modifierFlags == .command  // check to see if user is holding command key during launch
         NotificationCenter.default.addObserver(self, selector: #selector(self.atEnd), name: NSNotification.Name("atEnd"), object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.screensDidWakeNotification, object: nil, queue: .main, using: {_ in usleep(500_000); self.restore(self.currentName)})
     }
 
     override func viewDidAppear() {
