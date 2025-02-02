@@ -57,7 +57,7 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         overrideSetting = NSEvent.modifierFlags == .command  // check to see if user is holding command key during launch
         NotificationCenter.default.addObserver(self, selector: #selector(self.atEnd), name: NSNotification.Name("atEnd"), object: nil)
-        NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.screensDidWakeNotification, object: nil, queue: .main, using: {_ in usleep(500_000); self.restore(self.currentName)})
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.delayRestore), name: NSWorkspace.screensDidWakeNotification, object: nil)
     }
 
     override func viewDidAppear() {
@@ -89,6 +89,10 @@ class ViewController: NSViewController {
         memorizeButton.title = optionHeld ? "include any Missing Icons" : "Memorize Icon Positions"
     }
     
+    @objc func delayRestore() {
+        let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 5.0
+        if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.restore(self.currentName)}) } //; print("wake \(waitRestore)")})}
+    }
     @objc func atEnd() { // called just before quit
         if automaticSave && timerSeconds < 0 && !(restoreAtStart && quitAfterStart) {
             arrangements[currentName] = refetchSet()  // w/o gui
