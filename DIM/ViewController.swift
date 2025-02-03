@@ -90,8 +90,9 @@ class ViewController: NSViewController {
     }
     
     @objc func delayRestore() {
-        let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 5.0
-        if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.restore(self.currentName)}) } //; print("wake \(waitRestore)")})}
+        let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
+        //if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.restore(self.currentName)}) } //; print("wake \(waitRestore)")})}
+        if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.do_restore(self.restoreButton)})} //; print("wake \(waitRestore)")})}
     }
     @objc func atEnd() { // called just before quit
         if automaticSave && timerSeconds < 0 && !(restoreAtStart && quitAfterStart) {
