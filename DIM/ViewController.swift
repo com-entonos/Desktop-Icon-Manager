@@ -58,6 +58,7 @@ class ViewController: NSViewController {
         overrideSetting = NSEvent.modifierFlags == .command  // check to see if user is holding command key during launch
         NotificationCenter.default.addObserver(self, selector: #selector(self.atEnd), name: NSNotification.Name("atEnd"), object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.delayRestore), name: NSWorkspace.screensDidWakeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.delayRestore), name: NSApplication.didChangeScreenParametersNotification, object: nil)
     }
 
     override func viewDidAppear() {
@@ -77,6 +78,7 @@ class ViewController: NSViewController {
                         self.loadPrefs()
                         self.start = false
                         self.updateUI()
+                        if !self.noCommandLineArgs(CommandLine.arguments) { self.doCommandLineArgs(CommandLine.arguments) }
                     }
                 }
             }
@@ -360,9 +362,6 @@ class ViewController: NSViewController {
         timeMenu.isEnabled = !timeMenu.isHidden && automaticSaveButton.state == .on
         loadMenu()  // finally, construct the arrangement drop down menu
         refreshTimer()
-        
-        //print(CommandLine.arguments)
-        if start && !noCommandLineArgs(CommandLine.arguments) { doCommandLineArgs(CommandLine.arguments) }
     }
     
     //let's assume something bad happened to the stored user data...
@@ -613,77 +612,89 @@ class ViewController: NSViewController {
         return Set(args).intersection(commands).isEmpty
     }
     func doCommandLineArgs(_ args : [String]) {
-        if args.isEmpty { return }
-        let isName = (args.count > 1) ? args[1].prefix(2) != "--"  : false
-        var arrangementName = isName ? args[1] : currentName
-        let newArgs = Array(args.dropFirst(isName ? 2 : 1))
-        let arg = args[0]
-        if #available(macOS 11.0, *) {
-            if isName {  Logger.diag.info("parsing DIM argument = \(arg, privacy: .public) \(arrangementName, privacy: .private(mask: .hash))")
-            } else { Logger.diag.info("parsing DIM argument = \(arg, privacy: .public)") }
-        } //.private(mask: .hash)
-        switch arg {
-        case "--delete" :
-            if orderedArrangements.count > 1 && orderedArrangements.contains(arrangementName) && arrangements[arrangementName] != nil {
-                orderedArrangements.remove(at: orderedArrangements.firstIndex(of: arrangementName)!)
-                arrangements.removeValue(forKey: arrangementName)
-                if currentName == arrangementName {
-                    currentName = orderedArrangements[0]
-                    DispatchQueue.main.async {
-                        self._arrangeButton(self.currentName)
-                        self.doCommandLineArgs(newArgs)
+        var newArgs = args
+        while (!newArgs.isEmpty) {
+            let isName = (newArgs.count > 1) ? newArgs[1].prefix(2) != "--"  : false
+            let arrangementName = isName ? newArgs[1] : currentName
+            let arg = newArgs[0]
+            newArgs = Array(newArgs.dropFirst(isName ? 2 : 1))
+            if #available(macOS 11.0, *) {
+                if isName {  Logger.diag.info("parsing DIM argument = \(arg, privacy: .public) \(arrangementName, privacy: .private(mask: .hash))")
+                } else { Logger.diag.info("parsing DIM argument = \(arg, privacy: .public)") }
+            } //.private(mask: .hash)
+            switch arg {
+            case "--delete" :
+                if orderedArrangements.count > 1 && orderedArrangements.contains(arrangementName) && arrangements[arrangementName] != nil {
+                    orderedArrangements.remove(at: orderedArrangements.firstIndex(of: arrangementName)!)
+                    arrangements.removeValue(forKey: arrangementName)
+                    if currentName == arrangementName {
+                        currentName = orderedArrangements[0]
+                        _arrangeButton(self.currentName)
                     }
-                }  else {  doCommandLineArgs(newArgs) }
-            } else {  doCommandLineArgs(newArgs) }
-        case "--memorize" :
-            DispatchQueue.main.async {
-                self.memorize(arrangementName)
-                if !self.orderedArrangements.contains(arrangementName) {
-                    self.orderedArrangements.append(arrangementName)
-                    self._arrangeButton(self.currentName)
                 }
-                self.refreshTimer()
-                self.doCommandLineArgs(newArgs)
+            case "--memorize" :
+                updateUI("Memorizing Icon Positions...")
+                DispatchQueue.global(qos: .utility).sync { [unowned self] in
+                    let currentArrangement = (arrangementName == currentName) ? refetchSet() : fetchSet()
+                    arrangements[arrangementName] = currentArrangement
+                    if arrangementName != currentName {
+                        dim!.iconSet = arrangements[currentName]
+                    }
+                    savePrefs()
+                    if !self.orderedArrangements.contains(arrangementName) {
+                        self.orderedArrangements.append(arrangementName)
+                        self._arrangeButton(self.currentName)
+                    }
+                }
+                updateUI()
+                refreshTimer()
+            case "--add" :
+                if arrangements[arrangementName] != nil {
+                    updateUI("Adding New Icon Positions...")
+                    DispatchQueue.global(qos: .utility).sync { [unowned self] in
+                        let currentArrangement = (arrangementName == currentName) ? refetchSet() : fetchSet()
+                        arrangements[arrangementName] = mergeArrangements(addArrangement: arrangements[arrangementName]!, baseArrangement: currentArrangement)
+                        dim!.iconSet = arrangements[arrangementName]
+                        if arrangementName != currentName {
+                            dim!.iconSet = arrangements[currentName]
+                            _arrangeButton(currentName)
+                        } else { savePrefs()}
+                    }
+                    updateUI()
+                    refreshTimer()
+                }
+            case "--restore" :
+                if arrangements[arrangementName] != nil {
+                    updateUI("Restoring Icon Positions...")
+                    DispatchQueue.global(qos: .utility).sync { [unowned self] in
+                        setSet(set: arrangements[arrangementName]!)
+                        dim!.numOnDesktop = 0
+                        if arrangementName != currentName {
+                            dim!.iconSet = arrangements[currentName]
+                            _arrangeButton(self.currentName)
+                        }
+                    }
+                    updateUI()
+                    self.refreshTimer()
+                }
+            case "--arrangement" :
+                if orderedArrangements.contains(arrangementName) && arrangements[arrangementName] != nil && arrangementName != currentName {
+                    _arrangeButton(arrangementName)
+                    refreshTimer()
+                }
+            case "--hide-icons" :
+                _doHider()
+            case "--select-missing-icons" :
+                dim!.showNewIcons()
+            case "--quit" :
+                NSApp.terminate(self)
+            default:
+                if #available(macOS 11.0, *) {
+                    Logger.diag.info("WARNING: unknown DIM argument = \(arg, privacy: .public)")
+                }
             }
-        case "--add" :
-            if arrangements[arrangementName] != nil {
-                DispatchQueue.main.async {
-                    self.memorize(arrangementName, addTo: true)
-                    if arrangementName != self.currentName { self._arrangeButton(self.currentName)}
-                    self.refreshTimer()
-                    self.doCommandLineArgs(newArgs)
-                }
-            } else {  doCommandLineArgs(newArgs) }
-        case "--restore" :
-            if arrangements[arrangementName] != nil {
-                DispatchQueue.main.async {
-                    self.restore(arrangementName)
-                    if arrangementName != self.currentName { self._arrangeButton(self.currentName)}
-                    self.refreshTimer()
-                    self.doCommandLineArgs(newArgs)
-                }
-            } else {  doCommandLineArgs(newArgs) }
-        case "--arrangement" :
-            if orderedArrangements.contains(arrangementName) && arrangements[arrangementName] != nil && arrangementName != currentName {
-                DispatchQueue.main.async {
-                    self._arrangeButton(arrangementName)
-                    self.refreshTimer()
-                    self.doCommandLineArgs(newArgs)
-                }
-            }  else {  doCommandLineArgs(newArgs) }
-        case "--hide-icons" :
-            _doHider()
-            doCommandLineArgs(newArgs)
-        case "--select-missing-icons" :
-            dim!.showNewIcons()
-            doCommandLineArgs(newArgs)
-        case "--quit" :
-            NSApp.terminate(self)
-        default:
-            arrangementName = "is not known"
-            doCommandLineArgs(newArgs)
         }
-}
+    }
 
 // add Import and Export of UserDefaults
     @IBAction func writePlist(_ sender: NSMenuItem) {  // this will (hopefully) copy the current UserDefaults data to user specified place
