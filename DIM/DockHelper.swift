@@ -11,29 +11,32 @@ import AppKit
 import OSLog
 
 class DockHelper {
-    let BundleID = "com.parker9.DIM-4" //"com.parker9.DIMDockTilePlugin"
+    let BundleID = "com.parker9.DIM-4"
     var allArrangements = [String]()
     var isMain = false
     
-    let subsystem = "DIMDTP"
+    let subsystem = "DIMDTP" //"com.parker9.DIMDockTilePlugin" //"DIMDockTilePlugin.docktileplugin"
     
-    init(_ bundle : String = "com.parker9.DIM-4") { isMain = (BundleID == Bundle(for: DockHelper.self).bundleIdentifier ?? bundle) }
+    init(_ bundle : String = "com.parker9.DIM-4") {
+        isMain = (BundleID == Bundle(for: DockHelper.self).bundleIdentifier ?? bundle)
+        if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("DockHelper.init: isMain? \(self.isMain, privacy: .public) >bundleID=\(self.BundleID, privacy: .public)< this bundleID=\(Bundle(for: DockHelper.self).bundleIdentifier ?? "nothing", privacy: .public)<") }
+    }
     
     func setDockTile(_ dockTile: NSDockTile?) {
         print("bundlID=\(self.BundleID)< this bundleID=\(Bundle(for: DockHelper.self).bundleIdentifier ?? "nothing")<- \(dockTile == nil ? "no dockTile":dockTile!.className,)< \(self.isMain)")
-        if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("bundleID=\(self.BundleID, privacy: .public)< this bundleID=\(Bundle(for: DockHelper.self).bundleIdentifier ?? "nothing", privacy: .public)<- \(dockTile == nil ? "no dockTile":dockTile!.className, privacy: .public)< isMain? \(self.isMain, privacy: .public)") }
+        if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("DockHelper.setDockTile: bundleID=\(self.BundleID, privacy: .public)< this bundleID=\(Bundle(for: DockHelper.self).bundleIdentifier ?? "nothing", privacy: .public)<- \(dockTile == nil ? "no dockTile":dockTile!.className, privacy: .public)< isMain? \(self.isMain, privacy: .public)") }
     }
     
     func setMenu(_ arrangements : [String]? = nil) -> NSMenu? {
-        if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("isMain? \(self.isMain, privacy: .public), bundlID=\(self.BundleID, privacy: .public)< this bundleID=\(Bundle(for: DockHelper.self).bundleIdentifier ?? "nothing", privacy: .public)< \(self.isMain, privacy: .public)<") }
+        if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("DockHelper.setMenu: isMain? \(self.isMain, privacy: .public), bundlID=\(self.BundleID, privacy: .public)< this bundleID=\(Bundle(for: DockHelper.self).bundleIdentifier ?? "nothing", privacy: .public)< ") }
         allArrangements.removeAll()
         if arrangements != nil { allArrangements = arrangements! } else {
             CFPreferencesAppSynchronize(BundleID as CFString)
             if let a = CFPreferencesCopyAppValue("orderedArrangements" as CFString, BundleID as CFString) as? [String] {
                 allArrangements = a
-                if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("\(self.allArrangements.count,privacy: .public) orderedArrangements=\(self.allArrangements, privacy: .public)<") }
+                if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  \(self.allArrangements.count,privacy: .public) orderedArrangements=\(self.allArrangements, privacy: .public)<") }
             } else {
-                if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("no orderedArrangements in \(self.BundleID, privacy: .public)") }
+                if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  no orderedArrangements in \(self.BundleID, privacy: .public)") }
                 return nil
             }
         }
@@ -53,19 +56,21 @@ class DockHelper {
     }
     @objc func selectDMI(_ sender: NSMenuItem) {
         let name = sender.tag < 0 ? "<current>" : allArrangements[sender.tag]
-        print("dockMenu custom item called \(sender.title) \(sender.tag) \(name)")
-        if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("item called \(sender.title, privacy: .public) \(sender.tag, privacy: .public) \(name, privacy: .public)") }
+        print("selectDMI called \(sender.title)<\(sender.tag)>\(name)<")
+        if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("DockHelper.selectDMI: name=\(name, privacy: .public)<\(sender.tag, privacy: .public)>\(sender.title, privacy: .public)<") }
         if NSWorkspace.shared.runningApplications.first(where: { app in app.bundleIdentifier == BundleID}) != nil {
             let cmd0 = sender.title.hasPrefix("Memorize") ? "doMemorize" : "doRestore"
             print("send notification \(sender.title) \(sender.tag) ->\(cmd0), obj=\(sender.tag < 0 ? "nil" : name)<-")
-            if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("send notification \(sender.title, privacy: .public) ->\(cmd0, privacy: .public), obj=\(sender.tag < 0 ? "nil" : name, privacy: .public)<-") }
+            if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  sending notification \(sender.title, privacy: .public) ->\(cmd0, privacy: .public), obj=\(sender.tag < 0 ? "nil" : name, privacy: .public)<-") }
             NSWorkspace.shared.notificationCenter.post(name: NSNotification.Name(cmd0), object: sender.tag < 0 ? nil : name)
         } else {
             let cmd0 = "open -b \(BundleID) --args " + (sender.title.hasPrefix("Memorize") ? "--memorize" : "--restore") + (sender.tag < 0 ? "" : (#" ""# + name + #"""#)) + " --quit"
             print("send zsh command \(sender.title) ->\(cmd0)<-")
-            if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("send zsh command ->\(cmd0, privacy: .public)<-") }
+            if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  send zsh command ->\(cmd0, privacy: .public)<-") }
             try? saveShell(cmd0)
         }
+        let cmd0 = "open -b \(BundleID) --args " + (sender.title.hasPrefix("Memorize") ? "--memorize" : "--restore") + (sender.tag < 0 ? "" : (#" ""# + name + #"""#)) + " --quit"
+        if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  would be send zsh command ->\(cmd0, privacy: .public)<-") }
     }
     func saveShell(_ command: String) throws {
         let task = Process()
