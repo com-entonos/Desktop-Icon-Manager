@@ -8,6 +8,11 @@
 
 import Cocoa
 
+extension Notification.Name {
+    static let doRestore = NSNotification.Name("doRestore")
+    static let doMemorize = NSNotification.Name("doMemorize")
+}
+
 class ViewController: NSViewController {
     
     // variables to deal w/ different Arrangements and what the code should do (these are default values which will be overwritten soon)
@@ -59,6 +64,18 @@ class ViewController: NSViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(self.atEnd), name: NSNotification.Name("atEnd"), object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.delayRestore), name: NSWorkspace.screensDidWakeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(self.delayRestore), name: NSApplication.didChangeScreenParametersNotification, object: nil)
+        
+        //deal with notification from docktileplugin or applicationDockTile
+        NSWorkspace.shared.notificationCenter.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
+            if let name = notice.object as? String { self.restore(name) } else { self.do_restore(self.restoreButton)}
+            self.doLog("\(notice.name) \(notice.object as? String != nil ? notice.object as! String : "restoreButton")") })
+        NSWorkspace.shared.notificationCenter.addObserver(forName: .doMemorize, object: nil, queue: .main, using: { notice in
+            if let name = notice.object as? String { self.memorize(name) } else { self.do_memorize(self.memorizeButton)} 
+            self.doLog("\(notice.name) \(notice.object as? String != nil ? notice.object as! String : "memorizeButton" ))") })
+    }
+    func doLog(_ msg: String) {
+        print("> \(msg )")
+        if #available(macOS 11.0, *) { Logger.diag.info("notice->\(msg, privacy: .public)<") }
     }
 
     override func viewDidAppear() {

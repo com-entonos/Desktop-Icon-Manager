@@ -18,11 +18,24 @@
 		2C728A322372238500D65798 /* DIM 4.0.help in Resources */ = {isa = PBXBuildFile; fileRef = 2C728A312372238500D65798 /* DIM 4.0.help */; };
 		2C73DC292788C7C8005F7BFC /* Hider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C73DC282788C7C8005F7BFC /* Hider.swift */; };
 		2C79D9CE21F8EF1400C612B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C79D9CC21F8EF1400C612B4 /* Main.storyboard */; };
+		2C8C83492DD54FA000A57E54 /* DockHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8C83482DD54FA000A57E54 /* DockHelper.swift */; };
 		2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */; };
 		2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7240521FA56CE00788C31 /* ErrorSheet.swift */; };
 		2CEAC24A2A6E055400F93535 /* PlistOptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEAC2492A6E055400F93535 /* PlistOptionSheet.swift */; };
 		2CF787F22AB64ED70053E8A9 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF787F12AB64ED70053E8A9 /* Update.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2CFDCAC32DCFFEFC009ACE63 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2C066B5621F1942700DCF5AD /* DIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,6 +51,7 @@
 		2C728A312372238500D65798 /* DIM 4.0.help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "DIM 4.0.help"; path = "DIM/Resources/DIM 4.0.help"; sourceTree = "<group>"; };
 		2C73DC282788C7C8005F7BFC /* Hider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hider.swift; sourceTree = "<group>"; };
 		2C79D9CD21F8EF1400C612B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		2C8C83482DD54FA000A57E54 /* DockHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockHelper.swift; sourceTree = "<group>"; };
 		2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArrangement.swift; sourceTree = "<group>"; };
 		2CE7240521FA56CE00788C31 /* ErrorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSheet.swift; sourceTree = "<group>"; };
 		2CE7240921FA73B300788C31 /* DIM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIM.entitlements; sourceTree = "<group>"; };
@@ -93,6 +107,7 @@
 				2C066B5D21F1942800DCF5AD /* Assets.xcassets */,
 				2CE7240921FA73B300788C31 /* DIM.entitlements */,
 				2C066B6221F1942800DCF5AD /* Info.plist */,
+				2C8C83482DD54FA000A57E54 /* DockHelper.swift */,
 			);
 			path = DIM;
 			sourceTree = "<group>";
@@ -115,6 +130,7 @@
 				2C066B5221F1942700DCF5AD /* Sources */,
 				2C066B5321F1942700DCF5AD /* Frameworks */,
 				2C066B5421F1942700DCF5AD /* Resources */,
+				2CFDCAC32DCFFEFC009ACE63 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -194,6 +210,7 @@
 				2CEAC24A2A6E055400F93535 /* PlistOptionSheet.swift in Sources */,
 				2C066B6E21F1945800DCF5AD /* DIM.applescript in Sources */,
 				2C73DC292788C7C8005F7BFC /* Hider.swift in Sources */,
+				2C8C83492DD54FA000A57E54 /* DockHelper.swift in Sources */,
 				2C066B5C21F1942700DCF5AD /* ViewController.swift in Sources */,
 				2C066B6C21F1944A00DCF5AD /* DIMBridge.swift in Sources */,
 				2C728A2C2365239500D65798 /* ChangeArrangement.swift in Sources */,
@@ -356,7 +373,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.3.2;
+				MARKETING_VERSION = 4.3.3b;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -384,7 +401,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.3.2;
+				MARKETING_VERSION = 4.3.3b;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
