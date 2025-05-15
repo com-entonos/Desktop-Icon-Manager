@@ -6,7 +6,6 @@
 //  Copyright © 2025 G.J. Parker. All rights reserved.
 //
 
-import Foundation
 import AppKit
 import OSLog
 
@@ -51,7 +50,7 @@ class DockHelper {
             let it = NSMenuItem(title: "Memorize\(index < 0 ? "" : (" " + allArrangements[index]))", action: #selector(selectDMI(_:)), keyEquivalent: "");it.target = self; it.tag = index
             menu.addItem(it)
         }
-        if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("return menu: \(menu.numberOfItems, privacy: .public)") }
+        if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  return menu: \(menu.numberOfItems, privacy: .public)") }
         return menu
     }
     @objc func selectDMI(_ sender: NSMenuItem) {

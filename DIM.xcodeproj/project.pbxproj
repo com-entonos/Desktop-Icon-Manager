@@ -14,6 +14,8 @@
 		2C066B6E21F1945800DCF5AD /* DIM.applescript in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B6D21F1945800DCF5AD /* DIM.applescript */; };
 		2C066B7121F1A67F00DCF5AD /* AppleScriptObjC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C066B7021F1A67F00DCF5AD /* AppleScriptObjC.framework */; };
 		2C066B9621F320F700DCF5AD /* EditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B9521F320F700DCF5AD /* EditSheet.swift */; };
+		2C351E752DD66B4500AFE2CF /* DIMDockTilePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C351E742DD66B4500AFE2CF /* DIMDockTilePlugin.swift */; };
+		2C351E762DD66BA900AFE2CF /* DIMDockTilePlugin.docktileplugin in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2C351E6F2DD66A6800AFE2CF /* DIMDockTilePlugin.docktileplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2C728A2C2365239500D65798 /* ChangeArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C728A2B2365239500D65798 /* ChangeArrangement.swift */; };
 		2C728A322372238500D65798 /* DIM 4.0.help in Resources */ = {isa = PBXBuildFile; fileRef = 2C728A312372238500D65798 /* DIM 4.0.help */; };
 		2C73DC292788C7C8005F7BFC /* Hider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C73DC282788C7C8005F7BFC /* Hider.swift */; };
@@ -32,6 +34,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				2C351E762DD66BA900AFE2CF /* DIMDockTilePlugin.docktileplugin in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -47,6 +50,8 @@
 		2C066B6D21F1945800DCF5AD /* DIM.applescript */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.applescript; path = DIM.applescript; sourceTree = "<group>"; };
 		2C066B7021F1A67F00DCF5AD /* AppleScriptObjC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppleScriptObjC.framework; path = System/Library/Frameworks/AppleScriptObjC.framework; sourceTree = SDKROOT; };
 		2C066B9521F320F700DCF5AD /* EditSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditSheet.swift; sourceTree = "<group>"; };
+		2C351E6F2DD66A6800AFE2CF /* DIMDockTilePlugin.docktileplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DIMDockTilePlugin.docktileplugin; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C351E742DD66B4500AFE2CF /* DIMDockTilePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIMDockTilePlugin.swift; sourceTree = "<group>"; };
 		2C728A2B2365239500D65798 /* ChangeArrangement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeArrangement.swift; sourceTree = "<group>"; };
 		2C728A312372238500D65798 /* DIM 4.0.help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "DIM 4.0.help"; path = "DIM/Resources/DIM 4.0.help"; sourceTree = "<group>"; };
 		2C73DC282788C7C8005F7BFC /* Hider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hider.swift; sourceTree = "<group>"; };
@@ -68,12 +73,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C351E6C2DD66A6800AFE2CF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		2C066B4D21F1942600DCF5AD = {
 			isa = PBXGroup;
 			children = (
+				2C351E732DD66AF300AFE2CF /* DIMDockTilePlugin */,
 				2C066B5821F1942700DCF5AD /* DIM */,
 				2C728A312372238500D65798 /* DIM 4.0.help */,
 				2C066B5721F1942700DCF5AD /* Products */,
@@ -85,6 +98,7 @@
 			isa = PBXGroup;
 			children = (
 				2C066B5621F1942700DCF5AD /* DIM.app */,
+				2C351E6F2DD66A6800AFE2CF /* DIMDockTilePlugin.docktileplugin */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -120,6 +134,14 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2C351E732DD66AF300AFE2CF /* DIMDockTilePlugin */ = {
+			isa = PBXGroup;
+			children = (
+				2C351E742DD66B4500AFE2CF /* DIMDockTilePlugin.swift */,
+			);
+			path = DIMDockTilePlugin;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -140,6 +162,25 @@
 			productName = "DIM 3.0";
 			productReference = 2C066B5621F1942700DCF5AD /* DIM.app */;
 			productType = "com.apple.product-type.application";
+		};
+		2C351E6E2DD66A6800AFE2CF /* DIMDockTilePlugin */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C351E722DD66A6800AFE2CF /* Build configuration list for PBXNativeTarget "DIMDockTilePlugin" */;
+			buildPhases = (
+				2C351E6B2DD66A6800AFE2CF /* Sources */,
+				2C351E6C2DD66A6800AFE2CF /* Frameworks */,
+				2C351E6D2DD66A6800AFE2CF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DIMDockTilePlugin;
+			packageProductDependencies = (
+			);
+			productName = DIMDockTilePlugin;
+			productReference = 2C351E6F2DD66A6800AFE2CF /* DIMDockTilePlugin.docktileplugin */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -167,6 +208,10 @@
 							};
 						};
 					};
+					2C351E6E2DD66A6800AFE2CF = {
+						CreatedOnToolsVersion = 16.3;
+						LastSwiftMigration = 1630;
+					};
 				};
 			};
 			buildConfigurationList = 2C066B5121F1942600DCF5AD /* Build configuration list for PBXProject "DIM" */;
@@ -183,6 +228,7 @@
 			projectRoot = "";
 			targets = (
 				2C066B5521F1942700DCF5AD /* DIM */,
+				2C351E6E2DD66A6800AFE2CF /* DIMDockTilePlugin */,
 			);
 		};
 /* End PBXProject section */
@@ -195,6 +241,13 @@
 				2C728A322372238500D65798 /* DIM 4.0.help in Resources */,
 				2C79D9CE21F8EF1400C612B4 /* Main.storyboard in Resources */,
 				2C066B5E21F1942800DCF5AD /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C351E6D2DD66A6800AFE2CF /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -217,6 +270,14 @@
 				2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */,
 				2C066B5A21F1942700DCF5AD /* AppDelegate.swift in Sources */,
 				2C066B9621F320F700DCF5AD /* EditSheet.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C351E6B2DD66A6800AFE2CF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C351E752DD66B4500AFE2CF /* DIMDockTilePlugin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -373,7 +434,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.3.3b;
+				MARKETING_VERSION = 4.3.3b2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -401,11 +462,70 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.3.3b;
+				MARKETING_VERSION = 4.3.3b2;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		2C351E702DD66A6800AFE2CF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 G.J. Parker. All rights reserved.";
+				INFOPLIST_KEY_NSPrincipalClass = DIMDockTilePlugin;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.parker9.DIMDockTilePlugin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+				WRAPPER_EXTENSION = docktileplugin;
+			};
+			name = Debug;
+		};
+		2C351E712DD66A6800AFE2CF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 G.J. Parker. All rights reserved.";
+				INFOPLIST_KEY_NSPrincipalClass = DIMDockTilePlugin;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.4;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.parker9.DIMDockTilePlugin;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 6.0;
+				WRAPPER_EXTENSION = docktileplugin;
 			};
 			name = Release;
 		};
@@ -426,6 +546,15 @@
 			buildConfigurations = (
 				2C066B6721F1942800DCF5AD /* Debug */,
 				2C066B6821F1942800DCF5AD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C351E722DD66A6800AFE2CF /* Build configuration list for PBXNativeTarget "DIMDockTilePlugin" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C351E702DD66A6800AFE2CF /* Debug */,
+				2C351E712DD66A6800AFE2CF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
