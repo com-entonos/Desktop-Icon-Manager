@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23504" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -175,7 +175,7 @@
                                                             <rect key="frame" x="1" y="1" width="414" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="zdq-IJ-DFh">
+                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="zdq-IJ-DFh">
                                                                     <rect key="frame" x="0.0" y="1" width="414" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="l2i-6O-A6T">
                                                                         <font key="font" metaFont="system"/>
@@ -247,7 +247,7 @@
                                     <action selector="removeButtonPressed:" target="B76-Dz-KLR" id="QSq-6r-T2F"/>
                                 </connections>
                             </button>
-                            <textField hidden="YES" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AJK-FO-hUa">
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AJK-FO-hUa">
                                 <rect key="frame" x="138" y="22" width="152" height="14"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Memorizing Icon Positions..." id="gVk-ZN-tfX">
                                     <font key="font" metaFont="smallSystem"/>
@@ -314,7 +314,7 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="318" height="220"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qFC-yT-7t5">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qFC-yT-7t5">
                                 <rect key="frame" x="25" y="182" width="269" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="265" id="7jx-at-nQg"/>
@@ -326,7 +326,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oH9-YF-nUI">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oH9-YF-nUI">
                                 <rect key="frame" x="23" y="131" width="277" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="273" id="zE9-jX-QIp"/>
@@ -337,7 +337,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vod-Bz-PR7">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Vod-Bz-PR7">
                                 <rect key="frame" x="23" y="113" width="166" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="162" id="RvG-K8-t7q"/>
@@ -348,7 +348,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LAY-w8-6Z5">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LAY-w8-6Z5">
                                 <rect key="frame" x="23" y="77" width="196" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="192" id="9eD-Ty-hpd"/>
@@ -359,7 +359,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2eu-hB-38A">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2eu-hB-38A">
                                 <rect key="frame" x="23" y="59" width="239" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="235" id="D5K-UK-hPR"/>
@@ -380,7 +380,7 @@ Gw
                                     <action selector="quitButton:" target="6zE-aO-Tg4" id="f9T-4P-wVA"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DRM-ko-0Bb">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DRM-ko-0Bb">
                                 <rect key="frame" x="18" y="151" width="44" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="To fix:" id="TrT-SR-bAk">
                                     <font key="font" metaFont="systemBold"/>
@@ -388,7 +388,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vSF-1W-qke">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="vSF-1W-qke">
                                 <rect key="frame" x="23" y="95" width="129" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="125" id="M2E-bv-RG4"/>
@@ -474,7 +474,7 @@ Gw
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="16" id="a6t-hN-Uki"/>
                                 </constraints>
                             </progressIndicator>
-                            <textField hidden="YES" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZTL-f0-jOz">
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZTL-f0-jOz">
                                 <rect key="frame" x="135" y="79" width="171" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="6uR-YM-C5S"/>
@@ -486,7 +486,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h7P-oV-ure">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h7P-oV-ure">
                                 <rect key="frame" x="235" y="46" width="11" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="1rk-fO-ZYM"/>
@@ -497,7 +497,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KLe-R5-x8e">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KLe-R5-x8e">
                                 <rect key="frame" x="235" y="32" width="11" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="2B4-KG-tPU"/>
@@ -508,7 +508,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Or-ax-3hg">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Or-ax-3hg">
                                 <rect key="frame" x="235" y="18" width="11" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="QVP-pB-Zw0"/>
@@ -540,7 +540,7 @@ Gw
                                     <action selector="arrangeButton:" target="XfG-lQ-9wD" id="gtZ-d6-6O8"/>
                                 </connections>
                             </popUpButton>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="K36-TN-t2J">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="K36-TN-t2J">
                                 <rect key="frame" x="4" y="0.0" width="105" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="E6v-cl-NWw"/>
@@ -593,7 +593,7 @@ Gw
                                     <action selector="quitThenCheck:" target="XfG-lQ-9wD" id="Ogg-C6-i3r"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uO3-a2-taD">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uO3-a2-taD">
                                 <rect key="frame" x="434" y="143" width="48" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="Ar8-9y-opD"/>
@@ -619,7 +619,7 @@ Gw
                                     <action selector="donateClicked:" target="XfG-lQ-9wD" id="RVq-kx-sVh"/>
                                 </connections>
                             </button>
-                            <textField hidden="YES" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gU9-tS-bgT">
+                            <textField hidden="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gU9-tS-bgT">
                                 <rect key="frame" x="80" y="67" width="322" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="(Hold ⌘ while starting DIM  to reach this window)" id="vGv-Gd-Dvc">
                                     <font key="font" metaFont="systemBold"/>
@@ -769,7 +769,7 @@ Gw
                                     <action selector="radioButtonSelected:" target="gWv-8h-0zM" id="khh-n9-xWf"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yZQ-HZ-zu2">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yZQ-HZ-zu2">
                                 <rect key="frame" x="30" y="151" width="273" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Choose one option:" id="eWt-GM-kb1">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -851,7 +851,7 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="450" height="121"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RuB-og-bpf">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RuB-og-bpf">
                                 <rect key="frame" x="18" y="85" width="200" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="196" id="wbF-I3-bOR"/>
@@ -862,7 +862,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ngL-PQ-OK2">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ngL-PQ-OK2">
                                 <rect key="frame" x="20" y="55" width="410" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="22" id="9au-6b-lwP"/>
@@ -942,7 +942,7 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="450" height="227"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="53s-Ir-nNi">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="53s-Ir-nNi">
                                 <rect key="frame" x="18" y="191" width="200" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="196" id="YsS-gH-MoR"/>
@@ -953,7 +953,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RtG-gA-tpf">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RtG-gA-tpf">
                                 <rect key="frame" x="18" y="137" width="200" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="196" id="x5f-uz-caU"/>
@@ -1035,7 +1035,7 @@ Gw
                                     <action selector="dismissController:" target="6yp-so-59a" id="L7w-EZ-YVL"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eRS-Ed-yzq">
+                            <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eRS-Ed-yzq">
                                 <rect key="frame" x="20" y="108" width="410" height="21"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="new arrangement" drawsBackground="YES" id="AJC-Ad-ZRB">
                                     <font key="font" metaFont="system"/>
@@ -1091,7 +1091,7 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="318" height="220"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="24M-9O-ZTK">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="24M-9O-ZTK">
                                 <rect key="frame" x="25" y="182" width="269" height="18"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="18" id="gcf-sH-u5I"/>
@@ -1103,7 +1103,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1OX-b8-ecf">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1OX-b8-ecf">
                                 <rect key="frame" x="23" y="131" width="277" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="273" id="KZz-Jo-JJN"/>
@@ -1114,7 +1114,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JYE-WO-s6R">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JYE-WO-s6R">
                                 <rect key="frame" x="23" y="113" width="214" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="162" id="n3z-Ba-FLm"/>
@@ -1125,7 +1125,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Zr-aH-42d">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Zr-aH-42d">
                                 <rect key="frame" x="23" y="77" width="201" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="192" id="ZrF-HG-7sE"/>
@@ -1136,7 +1136,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jkx-eJ-4xZ">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Jkx-eJ-4xZ">
                                 <rect key="frame" x="23" y="59" width="239" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="235" id="mRw-Rg-4ig"/>
@@ -1157,7 +1157,7 @@ Gw
                                     <action selector="quitButton:" target="CS6-np-vhQ" id="lxA-JZ-sZE"/>
                                 </connections>
                             </button>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ez1-kq-hCm">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ez1-kq-hCm">
                                 <rect key="frame" x="18" y="151" width="44" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="To fix:" id="zUW-qy-NuG">
                                     <font key="font" metaFont="systemBold"/>
@@ -1165,7 +1165,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o81-th-Vef">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="o81-th-Vef">
                                 <rect key="frame" x="23" y="95" width="204" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="125" id="LwC-Ru-9yC"/>
@@ -1216,7 +1216,7 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="415" height="128"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tFm-hv-sXF">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tFm-hv-sXF">
                                 <rect key="frame" x="35" y="91" width="346" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="This file does not appear to be a DIM Settings file!" id="Gg0-c1-yhh">
                                     <font key="font" metaFont="systemBold" size="14"/>
@@ -1224,7 +1224,7 @@ Gw
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MuF-EO-2T5">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MuF-EO-2T5">
                                 <rect key="frame" x="63" y="60" width="290" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Import failed. Perhaps try another Settings file?" id="tXa-2I-jQ1">
                                     <font key="font" metaFont="system"/>
@@ -1270,7 +1270,7 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="415" height="128"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jCN-rC-G0E">
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jCN-rC-G0E">
                                 <rect key="frame" x="101" y="91" width="213" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="An update for DIM is available!" id="X08-3r-ne7">
                                     <font key="font" metaFont="systemBold" size="14"/>
@@ -1278,7 +1278,7 @@ DQ
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <textField identifier="infoLabel" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hEa-yn-F3q">
+                            <textField identifier="infoLabel" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hEa-yn-F3q">
                                 <rect key="frame" x="71" y="60" width="274" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="New version is 4, currently running version 4" id="Esy-Jh-qA4">
                                     <font key="font" metaFont="system"/>

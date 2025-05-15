@@ -10,8 +10,6 @@
 	<string>DIM 4.0.help</string>
 	<key>CFBundleHelpBookName</key>
 	<string>com.parker9.DIM-4-0.help</string>
-	<key>CFBundleIconFile</key>
-	<string></string>
 	<key>CFBundleIdentifier</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
