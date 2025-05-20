@@ -8,11 +8,6 @@
 
 import Cocoa
 
-extension Notification.Name {
-    static let doRestore = NSNotification.Name("doRestore")
-    static let doMemorize = NSNotification.Name("doMemorize")
-}
-
 class ViewController: NSViewController {
     
     // variables to deal w/ different Arrangements and what the code should do (these are default values which will be overwritten soon)
@@ -61,17 +56,40 @@ class ViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideSetting = NSEvent.modifierFlags == .command  // check to see if user is holding command key during launch
-        NotificationCenter.default.addObserver(self, selector: #selector(self.atEnd), name: NSNotification.Name("atEnd"), object: nil)
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.delayRestore), name: NSWorkspace.screensDidWakeNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.delayRestore), name: NSApplication.didChangeScreenParametersNotification, object: nil)
+        
+        // quiting: invalidate any timers and should we do a save?
+        //NotificationCenter.default.addObserver(self, selector: #selector(self.atEnd), name: NSNotification.Name("atEnd"), object: nil)
+        NotificationCenter.default.addObserver(forName: NSNotification.Name("atEnd"), object: nil, queue: .main, using: { notice in
+            if self.automaticSave && self.timerSeconds < 0 && !(self.restoreAtStart && self.quitAfterStart) {
+                self.arrangements[self.currentName] = self.refetchSet()  // w/o gui
+                self.savePrefs()
+            }
+            if self.saveTimer != nil { self.saveTimer?.invalidate(); self.saveTimer = nil }    // get rid of any timers
+        })
+        
+        // if screens wake up or change parameters, do a restore.
+        //NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.delayRestore), name: NSWorkspace.screensDidWakeNotification, object: nil)
+        //NotificationCenter.default.addObserver(self, selector: #selector(self.delayRestore), name: NSApplication.didChangeScreenParametersNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.screensDidWakeNotification, object: nil , queue: .main, using: { notice in
+            let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
+            if #available(macOS 11.0, *) { Logger.diag.log("screensDidWakeNotication:\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
+            if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.do_restore(self.restoreButton)})}
+        })
+        NotificationCenter.default.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main, using: { notice in
+                let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
+            if #available(macOS 11.0, *) { Logger.diag.log("didChangeScreenParametersNotification:\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
+                if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.do_restore(self.restoreButton)})}
+        })
         
         //deal with notification from docktileplugin or applicationDockTile
         NSWorkspace.shared.notificationCenter.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
             if let name = notice.object as? String { self.restore(name) } else { self.do_restore(self.restoreButton)}
-            self.doLog("\(notice.name) \(notice.object as? String != nil ? notice.object as! String : "restoreButton")") })
+            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "restoreButton", privacy: .private(mask: .hash))") }
+        })
         NSWorkspace.shared.notificationCenter.addObserver(forName: .doMemorize, object: nil, queue: .main, using: { notice in
-            if let name = notice.object as? String { self.memorize(name) } else { self.do_memorize(self.memorizeButton)} 
-            self.doLog("\(notice.name) \(notice.object as? String != nil ? notice.object as! String : "memorizeButton" ))") })
+            if let name = notice.object as? String { self.memorize(name) } else { self.do_memorize(self.memorizeButton)}
+            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "memorizeButton", privacy: .private(mask: .hash))") }
+        })
     }
     func doLog(_ msg: String) {
         print("> \(msg )")
@@ -96,6 +114,8 @@ class ViewController: NSViewController {
                         self.start = false
                         self.updateUI()
                         if !self.noCommandLineArgs(CommandLine.arguments) { self.doCommandLineArgs(CommandLine.arguments) }
+                        //if #available(macOS 11.0, *) { Logger(subsystem: "DIMDTP", category: "info").log("ViewController.viewDidAppear") }
+                        //DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true)
                     }
                 }
             }
@@ -108,18 +128,6 @@ class ViewController: NSViewController {
         memorizeButton.title = optionHeld ? "include any Missing Icons" : "Memorize Icon Positions"
     }
     
-    @objc func delayRestore() {
-        let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
-        //if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.restore(self.currentName)}) } //; print("wake \(waitRestore)")})}
-        if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.do_restore(self.restoreButton)})} //; print("wake \(waitRestore)")})}
-    }
-    @objc func atEnd() { // called just before quit
-        if automaticSave && timerSeconds < 0 && !(restoreAtStart && quitAfterStart) {
-            arrangements[currentName] = refetchSet()  // w/o gui
-            savePrefs()
-        }
-        if saveTimer != nil { saveTimer?.invalidate(); saveTimer = nil }    // get rid of any timers
-    }
     @objc func terminate() {
         quitCount -= 1
         if NSEvent.modifierFlags == .command {
@@ -497,7 +505,7 @@ class ViewController: NSViewController {
     @IBAction func arrangeButton(_ sender: NSPopUpButton) {
         quitTimer?.invalidate()
         if let name = sender.selectedItem?.title {
-            if name != currentName {
+            if name != currentName && arrangements[name] != nil {
                 _arrangeButton(name)
                 refreshTimer() // refresh timer if it exists
             }
