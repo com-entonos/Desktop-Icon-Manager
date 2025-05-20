@@ -52,45 +52,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // do applicationDockMenu?
     let dockHelper = DockHelper()
     func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
-        if #available(macOS 11.0, *) { Logger(subsystem: "DIMDTP", category: "info").log("in applicationDockMenu") }
+        //if #available(macOS 11.0, *) { Logger(subsystem: "DIMDTP", category: "info").log("applicationDockMenu called, return dockHelper.setMenu()") }
         return dockHelper.setMenu()
     }
-/*
-    
-    let BundleID = Bundle.main.bundleIdentifier ?? "com.parker9.DIM-4"
-    var allArrangements = [String]()
-    
-    func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
-        allArrangements.removeAll()
-        if #available(macOS 11.0, *) { Logger.diag.info("applicationDockMenu called \(self.BundleID, privacy: .public)") }
-        print("applicationDockMenu called \(BundleID)")
-        CFPreferencesAppSynchronize(BundleID as CFString)
-        if let arrangements = CFPreferencesCopyAppValue("orderedArrangements" as CFString, BundleID as CFString) as? [String] {
-            if #available(macOS 11.0, *) { Logger.diag.info("applicationDockMenu created menu: \(arrangements.count, privacy: .public) \(arrangements, privacy: .public)") }
-            print("applicationDockMenu created menu: \(arrangements.count) \(arrangements)")
-            allArrangements = arrangements
-            
-            let menu = NSMenu()
-            for index in -1..<(arrangements.count > 1 ? arrangements.count : 0) {
-                let it = NSMenuItem(title: "Restore\(index < 0 ? "" : (" " + arrangements[index]))", action: #selector(selectDMI(_:)), keyEquivalent: ""); it.target = self; it.tag = index; menu.addItem(it)
-            }
-            menu.addItem(NSMenuItem.separator())
-            for index in -1..<(arrangements.count > 1 ? arrangements.count : 0) {
-                let it = NSMenuItem(title: "Memorize\(index < 0 ? "" : (" " + arrangements[index]))", action: #selector(selectDMI(_:)), keyEquivalent: ""); it.target = self; it.tag = index; menu.addItem(it)
-            }
-            return menu
-        }
-        return nil
-    }
-    @objc func selectDMI(_ sender: NSMenuItem) { // send notification to do the corresponding menu item selected
-        let name = sender.tag < 0 ? "<current>" : allArrangements[sender.tag]
-        print("applicationDockMenu custom item called, send notification \(sender.title) \(sender.tag) ->\(sender.title.hasPrefix("Memorize") ? ".doMemorize" : ".doRestore") \(sender.tag < 0 ? "" : name)<-")
-        if #available(macOS 11.0, *) { Logger.diag.info("applicationDockMenu custom item called, send notifiction \(sender.title, privacy: .public) \(sender.tag, privacy: .public) ->\(sender.title.hasPrefix("Memorize") ? ".doMemorize" : ".doRestore", privacy: .public), obj=\(sender.tag < 0 ? "" : name, privacy: .public)<-") }
-        NSWorkspace.shared.notificationCenter.post(name: sender.title.hasPrefix("Memorize") ? .doMemorize : .doRestore, object: sender.tag < 0 ? nil : name)
-        
-        let cmd0 = "open -b \(BundleID) --args " + (sender.title.hasPrefix("Memorize") ? "--memorize" : "--restore") + (sender.tag < 0 ? "" : (#" ""# + name + #"""#)) + " --quit"
-        if #available(macOS 11.0, *) { Logger.diag.info("would be zsh: ->\(cmd0, privacy: .public)<-")}
-    }
-*/
 }
-
