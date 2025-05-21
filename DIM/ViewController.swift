@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import OSLog
 
 class ViewController: NSViewController {
     
@@ -84,12 +85,10 @@ class ViewController: NSViewController {
         //deal with notification from docktileplugin or applicationDockTile
         NSWorkspace.shared.notificationCenter.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
             if let name = notice.object as? String { self.restore(name) } else { self.do_restore(self.restoreButton)}
-            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "restoreButton", privacy: .private(mask: .hash))") }
-        })
+            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "restoreButton", privacy: .private(mask: .hash))") } })
         NSWorkspace.shared.notificationCenter.addObserver(forName: .doMemorize, object: nil, queue: .main, using: { notice in
-            if let name = notice.object as? String { self.memorize(name) } else { self.do_memorize(self.memorizeButton)}
-            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "memorizeButton", privacy: .private(mask: .hash))") }
-        })
+            if let name = notice.object as? String { self.memorize(name, addTo: self.optionHeld) } else { self.do_memorize(self.memorizeButton)}
+            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "memorizeButton", privacy: .private(mask: .hash))") } })
     }
     func doLog(_ msg: String) {
         print("> \(msg )")
@@ -114,8 +113,8 @@ class ViewController: NSViewController {
                         self.start = false
                         self.updateUI()
                         if !self.noCommandLineArgs(CommandLine.arguments) { self.doCommandLineArgs(CommandLine.arguments) }
-                        //if #available(macOS 11.0, *) { Logger(subsystem: "DIMDTP", category: "info").log("ViewController.viewDidAppear") }
-                        //DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true)
+                        if #available(macOS 11.0, *) { Logger.diag.log("ViewController DistributedNotice .newArrangement posted") }
+                        DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true)
                     }
                 }
             }
@@ -444,7 +443,7 @@ class ViewController: NSViewController {
         defaults.set(currentName, forKey: "currentName")
         defaults.set(restoreAtStart, forKey: "restoreAtStart")
         defaults.set(quitAfterStart, forKey: "quitAfterStart")
-        defaults.set(orderedArrangements, forKey: "orderedArrangements")
+        defaults.set(orderedArrangements, forKey: "orderedArrangements"); DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true); if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs DistributedNotice .newArrangement posted") }
         defaults.set(arrangements, forKey: "arrangements")
         defaults.set(automaticSave, forKey: "automaticSave")
         defaults.set(timerSeconds, forKey: "timerSeconds")
@@ -868,15 +867,4 @@ class ViewController: NSViewController {
             return baseArrangement  // some problem, just return base (i.e. no merge)
         }
     }
-}
-
-import OSLog // let's do some logging
-@available(macOS 11.0, *)
-extension Logger {
-    /// Using your bundle identifier is a great way to ensure a unique identifier.
-    private static var subsystem = Bundle.main.bundleIdentifier!
-
-    /// All logs related to tracking and analytics.
-    static let diag = Logger(subsystem: subsystem, category: "info")
-    static let err = Logger(subsystem: subsystem, category: "error")
 }
