@@ -113,8 +113,8 @@ class ViewController: NSViewController {
                         self.start = false
                         self.updateUI()
                         if !self.noCommandLineArgs(CommandLine.arguments) { self.doCommandLineArgs(CommandLine.arguments) }
-                        if #available(macOS 11.0, *) { Logger.diag.log("ViewController DistributedNotice .newArrangement posted") }
-                        DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true)
+                        //if #available(macOS 11.0, *) { Logger.diag.log("ViewController DistributedNotice .newArrangement posted") }
+                        //DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true)
                     }
                 }
             }
@@ -443,7 +443,7 @@ class ViewController: NSViewController {
         defaults.set(currentName, forKey: "currentName")
         defaults.set(restoreAtStart, forKey: "restoreAtStart")
         defaults.set(quitAfterStart, forKey: "quitAfterStart")
-        defaults.set(orderedArrangements, forKey: "orderedArrangements"); DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true); if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs DistributedNotice .newArrangement posted") }
+        defaults.set(orderedArrangements, forKey: "orderedArrangements")//; DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true); if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs DistributedNotice .newArrangement posted") }
         defaults.set(arrangements, forKey: "arrangements")
         defaults.set(automaticSave, forKey: "automaticSave")
         defaults.set(timerSeconds, forKey: "timerSeconds")
