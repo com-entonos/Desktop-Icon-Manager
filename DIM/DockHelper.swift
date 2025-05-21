@@ -13,6 +13,16 @@ import OSLog
 extension Notification.Name {
     static let doRestore = Notification.Name("doRestore")
     static let doMemorize = Notification.Name("doMemorize")
+    static let newArrangement = Notification.Name("newArrangement")
+}
+@available(macOS 11.0, *)
+extension Logger {
+    /// Using your bundle identifier is a great way to ensure a unique identifier.
+    private static var subsystem = Bundle.main.bundleIdentifier!
+
+    /// All logs related to tracking and analytics.
+    static let diag = Logger(subsystem: subsystem, category: "info")
+    static let err = Logger(subsystem: subsystem, category: "error")
 }
 
 class DockHelper {
@@ -39,7 +49,7 @@ class DockHelper {
     func setMenu(_ arrangements : [String]? = nil) -> NSMenu? {
         //if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("DockHelper.setMenu: isMain? \(self.isMain, privacy: .public), bundlID=\(self.BundleID, privacy: .public)< this bundleID=\(Bundle(for: DockHelper.self).bundleIdentifier ?? "nothing", privacy: .public)< ") }
         allArrangements.removeAll()
-        if arrangements != nil { allArrangements = arrangements! } else {
+        if arrangements != nil && !(arrangements?.isEmpty ?? true) { allArrangements = arrangements! } else {
             CFPreferencesAppSynchronize(BundleID as CFString)
             
             //if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  'orderedArrangements' exist?\(UserDefaults.standard.array(forKey: "orderedArrangements") != nil ,privacy: .public) [String]? \(UserDefaults.standard.array(forKey: "orderedArrangements") as? [String] ?? [" "],privacy: .public) Bunldle.main.ID=\(Bundle.main.bundleIdentifier ?? "nothing", privacy: .public)<") }
