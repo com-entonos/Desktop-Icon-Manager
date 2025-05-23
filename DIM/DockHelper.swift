@@ -13,6 +13,7 @@ import OSLog
 extension Notification.Name {
     static let doRestore = Notification.Name("doRestore")
     static let doMemorize = Notification.Name("doMemorize")
+    static let doAdd = Notification.Name("doAdd")
     static let newArrangement = Notification.Name("newArrangement")
 }
 @available(macOS 11.0, *)
@@ -28,6 +29,10 @@ extension Logger {
 class DockHelper {
     let BundleID = "com.parker9.DIM-4"
     var allArrangements = [String]()
+    var nameList : [String]? = nil
+    
+    var menu : NSMenu?
+    var optionHeld = false
     
   //  var isMain = false
   //  let subsystem = "DIMDTP" //"com.parker9.DIMDockTilePlugin" //"DIMDockTilePlugin.docktileplugin"
@@ -41,52 +46,70 @@ class DockHelper {
         isMain = (BundleID == Bundle(for: DockHelper.self).bundleIdentifier ?? bundle)
         if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("DockHelper.init: isMain? \(self.isMain, privacy: .public) >bundleID=\(self.BundleID, privacy: .public)< this bundleID=\(Bundle(for: DockHelper.self).bundleIdentifier ?? "nothing", privacy: .public)<") }
     } */
+    init() {
+        NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { self.myFlagsChanged(with: $0); return $0}
+
+        NotificationCenter.default.addObserver(forName: .newArrangement, object: nil, queue: .main, using: { notice in
+            self.nameList = notice.object as? [String] ?? nil
+            if #available(macOS 11.0, *) { Logger.diag.log("notice recieved: \(notice.name.rawValue, privacy: .public) nameList=\(self.nameList ?? [], privacy: .private(mask: .hash))<>\(notice.object as? [String] ?? [""], privacy: .public)<") }
+        })
+    }
     
     func setDockTile(_ dockTile: NSDockTile?) {
         //if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("DockHelper.setDockTile: bundleID=\(self.BundleID, privacy: .public)< this bundleID=\(Bundle(for: DockHelper.self).bundleIdentifier ?? "nothing", privacy: .public)<- \(dockTile == nil ? "no dockTile":dockTile!.className, privacy: .public)< isMain? \(self.isMain, privacy: .public)") }
     }
     
-    func setMenu(_ arrangements : [String]? = nil) -> NSMenu? {
+    
+    func dockMenu() -> NSMenu? {
+    //func dockMenu(_ arrangements : [String]? = nil) -> NSMenu? {
         //if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("DockHelper.setMenu: isMain? \(self.isMain, privacy: .public), bundlID=\(self.BundleID, privacy: .public)< this bundleID=\(Bundle(for: DockHelper.self).bundleIdentifier ?? "nothing", privacy: .public)< ") }
         allArrangements.removeAll()
-        if arrangements != nil && !(arrangements?.isEmpty ?? true) { allArrangements = arrangements! } else {
-            CFPreferencesAppSynchronize(BundleID as CFString)
-            
-            //if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  'orderedArrangements' exist?\(UserDefaults.standard.array(forKey: "orderedArrangements") != nil ,privacy: .public) [String]? \(UserDefaults.standard.array(forKey: "orderedArrangements") as? [String] ?? [" "],privacy: .public) Bunldle.main.ID=\(Bundle.main.bundleIdentifier ?? "nothing", privacy: .public)<") }
-            //if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  suiteName exist? \(UserDefaults(suiteName: self.BundleID)?.array(forKey: "orderedArrangements") != nil,privacy: .public)<=\(UserDefaults(suiteName: self.BundleID)?.array(forKey: "orderedArrangements") as? [String] != nil, privacy: .public)<>\(self.BundleID, privacy: .public)<") }
-            //if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  CFPreferencesCopyAppValue exist? \(CFPreferencesCopyAppValue("orderedArrangements" as CFString, self.BundleID as CFString) != nil,privacy: .public) [String]? \(CFPreferencesCopyAppValue("orderedArrangements" as CFString, self.BundleID as CFString) as? [String] ?? [" "], privacy: .public)<>\(self.BundleID, privacy: .public)<") }
-            //let aa = CFPreferencesCopyAppValue("orderedArrangements" as CFString, BundleID as CFString) as Any?
-            //if #available(macOS 11.0, *) { Logger(subsystem: subsystem, category: "info").log("  casting Any? \(aa != nil,privacy: .public) aa as [String]=\(aa as? [String] ?? ["nil"], privacy: .public)<>\(self.BundleID, privacy: .public)<") }
-            
-            if let a = UserDefaults.standard.array(forKey: "orderedArrangements") as? [String] {
-                allArrangements = a
-                if #available(macOS 11.0, *) { Logger.diag.log("  from UserDefaults: \(self.allArrangements.count,privacy: .public) orderedArrangements=\(self.allArrangements, privacy: .private(mask: .hash))<>\(self.BundleID, privacy: .public)<") }
-            } else if let a = CFPreferencesCopyAppValue("orderedArrangements" as CFString, BundleID as CFString) as? [String] {
-                    allArrangements = a
-                if #available(macOS 11.0, *) { Logger.diag.log("  from CFPrefs: \(self.allArrangements.count,privacy: .public) orderedArrangements=\(self.allArrangements, privacy: .private(mask: .hash))<>\(self.BundleID, privacy: .public)<") }
-            } else {
-                if #available(macOS 11.0, *) { Logger.diag.log("  no orderedArrangements in \(self.BundleID, privacy: .public)") }
-                //allArrangements = ["Default", "Default 1"]
-                allArrangements = ["must be one"]
-                //return nil
-            }
+            //CFPreferencesAppSynchronize(BundleID as CFString)
+        if let a = nameList {
+            allArrangements = a
+            if #available(macOS 11.0, *) { Logger.diag.log("  from nameList: \(self.allArrangements.count,privacy: .public) nameList=\(self.allArrangements, privacy: .private(mask: .hash))<>\(self.BundleID, privacy: .public)<") }
+        } else if let a = UserDefaults.standard.array(forKey: "orderedArrangements") as? [String] {
+            allArrangements = a
+            if #available(macOS 11.0, *) { Logger.diag.log("  from UserDefaults: \(self.allArrangements.count,privacy: .public) allArrangements=\(self.allArrangements, privacy: .private(mask: .hash))<>\(self.BundleID, privacy: .public)<") }
+        } else if let a = CFPreferencesCopyAppValue("orderedArrangements" as CFString, BundleID as CFString) as? [String] {
+            allArrangements = a
+            if #available(macOS 11.0, *) { Logger.diag.log("  from CFPrefs: \(self.allArrangements.count,privacy: .public) allArrangements=\(self.allArrangements, privacy: .private(mask: .hash))<>\(self.BundleID, privacy: .public)<") }
+        } else {
+            if #available(macOS 11.0, *) { Logger.diag.log("  no orderedArrangements in \(self.BundleID, privacy: .public)") }
+            //allArrangements = ["Default", "Default 1"]
+            allArrangements = ["must be one"]
+            //return nil
         }
         
-        let menu = NSMenu()
+        
+        
+        menu?.removeAllItems()
+        menu = NSMenu()
         for index in -1..<(allArrangements.count > 1 ? allArrangements.count : 0) {
             let it = NSMenuItem(title: "Restore\(index < 0 ? "" : (" " + allArrangements[index]))", action: #selector(self.selectDMI(_:)), keyEquivalent: ""); it.target = self; it.tag = index
-            menu.addItem(it)
+            menu?.addItem(it)
         }
-        menu.addItem(NSMenuItem.separator())
+        menu?.addItem(NSMenuItem.separator())
         for index in -1..<(allArrangements.count > 1 ? allArrangements.count : 0) {
-            let it = NSMenuItem(title: "Memorize\(index < 0 ? "" : (" " + allArrangements[index]))", action: #selector(self.selectDMI(_:)), keyEquivalent: "");it.target = self; it.tag = index
-            menu.addItem(it)
+            let it = NSMenuItem(title: (!optionHeld ? "Update" : "Memorize") + "\(index < 0 ? "" : (" " + allArrangements[index]))", action: #selector(self.selectDMI(_:)), keyEquivalent: "");it.target = self; it.tag = index
+            menu?.addItem(it)
         }
         return menu
     }
     @objc func selectDMI(_ sender: NSMenuItem) {
         let name = sender.tag < 0 ? "<current>" : allArrangements[sender.tag]
-        if #available(macOS 11.0, *) { Logger.diag.log("DockHelper.selectDMI sending notice: \(sender.tag, privacy: .public) \(sender.title.hasPrefix("Memorize") ? ".doMemorize" : ".doRestore", privacy: .public) name=\(name, privacy: .private(mask: .hash))< <") }
-        NSWorkspace.shared.notificationCenter.post(name: sender.title.hasPrefix("Memorize") ? .doMemorize : .doRestore , object: sender.tag < 0 ? nil : name)
+        if #available(macOS 11.0, *) { Logger.diag.log("DockHelper.selectDMI sending notice: \(sender.tag, privacy: .public) \(sender.title.hasPrefix("Memorize") ? ".doMemorize" : (sender.title.hasPrefix("Update") ? ".doAdd" : ".doRestore"), privacy: .public) name=\(name, privacy: .private(mask: .hash))< <") }
+        //NSWorkspace.shared.notificationCenter.post(name: sender.title.hasPrefix("Memorize") ? .doMemorize : (sender.title.hasPrefix("Update") ? .doAdd : .doRestore) , object: sender.tag < 0 ? nil : name)
+        NotificationCenter.default.post(name: sender.title.hasPrefix("Memorize") ? .doMemorize : (sender.title.hasPrefix("Update") ? .doAdd : .doRestore), object: sender.tag < 0 ? nil : name)
     }
+    
+    func myFlagsChanged(with event: NSEvent) {
+        optionHeld = event.modifierFlags.contains(.option)
+        if #available(macOS 11.0, *) { Logger.diag.log("DockHelper.myFlagsChanged optionHeld=\(self.optionHeld, privacy: .public) menu.count=\(self.menu?.items.count ?? -1, privacy: .public)")}
+        /*if menu != nil {
+            for index in -1..<(allArrangements.count > 1 ? allArrangements.count : 0) {
+                menu?.item(at: allArrangements.count + 3 + index)?.title = (optionHeld ? "Update": "Memorize") + "\(index < 0 ? "" : (" " + allArrangements[index]))"
+            }
+        }*/
+    }/**/
 }
