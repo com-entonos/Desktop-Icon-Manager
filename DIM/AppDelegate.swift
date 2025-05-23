@@ -49,10 +49,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         NSApplication.shared.terminate(self)
     }
     
-    // do applicationDockMenu?
+    /*  do applicationDockMenu? */
     let dockHelper = DockHelper()
     func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
         //if #available(macOS 11.0, *) { Logger(subsystem: "DIMDTP", category: "info").log("applicationDockMenu called, return dockHelper.setMenu()") }
-        return dockHelper.setMenu()
-    }
+        return dockHelper.dockMenu()
+    }/**/
 }

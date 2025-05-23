@@ -82,17 +82,25 @@ class ViewController: NSViewController {
                 if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.do_restore(self.restoreButton)})}
         })
         
-        //deal with notification from docktileplugin or applicationDockTile
+        /* deal with notification from docktileplugin or applicationDockTile
         NSWorkspace.shared.notificationCenter.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
             if let name = notice.object as? String { self.restore(name) } else { self.do_restore(self.restoreButton)}
             if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "restoreButton", privacy: .private(mask: .hash))") } })
         NSWorkspace.shared.notificationCenter.addObserver(forName: .doMemorize, object: nil, queue: .main, using: { notice in
-            if let name = notice.object as? String { self.memorize(name, addTo: self.optionHeld) } else { self.do_memorize(self.memorizeButton)}
+            if let name = notice.object as? String { self.memorize(name) } else { self.do_memorize(self.memorizeButton)}
             if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "memorizeButton", privacy: .private(mask: .hash))") } })
-    }
-    func doLog(_ msg: String) {
-        print("> \(msg )")
-        if #available(macOS 11.0, *) { Logger.diag.info("notice->\(msg, privacy: .public)<") }
+        NSWorkspace.shared.notificationCenter.addObserver(forName: .doAdd, object: nil, queue: .main, using: { notice in
+            self.memorize(notice.object as? String ?? self.currentName, addTo: true)
+            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? self.currentName, privacy: .private(mask: .hash))") } }) */
+        NotificationCenter.default.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
+            if let name = notice.object as? String { self.restore(name) } else { self.do_restore(self.restoreButton)}
+            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "restoreButton", privacy: .private(mask: .hash))") } })
+        NotificationCenter.default.addObserver(forName: .doMemorize, object: nil, queue: .main, using: { notice in
+            if let name = notice.object as? String { self.memorize(name) } else { self.do_memorize(self.memorizeButton)}
+            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "memorizeButton", privacy: .private(mask: .hash))") } })
+        NotificationCenter.default.addObserver(forName: .doAdd, object: nil, queue: .main, using: { notice in
+            self.memorize(notice.object as? String ?? self.currentName, addTo: true)
+            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? self.currentName, privacy: .private(mask: .hash))") } })
     }
 
     override func viewDidAppear() {
@@ -115,6 +123,7 @@ class ViewController: NSViewController {
                         if !self.noCommandLineArgs(CommandLine.arguments) { self.doCommandLineArgs(CommandLine.arguments) }
                         //if #available(macOS 11.0, *) { Logger.diag.log("ViewController DistributedNotice .newArrangement posted") }
                         //DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true)
+                        NotificationCenter.default.post(name: .newArrangement, object: self.orderedArrangements); if #available(macOS 11.0, *) { Logger.diag.log("viewDidAppear post NotificationCenter .newArrangement >\(self.orderedArrangements,privacy: .private(mask: .hash))<") }
                     }
                 }
             }
@@ -364,7 +373,7 @@ class ViewController: NSViewController {
             }
         } else {   // first run or no user data or fatal problem reading user data
             restoreAtStart = false  // these are the defaults
-            quitAfterStart = false  // let's force user to select this, perhaps it will reduce confusion
+            quitAfterStart = true  // let's force user to select this, perhaps it will reduce confusion
             automaticSave = false
             currentName = "Default"
             timerSeconds = -1
@@ -444,6 +453,7 @@ class ViewController: NSViewController {
         defaults.set(restoreAtStart, forKey: "restoreAtStart")
         defaults.set(quitAfterStart, forKey: "quitAfterStart")
         defaults.set(orderedArrangements, forKey: "orderedArrangements")//; DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true); if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs DistributedNotice .newArrangement posted") }
+        NotificationCenter.default.post(name: .newArrangement, object: orderedArrangements); if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs post NotificationCenter .newArrangement >\(self.orderedArrangements,privacy: .private(mask: .hash))<") }
         defaults.set(arrangements, forKey: "arrangements")
         defaults.set(automaticSave, forKey: "automaticSave")
         defaults.set(timerSeconds, forKey: "timerSeconds")
