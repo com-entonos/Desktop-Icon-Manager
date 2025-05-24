@@ -80,6 +80,6 @@ class DockHelper {
     
     func myFlagsChanged(with event: NSEvent) {
         optionHeld = event.modifierFlags.contains(.option)
-        if #available(macOS 11.0, *) { Logger.diag.log("DockHelper.myFlagsChanged optionHeld=\(self.optionHeld, privacy: .public)")}
+        //if #available(macOS 11.0, *) { Logger.diag.log("DockHelper.myFlagsChanged optionHeld=\(self.optionHeld, privacy: .public)")}
     }
 }
