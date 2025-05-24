@@ -59,7 +59,6 @@ class ViewController: NSViewController {
         overrideSetting = NSEvent.modifierFlags == .command  // check to see if user is holding command key during launch
         
         // quiting: invalidate any timers and should we do a save?
-        //NotificationCenter.default.addObserver(self, selector: #selector(self.atEnd), name: NSNotification.Name("atEnd"), object: nil)
         NotificationCenter.default.addObserver(forName: NSNotification.Name("atEnd"), object: nil, queue: .main, using: { notice in
             if self.automaticSave && self.timerSeconds < 0 && !(self.restoreAtStart && self.quitAfterStart) {
                 self.arrangements[self.currentName] = self.refetchSet()  // w/o gui
@@ -69,8 +68,6 @@ class ViewController: NSViewController {
         })
         
         // if screens wake up or change parameters, do a restore.
-        //NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.delayRestore), name: NSWorkspace.screensDidWakeNotification, object: nil)
-        //NotificationCenter.default.addObserver(self, selector: #selector(self.delayRestore), name: NSApplication.didChangeScreenParametersNotification, object: nil)
         NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.screensDidWakeNotification, object: nil , queue: .main, using: { notice in
             let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
             if #available(macOS 11.0, *) { Logger.diag.log("screensDidWakeNotication:\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
@@ -82,16 +79,7 @@ class ViewController: NSViewController {
                 if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.do_restore(self.restoreButton)})}
         })
         
-        /* deal with notification from docktileplugin or applicationDockTile
-        NSWorkspace.shared.notificationCenter.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
-            if let name = notice.object as? String { self.restore(name) } else { self.do_restore(self.restoreButton)}
-            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "restoreButton", privacy: .private(mask: .hash))") } })
-        NSWorkspace.shared.notificationCenter.addObserver(forName: .doMemorize, object: nil, queue: .main, using: { notice in
-            if let name = notice.object as? String { self.memorize(name) } else { self.do_memorize(self.memorizeButton)}
-            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "memorizeButton", privacy: .private(mask: .hash))") } })
-        NSWorkspace.shared.notificationCenter.addObserver(forName: .doAdd, object: nil, queue: .main, using: { notice in
-            self.memorize(notice.object as? String ?? self.currentName, addTo: true)
-            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? self.currentName, privacy: .private(mask: .hash))") } }) */
+        /* deal with notification from Dock menu items... */
         NotificationCenter.default.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
             if let name = notice.object as? String { self.restore(name) } else { self.do_restore(self.restoreButton)}
             if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "restoreButton", privacy: .private(mask: .hash))") } })
@@ -121,8 +109,7 @@ class ViewController: NSViewController {
                         self.start = false
                         self.updateUI()
                         if !self.noCommandLineArgs(CommandLine.arguments) { self.doCommandLineArgs(CommandLine.arguments) }
-                        //if #available(macOS 11.0, *) { Logger.diag.log("ViewController DistributedNotice .newArrangement posted") }
-                        //DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true)
+                        //DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true); if #available(macOS 11.0, *) { Logger.diag.log("ViewController DistributedNotice .newArrangement posted") }
                         NotificationCenter.default.post(name: .newArrangement, object: self.orderedArrangements); if #available(macOS 11.0, *) { Logger.diag.log("viewDidAppear post NotificationCenter .newArrangement >\(self.orderedArrangements,privacy: .private(mask: .hash))<") }
                     }
                 }
@@ -452,11 +439,12 @@ class ViewController: NSViewController {
         defaults.set(currentName, forKey: "currentName")
         defaults.set(restoreAtStart, forKey: "restoreAtStart")
         defaults.set(quitAfterStart, forKey: "quitAfterStart")
-        defaults.set(orderedArrangements, forKey: "orderedArrangements")//; DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true); if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs DistributedNotice .newArrangement posted") }
-        NotificationCenter.default.post(name: .newArrangement, object: orderedArrangements); if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs post NotificationCenter .newArrangement >\(self.orderedArrangements,privacy: .private(mask: .hash))<") }
+        defaults.set(orderedArrangements, forKey: "orderedArrangements")
         defaults.set(arrangements, forKey: "arrangements")
         defaults.set(automaticSave, forKey: "automaticSave")
         defaults.set(timerSeconds, forKey: "timerSeconds")
+     // DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true); if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs DistributedNotice .newArrangement posted") }
+        NotificationCenter.default.post(name: .newArrangement, object: orderedArrangements); if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs post NotificationCenter .newArrangement >\(self.orderedArrangements,privacy: .private(mask: .hash))<") }
     }
     
     // construct the Arrangement popdown menu
