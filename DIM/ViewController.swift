@@ -67,17 +67,9 @@ class ViewController: NSViewController {
             if self.saveTimer != nil { self.saveTimer?.invalidate(); self.saveTimer = nil }    // get rid of any timers
         })
         
-        // if screens wake up or change parameters, do a restore.
-        NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.screensDidWakeNotification, object: nil , queue: .main, using: { notice in
-            let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
-            if #available(macOS 11.0, *) { Logger.diag.log("screensDidWakeNotication:\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
-            if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.do_restore(self.restoreButton)})}
-        })
-        NotificationCenter.default.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main, using: { notice in
-                let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
-            if #available(macOS 11.0, *) { Logger.diag.log("didChangeScreenParametersNotification:\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
-                if (waitRestore > 0.0) {Timer.scheduledTimer(withTimeInterval: waitRestore, repeats: false, block: { _ in self.do_restore(self.restoreButton)})}
-        })
+        /* if screens wake up or change parameters, do a restore.  */
+        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(doWaitRestore(_:)), name: NSWorkspace.screensDidWakeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(doWaitRestore(_:)), name: NSApplication.didChangeScreenParametersNotification, object: nil)
         
         /* deal with notification from Dock menu items... */
         NotificationCenter.default.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
@@ -89,6 +81,11 @@ class ViewController: NSViewController {
         NotificationCenter.default.addObserver(forName: .doAdd, object: nil, queue: .main, using: { notice in
             self.memorize(notice.object as? String ?? self.currentName, addTo: true)
             if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? self.currentName, privacy: .private(mask: .hash))") } })
+    }
+    @objc func doWaitRestore(_ notice : Notification) {
+        let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
+        if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
+        Timer.scheduledTimer(withTimeInterval: max(0.01, waitRestore), repeats: false, block: { _ in self.do_restore(self.restoreButton)})
     }
 
     override func viewDidAppear() {
@@ -119,8 +116,9 @@ class ViewController: NSViewController {
     
     func myFlagsChanged(with event: NSEvent) {
         //super.flagsChanged(with: event)
-        optionHeld = event.modifierFlags.contains(.option)
-        memorizeButton.title = optionHeld ? "include any Missing Icons" : "Memorize Icon Positions"
+        optionHeld = !event.modifierFlags.contains(.option)
+        memorizeButton.title = optionHeld ? "Memorize Icon Positions" : "Purge Icon Positions"
+        //if #available(macOS 11.0, *) { Logger.diag.log("ViewController.myFlagsChanged optionHeld=\(self.optionHeld, privacy: .public)")}
     }
     
     @objc func terminate() {
@@ -133,12 +131,6 @@ class ViewController: NSViewController {
         } else {
             quitTimer?.invalidate()
             NSApp.terminate(self)
-        }
-    }
-    @objc func atTimer() { // called if we're doing automatic saves
-        if saveTimer != nil {   // make sure we are called from a timer
-            arrangements[currentName] = refetchSet() // w/o gui
-            savePrefs()
         }
     }
      
@@ -166,7 +158,8 @@ class ViewController: NSViewController {
     
     // memorize an arrangement given by name
     func memorize(_ name: String, addTo: Bool = false) {
-        updateUI(addTo ? "Adding New Icon Positions..." : "Memorizing Icon Positions...")
+        //if #available(macOS 11.0, *) { Logger.diag.log("memorize, addTo? \(addTo, privacy: .public) name:\(name, privacy: .private(mask: .hash))<") }
+        updateUI(addTo ? "Memorizing Icon Positions..." : "Purging Icon Positions...")
         DispatchQueue.global(qos: .utility).async { [unowned self] in  // apparently we need to do this otherwise UI isn't updated during AppleScript call
             let currentArrangement = (name == currentName) ? self.refetchSet() : self.fetchSet()
             if addTo {
@@ -278,7 +271,12 @@ class ViewController: NSViewController {
     func refreshTimer() {
         if saveTimer != nil { saveTimer?.invalidate(); saveTimer = nil }
         if automaticSave && timerSeconds > 0 && !(restoreAtStart && quitAfterStart) {
-            saveTimer = Timer.scheduledTimer(timeInterval: TimeInterval(timerSeconds), target: self, selector: #selector(self.atTimer), userInfo: nil, repeats: true)
+            saveTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(timerSeconds), repeats: true, block: { timer in
+                if self.saveTimer != nil {
+                    self.arrangements[self.currentName] = self.refetchSet()
+                    self.savePrefs()
+                }
+            })
         }
     }
     
@@ -630,7 +628,7 @@ class ViewController: NSViewController {
     }
     
     func noCommandLineArgs(_ args : [String]) -> Bool {
-        let commands : Set = ["--memorize", "--add", "--restore", "--arrangement", "--hide-icons", "--select-missing-icons", "--delete", "--quit"]
+        let commands : Set = ["--memorize", "--add", "--restore", "--arrangement", "--hide-icons", "--select-missing-icons", "--delete", "--quit", "--update", "--purge"]
         return Set(args).intersection(commands).isEmpty
     }
     func doCommandLineArgs(_ args : [String]) {
@@ -654,8 +652,8 @@ class ViewController: NSViewController {
                         _arrangeButton(self.currentName)
                     }
                 }
-            case "--memorize" :
-                updateUI("Memorizing Icon Positions...")
+            case "--memorize", "--purge" :
+                updateUI("Purging Icon Positions...")
                 DispatchQueue.global(qos: .utility).sync { [unowned self] in
                     let currentArrangement = (arrangementName == currentName) ? refetchSet() : fetchSet()
                     arrangements[arrangementName] = currentArrangement
@@ -670,9 +668,9 @@ class ViewController: NSViewController {
                 }
                 updateUI()
                 refreshTimer()
-            case "--add" :
+            case "--add", "--update" :
                 if arrangements[arrangementName] != nil {
-                    updateUI("Adding New Icon Positions...")
+                    updateUI("Memorizing Icon Positions...")
                     DispatchQueue.global(qos: .utility).sync { [unowned self] in
                         let currentArrangement = (arrangementName == currentName) ? refetchSet() : fetchSet()
                         arrangements[arrangementName] = mergeArrangements(addArrangement: arrangements[arrangementName]!, baseArrangement: currentArrangement)
