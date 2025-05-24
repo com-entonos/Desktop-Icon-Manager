@@ -55,9 +55,8 @@ class DockHelper {
             if #available(macOS 11.0, *) { Logger.diag.log("  from CFPrefs: \(self.allArrangements.count,privacy: .public) allArrangements=\(self.allArrangements, privacy: .private(mask: .hash))<>\(self.BundleID, privacy: .public)<>\(Bundle.main.bundleIdentifier!, privacy: .public)<") }
         } else {
             if #available(macOS 11.0, *) { Logger.diag.log("  no orderedArrangements in >\(self.BundleID, privacy: .public)<>\(Bundle.main.bundleIdentifier!, privacy: .public)<") }
-            //allArrangements = ["Default", "Default 1"]
-            allArrangements = ["must be one"]
-            //return nil
+            //allArrangements = ["must be one"]
+            return nil
         }
         
         let menu = NSMenu()
@@ -67,14 +66,14 @@ class DockHelper {
         }
         menu.addItem(NSMenuItem.separator())
         for index in -1..<(allArrangements.count > 1 ? allArrangements.count : 0) {
-            let it = NSMenuItem(title: (!optionHeld ? "Update" : "Memorize") + "\(index < 0 ? "" : (" " + allArrangements[index]))", action: #selector(self.selectDMI(_:)), keyEquivalent: "");it.target = self; it.tag = index
+            let it = NSMenuItem(title: (!optionHeld ? "Memorize" : "Purge") + "\(index < 0 ? "" : (" " + allArrangements[index]))", action: #selector(self.selectDMI(_:)), keyEquivalent: "");it.target = self; it.tag = index
             menu.addItem(it)
         }
         return menu
     }
     @objc func selectDMI(_ sender: NSMenuItem) {
         let name = sender.tag < 0 ? "<current>" : allArrangements[sender.tag]
-        let noticeName: Notification.Name = sender.title.hasPrefix("Memorize") ? .doMemorize : (sender.title.hasPrefix("Update") ? .doAdd : .doRestore)
+        let noticeName: Notification.Name = sender.title.hasPrefix("Purge") ? .doMemorize : (sender.title.hasPrefix("Memorize") ? .doAdd : .doRestore)
         if #available(macOS 11.0, *) { Logger.diag.log("DockHelper.selectDMI sending notice: \(sender.tag, privacy: .public) \(noticeName.rawValue, privacy: .public) name=\(name, privacy: .private(mask: .hash))< <") }
         NotificationCenter.default.post(name: noticeName, object: sender.tag < 0 ? nil : name)
     }
