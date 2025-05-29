@@ -74,13 +74,14 @@ class ViewController: NSViewController {
         /* deal with notification from Dock menu items... */
         NotificationCenter.default.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
             //if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "restoreButton", privacy: .private(mask: .hash))") }
-            if let name = notice.object as? String { self.restore(name) } else { self.do_restore(self.restoreButton)} })
+            if let name = notice.object as? String { self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.restore(name) } else { self.do_restore(self.restoreButton)} })
         NotificationCenter.default.addObserver(forName: .doMemorize, object: nil, queue: .main, using: { notice in
             //if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "memorizeButton", privacy: .private(mask: .hash))") }
-            if let name = notice.object as? String { self.memorize(name) } else { self.do_memorize(self.memorizeButton)} })
+            if let name = notice.object as? String { self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.memorize(name) } else { self.do_memorize(self.memorizeButton)} })
         NotificationCenter.default.addObserver(forName: .doAdd, object: nil, queue: .main, using: { notice in
             //if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? self.currentName, privacy: .private(mask: .hash))") }
-            self.memorize(notice.object as? String ?? self.currentName, addTo: true) })
+            let name = notice.object as? String ?? self.currentName
+            self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.memorize(name, addTo: true) })
     }
     @objc func doWaitRestore(_ notice : Notification) {
         let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
