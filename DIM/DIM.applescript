@@ -218,6 +218,7 @@ script ApplescriptBridge
                 end if
                 
                 -- for 4.0.1
+                (* we only support 10.13 and above...
                 set versionString to system version of (system info)
                 considering numeric strings
                     if versionString < "10.13.0" then -- we need to toggle view (or something) for icon positions to be updated
@@ -227,6 +228,7 @@ script ApplescriptBridge
                         end tell
                     end if
                 end considering
+                *)
                 
             end if
         end if
