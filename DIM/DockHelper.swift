@@ -74,7 +74,7 @@ class DockHelper {
     @objc func selectDMI(_ sender: NSMenuItem) {
         let name = sender.tag < 0 ? "<current>" : allArrangements[sender.tag]
         let noticeName: Notification.Name = sender.title.hasPrefix("Purge") ? .doMemorize : (sender.title.hasPrefix("Memorize") ? .doAdd : .doRestore)
-        if #available(macOS 11.0, *) { Logger.diag.log("DockHelper.selectDMI sending notice: \(sender.tag, privacy: .public) \(noticeName.rawValue, privacy: .public) name=\(name, privacy: .private(mask: .hash))< <") }
+        if #available(macOS 11.0, *) { Logger.diag.log("DockHelper.selectDMI sending notice: \(sender.tag, privacy: .public) \(noticeName.rawValue, privacy: .public) name=\(name, privacy: .private(mask: .hash))<") }
         NotificationCenter.default.post(name: noticeName, object: sender.tag < 0 ? nil : name)
     }
     
