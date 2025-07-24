@@ -29,6 +29,7 @@ class ViewController: NSViewController {
     var quitTimer: Timer?
     var quitCount = 20
     var optionHeld = false      // is option key being held?
+    var didChangeScreen = false
     
     // this is for updating
     var updateAvailable = [String]()
@@ -61,7 +62,8 @@ class ViewController: NSViewController {
         // quiting: invalidate any timers and should we do a save?
         NotificationCenter.default.addObserver(forName: NSNotification.Name("atEnd"), object: nil, queue: .main, using: { notice in
             if self.automaticSave && self.timerSeconds < 0 && !(self.restoreAtStart && self.quitAfterStart) {
-                self.arrangements[self.currentName] = self.refetchSet()  // w/o gui
+                //self.arrangements[self.currentName] = self.refetchSet()  // w/o gui
+                self.arrangements[self.currentName] = self.mergeArrangements(addArrangement: self.arrangements[self.currentName]!, baseArrangement: self.refetchSet())
                 self.savePrefs()
             }
             if self.saveTimer != nil { self.saveTimer?.invalidate(); self.saveTimer = nil }    // get rid of any timers
@@ -82,8 +84,11 @@ class ViewController: NSViewController {
             //if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? self.currentName, privacy: .private(mask: .hash))") }
             let name = notice.object as? String ?? self.currentName
             self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.memorize(name, addTo: true) })
+        
     }
     @objc func doWaitRestore(_ notice : Notification) {
+        if didChangeScreen { return } // only want to do this once... sometimes called quickly consecutively
+        didChangeScreen = true; Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { _ in self.didChangeScreen = false}) // ignore future calls until we reset
         let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
         if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
         Timer.scheduledTimer(withTimeInterval: max(0.01, waitRestore), repeats: false, block: { _ in self.do_restore(self.restoreButton)})
@@ -274,7 +279,8 @@ class ViewController: NSViewController {
         if automaticSave && timerSeconds > 0 && !(restoreAtStart && quitAfterStart) {
             saveTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(timerSeconds), repeats: true, block: { timer in
                 if self.saveTimer != nil {
-                    self.arrangements[self.currentName] = self.refetchSet()
+                    //self.arrangements[self.currentName] = self.refetchSet()
+                    self.arrangements[self.currentName] = self.mergeArrangements(addArrangement: self.arrangements[self.currentName]!, baseArrangement: self.refetchSet())
                     self.savePrefs()
                 }
             })
