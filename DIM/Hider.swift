@@ -174,6 +174,8 @@ class Hider {  // class that covers Desktop w/ pictures of Desktop- invoked by n
         }
         backupDesktops.forEach({win in if win.beingUsed {win.orderFrontRegardless()}})  //; backupDesktops.forEach({win in print(win.frame,win.beingUsed)})
     }
+    
+    var didChangeScreenParameters = false
     // set up initial window lists for each screen and observers
     init(_ hidden : Bool = true) {
         self.hidden = hidden
@@ -181,7 +183,10 @@ class Hider {  // class that covers Desktop w/ pictures of Desktop- invoked by n
         
         let NCdefault = NotificationCenter.default
         NCdefault.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main, using: {_ in
-            usleep(500_000); self.createDesktops()})    //;print("didChangeScreenParameters done")})
+            if !self.didChangeScreenParameters {
+                self.didChangeScreenParameters = true
+                Timer.scheduledTimer(withTimeInterval: 15.0, repeats: false, block: { _ in self.didChangeScreenParameters = false})
+                usleep(500_000); self.createDesktops()} })    //;print("didChangeScreenParameters done")})
         NCdefault.addObserver(forName: .doHide, object: nil, queue: .main, using: {_ in self.doHide() })
         let WSsharedNC = NSWorkspace.shared.notificationCenter
         WSsharedNC.addObserver(forName: NSWorkspace.screensDidWakeNotification, object: nil, queue: .main, using: {_ in //print("didWake")
