@@ -16,7 +16,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     @IBOutlet weak var checkUpdateMenuItem: NSMenuItem!
     
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(self.powerOff), name: NSWorkspace.willPowerOffNotification, object: nil)
+        if UserDefaults.standard.object(forKey: "startHidden") != nil ? UserDefaults.standard.bool(forKey: "startHidden") : false { NSApplication.shared.hide(self) }
+      //NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.willPowerOffNotification, object: nil, queue: .main, using: { note in NSApplication.shared.mainWindow?.performClose(nil)})
+        NSApplication.shared.disableRelaunchOnLogin()
         if !FileManager.default.fileExists(atPath: FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/com.parker9.DIM-4.plist") {
             exportMenuItem.isEnabled = false
         }
@@ -45,8 +47,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
     }
-    @objc func powerOff(notification: NSNotification) { // does this catch logoff, restart and shutdown?
-        NSApplication.shared.terminate(self)
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
+        return false
     }
     
     /*  do applicationDockMenu? */
