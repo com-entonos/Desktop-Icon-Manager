@@ -69,8 +69,8 @@ class ViewController: NSViewController {
             if self.saveTimer != nil { self.saveTimer?.invalidate(); self.saveTimer = nil }    // get rid of any timers
         })
         
-        /* if screens wake up or change parameters, do a restore.  */
-        NSWorkspace.shared.notificationCenter.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main, using: { notice in self.doWaitRestore(notice) })
+        /* if screens wake up or change parameters, do a restore.  NSWorkspace.screensDidWakeNotification*/
+        NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.screensDidWakeNotification, object: nil, queue: .main, using: { notice in self.doWaitRestore(notice) })
         NotificationCenter.default.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main, using: { notice in self.doWaitRestore(notice) })
         
         /* deal with notification from Dock menu items... */
