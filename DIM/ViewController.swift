@@ -70,8 +70,8 @@ class ViewController: NSViewController {
         })
         
         /* if screens wake up or change parameters, do a restore.  */
-        NSWorkspace.shared.notificationCenter.addObserver(self, selector: #selector(doWaitRestore(_:)), name: NSWorkspace.screensDidWakeNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(doWaitRestore(_:)), name: NSApplication.didChangeScreenParametersNotification, object: nil)
+        NSWorkspace.shared.notificationCenter.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main, using: { notice in self.doWaitRestore(notice) })
+        NotificationCenter.default.addObserver(forName: NSApplication.didChangeScreenParametersNotification, object: nil, queue: .main, using: { notice in self.doWaitRestore(notice) })
         
         /* deal with notification from Dock menu items... */
         NotificationCenter.default.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
@@ -86,12 +86,13 @@ class ViewController: NSViewController {
             self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.memorize(name, addTo: true) })
         
     }
-    @objc func doWaitRestore(_ notice : Notification) {
-        if didChangeScreen { return } // only want to do this once... sometimes called quickly consecutively
-        didChangeScreen = true; Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { _ in self.didChangeScreen = false}) // ignore future calls until we reset
-        let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
-        if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
-        Timer.scheduledTimer(withTimeInterval: max(0.01, waitRestore), repeats: false, block: { _ in self.do_restore(self.restoreButton)})
+    func doWaitRestore(_ notice : Notification) {
+        if !self.didChangeScreen {
+            self.didChangeScreen = true; Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { _ in self.didChangeScreen = false}) // ignore future calls until we reset
+            let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
+            if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
+            self.do_restore(self.restoreButton)
+        }
     }
 
     override func viewDidAppear() {
