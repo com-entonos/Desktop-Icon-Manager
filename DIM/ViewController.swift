@@ -281,6 +281,7 @@ class ViewController: NSViewController {
         timeMenu.isEnabled = !timeMenu.isHidden && automaticSaveButton.state == .on
         savePrefs()
         refreshTimer()
+        //let x = FSEventStreamCreate(nil, <#T##callback: FSEventStreamCallback##FSEventStreamCallback##(ConstFSEventStreamRef, UnsafeMutableRawPointer?, Int, UnsafeMutableRawPointer, UnsafePointer<FSEventStreamEventFlags>, UnsafePointer<FSEventStreamEventId>) -> Void#>, <#T##context: UnsafeMutablePointer<FSEventStreamContext>?##UnsafeMutablePointer<FSEventStreamContext>?#>, <#T##pathsToWatch: CFArray##CFArray#>, <#T##sinceWhen: FSEventStreamEventId##FSEventStreamEventId#>, <#T##latency: CFTimeInterval##CFTimeInterval#>, <#T##flags: FSEventStreamCreateFlags##FSEventStreamCreateFlags#>)
     }
     
     func refreshTimer() {
