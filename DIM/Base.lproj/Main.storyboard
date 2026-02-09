@@ -436,7 +436,7 @@ Gw
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="ViewController" customModule="DIM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="481" height="157"/>
+                        <rect key="frame" x="0.0" y="0.0" width="489" height="157"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DZ9-EQ-FiY">
@@ -454,7 +454,7 @@ Gw
                                 </connections>
                             </button>
                             <button imageHugsTitle="YES" horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1ML-jo-5DP">
-                                <rect key="frame" x="264" y="109" width="201" height="33"/>
+                                <rect key="frame" x="264" y="109" width="209" height="33"/>
                                 <buttonCell key="cell" type="push" title="Restore Icon Positions" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="1mv-hk-Kog">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -468,14 +468,14 @@ Gw
                                 </connections>
                             </button>
                             <progressIndicator wantsLayer="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" doubleValue="50" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="ZkN-Eo-i6U">
-                                <rect key="frame" x="316" y="78" width="16" height="16"/>
+                                <rect key="frame" x="324" y="78" width="16" height="16"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="16" id="TUX-z9-w6f"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="16" id="a6t-hN-Uki"/>
                                 </constraints>
                             </progressIndicator>
                             <textField hidden="YES" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZTL-f0-jOz">
-                                <rect key="frame" x="135" y="79" width="171" height="14"/>
+                                <rect key="frame" x="135" y="79" width="179" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="6uR-YM-C5S"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="148" id="T5r-LT-z4K"/>
@@ -487,7 +487,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="h7P-oV-ure">
-                                <rect key="frame" x="235" y="46" width="11" height="14"/>
+                                <rect key="frame" x="239" y="46" width="11" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="1rk-fO-ZYM"/>
                                 </constraints>
@@ -498,7 +498,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KLe-R5-x8e">
-                                <rect key="frame" x="235" y="32" width="11" height="14"/>
+                                <rect key="frame" x="239" y="32" width="11" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="2B4-KG-tPU"/>
                                 </constraints>
@@ -509,7 +509,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="2Or-ax-3hg">
-                                <rect key="frame" x="235" y="18" width="11" height="14"/>
+                                <rect key="frame" x="239" y="18" width="11" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="QVP-pB-Zw0"/>
                                 </constraints>
@@ -520,7 +520,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="mY5-36-2f7">
-                                <rect key="frame" x="426" y="19" width="35" height="23"/>
+                                <rect key="frame" x="434" y="19" width="35" height="23"/>
                                 <popUpButtonCell key="cell" type="smallSquare" bezelStyle="smallSquare" alignment="center" lineBreakMode="truncatingTail" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" pullsDown="YES" id="Cba-HP-L2F">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="message"/>
@@ -567,8 +567,8 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YOj-kM-lfG">
-                                <rect key="frame" x="33" y="85" width="293" height="16"/>
-                                <buttonCell key="cell" type="check" title="Automatically Restore Icon Positions at start" bezelStyle="regularSquare" imagePosition="left" inset="2" id="S9S-0n-Cm6">
+                                <rect key="frame" x="26" y="85" width="350" height="16"/>
+                                <buttonCell key="cell" type="check" title="Automatically Restore Icon Positions at start and then" bezelStyle="regularSquare" imagePosition="left" inset="2" id="S9S-0n-Cm6">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -580,21 +580,8 @@ Gw
                                     <action selector="restoreQuitCheck:" target="XfG-lQ-9wD" id="Nsr-zs-aEj"/>
                                 </connections>
                             </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wIc-zU-Lta">
-                                <rect key="frame" x="332" y="84" width="112" height="18"/>
-                                <buttonCell key="cell" type="check" title="and then Quit " bezelStyle="regularSquare" imagePosition="left" inset="2" id="Y98-y3-3eH">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <constraints>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="103" id="qXZ-Lx-oFV"/>
-                                </constraints>
-                                <connections>
-                                    <action selector="quitThenCheck:" target="XfG-lQ-9wD" id="Ogg-C6-i3r"/>
-                                </connections>
-                            </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uO3-a2-taD">
-                                <rect key="frame" x="434" y="143" width="48" height="14"/>
+                                <rect key="frame" x="442" y="143" width="48" height="14"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="14" id="Ar8-9y-opD"/>
                                     <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="44" id="pKX-c7-skP"/>
@@ -606,7 +593,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MgC-82-Vmj">
-                                <rect key="frame" x="429" y="143" width="52" height="14"/>
+                                <rect key="frame" x="437" y="143" width="52" height="14"/>
                                 <buttonCell key="cell" type="square" title="hyperlink" bezelStyle="shadowlessSquare" imagePosition="left" alignment="left" controlSize="small" focusRingType="none" transparent="YES" inset="2" id="lU4-PS-emR">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="smallSystem"/>
@@ -620,7 +607,7 @@ Gw
                                 </connections>
                             </button>
                             <textField hidden="YES" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gU9-tS-bgT">
-                                <rect key="frame" x="80" y="67" width="322" height="16"/>
+                                <rect key="frame" x="84" y="65" width="322" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="(Hold ⌘ while starting DIM  to reach this window)" id="vGv-Gd-Dvc">
                                     <font key="font" metaFont="systemBold"/>
                                     <color key="textColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -628,7 +615,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PkV-EO-1tK">
-                                <rect key="frame" x="86" y="64" width="174" height="18"/>
+                                <rect key="frame" x="76" y="64" width="174" height="18"/>
                                 <buttonCell key="cell" type="check" title="Memorize Icon Positions" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gor-4r-4VB">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -640,8 +627,25 @@ Gw
                                     <action selector="automaticSaveCheck:" target="XfG-lQ-9wD" id="QeQ-Cp-Kox"/>
                                 </connections>
                             </button>
+                            <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="WbH-dN-Gnb">
+                                <rect key="frame" x="377" y="82" width="78" height="22"/>
+                                <popUpButtonCell key="cell" type="smallSquare" title="stay open" bezelStyle="smallSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" inset="2" selectedItem="Wtv-xz-gdL" id="HpZ-ek-Uh2">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="message"/>
+                                    <menu key="menu" id="hot-bz-WsD">
+                                        <items>
+                                            <menuItem title="stay open" state="on" id="Wtv-xz-gdL"/>
+                                            <menuItem title="Hide" tag="1" id="Cgd-gt-y6R"/>
+                                            <menuItem title="Quit" tag="2" id="kZK-h9-Gz1"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="selectActionMen:" target="XfG-lQ-9wD" id="qXQ-Q8-vGh"/>
+                                </connections>
+                            </popUpButton>
                             <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="MhN-1z-ysc">
-                                <rect key="frame" x="271" y="63" width="123" height="22"/>
+                                <rect key="frame" x="251" y="62" width="123" height="22"/>
                                 <popUpButtonCell key="cell" type="smallSquare" title="every 30 minutes" bezelStyle="smallSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" inset="2" selectedItem="7XQ-wm-cTe" id="RuE-wd-oiz">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="message"/>
@@ -659,7 +663,7 @@ Gw
                             </popUpButton>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="PkV-EO-1tK" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="88" id="2J5-gM-cvb"/>
+                            <constraint firstItem="PkV-EO-1tK" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="78" id="2J5-gM-cvb"/>
                             <constraint firstItem="2Or-ax-3hg" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="4OC-FB-2bZ"/>
                             <constraint firstItem="DZ9-EQ-FiY" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" id="4lH-Xj-dfR"/>
                             <constraint firstItem="ZkN-Eo-i6U" firstAttribute="top" secondItem="1ML-jo-5DP" secondAttribute="bottom" constant="22" id="5ho-AJ-zng"/>
@@ -667,16 +671,15 @@ Gw
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="K36-TN-t2J" secondAttribute="trailing" constant="20" symbolic="YES" id="94P-qV-EJv"/>
                             <constraint firstAttribute="trailing" secondItem="mY5-36-2f7" secondAttribute="trailing" constant="20" id="C7A-r6-QGT"/>
                             <constraint firstItem="KLe-R5-x8e" firstAttribute="top" secondItem="h7P-oV-ure" secondAttribute="bottom" id="CE2-Xd-ZlE"/>
+                            <constraint firstItem="MhN-1z-ysc" firstAttribute="leading" secondItem="PkV-EO-1tK" secondAttribute="trailing" constant="1" id="DGC-jc-Ydm"/>
                             <constraint firstItem="MgC-82-Vmj" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="Hf1-w6-4al"/>
-                            <constraint firstItem="wIc-zU-Lta" firstAttribute="centerY" secondItem="YOj-kM-lfG" secondAttribute="centerY" id="Inw-we-lKC"/>
                             <constraint firstItem="KLe-R5-x8e" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="JVu-HJ-ajI"/>
                             <constraint firstItem="uO3-a2-taD" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="20" symbolic="YES" id="O8g-kM-vft"/>
-                            <constraint firstAttribute="trailing" secondItem="wIc-zU-Lta" secondAttribute="trailing" constant="37" id="Of7-o8-VPn"/>
                             <constraint firstAttribute="bottom" secondItem="2Or-ax-3hg" secondAttribute="bottom" constant="18" id="QIE-iG-gks"/>
-                            <constraint firstItem="wIc-zU-Lta" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="YOj-kM-lfG" secondAttribute="trailing" constant="8" symbolic="YES" id="RSa-XP-dVO"/>
-                            <constraint firstItem="YOj-kM-lfG" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="35" id="VNO-PM-YLO"/>
+                            <constraint firstItem="YOj-kM-lfG" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="28" id="VNO-PM-YLO"/>
                             <constraint firstItem="mY5-36-2f7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KLe-R5-x8e" secondAttribute="trailing" constant="8" symbolic="YES" id="ZA1-Gg-rMu"/>
-                            <constraint firstItem="gU9-tS-bgT" firstAttribute="top" secondItem="YOj-kM-lfG" secondAttribute="bottom" constant="3" id="ZTi-Ey-iSb"/>
+                            <constraint firstItem="gU9-tS-bgT" firstAttribute="top" secondItem="YOj-kM-lfG" secondAttribute="bottom" constant="5" id="ZTi-Ey-iSb"/>
+                            <constraint firstItem="WbH-dN-Gnb" firstAttribute="leading" secondItem="YOj-kM-lfG" secondAttribute="trailing" constant="1" id="Zd0-nQ-vCs"/>
                             <constraint firstAttribute="trailing" secondItem="uO3-a2-taD" secondAttribute="trailing" constant="1" id="bJj-H5-A10"/>
                             <constraint firstItem="1ML-jo-5DP" firstAttribute="leading" relation="lessThanOrEqual" secondItem="DZ9-EQ-FiY" secondAttribute="trailing" constant="75" id="bPF-2S-abR"/>
                             <constraint firstItem="uO3-a2-taD" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="cjk-Ty-TPl"/>
@@ -684,15 +687,13 @@ Gw
                             <constraint firstAttribute="bottom" secondItem="xOZ-1p-tLp" secondAttribute="bottom" id="fU7-AP-uF0"/>
                             <constraint firstAttribute="bottom" secondItem="K36-TN-t2J" secondAttribute="bottom" id="h3A-cX-bW6"/>
                             <constraint firstItem="ZkN-Eo-i6U" firstAttribute="leading" secondItem="ZTL-f0-jOz" secondAttribute="trailing" constant="12" id="h4h-BU-EkV"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="WbH-dN-Gnb" secondAttribute="trailing" constant="20" symbolic="YES" id="hkA-DY-MZR"/>
                             <constraint firstAttribute="trailing" secondItem="1ML-jo-5DP" secondAttribute="trailing" constant="23" id="iHt-8Q-LMM"/>
                             <constraint firstAttribute="trailing" secondItem="MgC-82-Vmj" secondAttribute="trailing" id="iqd-zk-84l"/>
                             <constraint firstItem="DZ9-EQ-FiY" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="jUt-Zi-inS"/>
+                            <constraint firstItem="MhN-1z-ysc" firstAttribute="centerY" secondItem="PkV-EO-1tK" secondAttribute="centerY" id="kDr-5u-Yr0"/>
                             <constraint firstItem="h7P-oV-ure" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="lMl-Ea-BoZ"/>
-                            <constraint firstItem="MhN-1z-ysc" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="PkV-EO-1tK" secondAttribute="trailing" constant="8" symbolic="YES" id="m3D-S6-KrR"/>
                             <constraint firstAttribute="bottom" secondItem="mY5-36-2f7" secondAttribute="bottom" constant="20" id="nSL-Gy-lIo"/>
-                            <constraint firstItem="MhN-1z-ysc" firstAttribute="top" secondItem="wIc-zU-Lta" secondAttribute="bottom" constant="1" id="o06-Jj-F86"/>
-                            <constraint firstAttribute="trailing" secondItem="MhN-1z-ysc" secondAttribute="trailing" constant="87" id="oR0-zO-cxb"/>
-                            <constraint firstItem="wIc-zU-Lta" firstAttribute="top" secondItem="1ML-jo-5DP" secondAttribute="bottom" constant="15" id="obq-ea-5ms"/>
                             <constraint firstItem="1ML-jo-5DP" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" constant="20" id="p9C-T3-E6i"/>
                             <constraint firstItem="ZTL-f0-jOz" firstAttribute="leading" relation="lessThanOrEqual" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="137" id="pAa-9e-bxz"/>
                             <constraint firstItem="gU9-tS-bgT" firstAttribute="centerX" secondItem="m2S-Jp-Qdl" secondAttribute="centerX" id="r1H-CF-6LZ"/>
@@ -700,11 +701,15 @@ Gw
                             <constraint firstItem="PkV-EO-1tK" firstAttribute="top" secondItem="YOj-kM-lfG" secondAttribute="bottom" constant="5" id="tj9-qf-AeH"/>
                             <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="ZkN-Eo-i6U" secondAttribute="trailing" constant="149" id="uCM-5A-OHa"/>
                             <constraint firstItem="2Or-ax-3hg" firstAttribute="top" secondItem="KLe-R5-x8e" secondAttribute="bottom" id="uZF-iN-fvX"/>
+                            <constraint firstItem="YOj-kM-lfG" firstAttribute="top" secondItem="DZ9-EQ-FiY" secondAttribute="bottom" constant="16" id="vLh-x6-vqV"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="MhN-1z-ysc" secondAttribute="trailing" constant="20" symbolic="YES" id="wCc-13-nBI"/>
+                            <constraint firstItem="WbH-dN-Gnb" firstAttribute="centerY" secondItem="YOj-kM-lfG" secondAttribute="centerY" id="we2-BR-0Mj"/>
                             <constraint firstItem="ZTL-f0-jOz" firstAttribute="top" secondItem="DZ9-EQ-FiY" secondAttribute="bottom" constant="23" id="xgL-79-10I"/>
                             <constraint firstItem="xOZ-1p-tLp" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="6" id="z57-2P-Jli"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="actionMenu" destination="WbH-dN-Gnb" id="har-o7-cW9"/>
                         <outlet property="arrangementButton" destination="mY5-36-2f7" id="gFW-ZD-Dol"/>
                         <outlet property="automaticSaveButton" destination="PkV-EO-1tK" id="Frh-4v-qvf"/>
                         <outlet property="currentNumArrangement" destination="2Or-ax-3hg" id="Hzq-wW-zxY"/>
@@ -714,7 +719,6 @@ Gw
                         <outlet property="doingTF" destination="ZTL-f0-jOz" id="d4h-tP-RqI"/>
                         <outlet property="donateLabel" destination="uO3-a2-taD" id="agr-Ap-tFK"/>
                         <outlet property="memorizeButton" destination="DZ9-EQ-FiY" id="kMS-dP-lE7"/>
-                        <outlet property="quitButton" destination="wIc-zU-Lta" id="sfW-5y-qU4"/>
                         <outlet property="restoreButton" destination="1ML-jo-5DP" id="Uac-zQ-sbm"/>
                         <outlet property="timeMenu" destination="MhN-1z-ysc" id="0Qq-UD-MbD"/>
                         <outlet property="warningButton" destination="YOj-kM-lfG" id="2qL-ft-E5L"/>
@@ -729,7 +733,7 @@ Gw
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1213" y="583"/>
+            <point key="canvasLocation" x="-1213.5" y="582.5"/>
         </scene>
         <!--Plist Options-->
         <scene sceneID="WAw-3X-zbW">
