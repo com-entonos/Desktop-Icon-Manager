@@ -78,10 +78,10 @@ class ViewController: NSViewController {
         /* deal with notification from Dock menu items... */
         NotificationCenter.default.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
             //if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "restoreButton", privacy: .private(mask: .hash))") }
-            if let name = notice.object as? String { self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.restore(name) } else { self.do_restore(self.restoreButton)} })
+            if let name = notice.object as? String { self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.restore(name) } else { self.do_restore(self.restoreButton as Any)} })
         NotificationCenter.default.addObserver(forName: .doMemorize, object: nil, queue: .main, using: { notice in
             //if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "memorizeButton", privacy: .private(mask: .hash))") }
-            if let name = notice.object as? String { self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.memorize(name) } else { self.do_memorize(self.memorizeButton)} })
+            if let name = notice.object as? String { self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.memorize(name) } else { self.do_memorize(self.memorizeButton as Any)} })
         NotificationCenter.default.addObserver(forName: .doAdd, object: nil, queue: .main, using: { notice in
             //if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? self.currentName, privacy: .private(mask: .hash))") }
             let name = notice.object as? String ?? self.currentName
@@ -93,7 +93,7 @@ class ViewController: NSViewController {
             self.didChangeScreen = true; Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { _ in self.didChangeScreen = false}) // ignore future calls until we reset
             let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
             if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
-            self.do_restore(self.restoreButton)
+            self.do_restore(self.restoreButton as Any)
         }
     }
 
@@ -151,14 +151,14 @@ class ViewController: NSViewController {
     
     
     // Button pressed to Memorize...
-    @IBAction func do_memorize(_ sender: NSButton) {
+    @IBAction func do_memorize(_ sender: Any) {
         quitTimer?.invalidate()
         memorize(currentName,addTo: optionHeld)
         refreshTimer()
     }
     
     // Button pressedd to Restore...
-    @IBAction func do_restore(_ sender: NSButton) {
+    @IBAction func do_restore(_ sender: Any) {
         quitTimer?.invalidate()
         restore(currentName)
         refreshTimer()

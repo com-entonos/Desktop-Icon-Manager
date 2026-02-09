@@ -65,9 +65,15 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" autoenablesItems="NO" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="Import Settings File..." keyEquivalent="o" identifier="OpenSettingsFile" id="QqU-1B-97r">
+                                        <menuItem title="Restore Icon Positions" keyEquivalent="r" identifier="do_restore" id="QqU-1B-97r">
                                             <connections>
-                                                <action selector="readPlist:" target="Ady-hI-5gd" id="VnP-kF-cro"/>
+                                                <action selector="do_restore:" target="Ady-hI-5gd" id="y08-At-TzH"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="RPJ-Nw-nRM"/>
+                                        <menuItem title="Import Settings File..." keyEquivalent="o" identifier="OpenSettingsFile" id="V5y-nN-bge">
+                                            <connections>
+                                                <action selector="readPlist:" target="Ady-hI-5gd" id="ny0-5b-wW4"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Export Settings File..." keyEquivalent="s" identifier="ExportSettingsFile" id="1mP-c5-nut">
@@ -75,6 +81,13 @@
                                                 <action selector="writePlist:" target="Ady-hI-5gd" id="tvU-Ui-cl3"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="zo5-UG-jXM"/>
+                                        <menuItem title="Memorize Icon Positions" keyEquivalent="m" identifier="do_memorize" id="T82-nn-dxP">
+                                            <connections>
+                                                <action selector="do_memorize:" target="Ady-hI-5gd" id="Tne-2h-R4i"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="2Zf-Eo-0Gy"/>
                                         <menuItem title="Close" keyEquivalent="w" id="zge-up-Q1z">
                                             <connections>
                                                 <action selector="performClose:" target="Ady-hI-5gd" id="Kva-yD-sm4"/>
