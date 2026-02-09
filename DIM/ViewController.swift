@@ -9,11 +9,13 @@
 import Cocoa
 import OSLog
 
+enum ActionItems : Int, CaseIterable { case  open = 0, hide, quit }
+
 class ViewController: NSViewController {
     
     // variables to deal w/ different Arrangements and what the code should do (these are default values which will be overwritten soon)
     var restoreAtStart = false  // Restore icon positions at start?
-    var quitAfterStart = false  // if we are Restoring at start should we just quit afterwards?
+    var actionAfterStart = ActionItems.open
     var automaticSave = false
     var currentName = "Default" // some name for an icon Arrangment
     var arrangements = [String: Any]()  // dictionary keyed to name w/ corresponding iconSet (AppleScript data object)
@@ -40,7 +42,7 @@ class ViewController: NSViewController {
     @IBOutlet weak var doingPI: NSProgressIndicator!
     @IBOutlet weak var warningTF: NSTextField!
     @IBOutlet weak var warningButton: NSButton!
-    @IBOutlet weak var quitButton: NSButton!
+    @IBOutlet weak var actionMenu: NSPopUpButton!
     @IBOutlet weak var automaticSaveButton: NSButton!
     @IBOutlet weak var timeMenu: NSPopUpButton!
     @IBOutlet weak var currentTF: NSTextField!
@@ -61,7 +63,7 @@ class ViewController: NSViewController {
         
         // quiting: invalidate any timers and should we do a save?
         NotificationCenter.default.addObserver(forName: NSNotification.Name("atEnd"), object: nil, queue: .main, using: { notice in
-            if self.automaticSave && self.timerSeconds < 0 && !(self.restoreAtStart && self.quitAfterStart) {
+            if self.automaticSave && self.timerSeconds < 0 && !(self.restoreAtStart && self.actionAfterStart == .quit) {
                 //self.arrangements[self.currentName] = self.refetchSet()  // w/o gui
                 self.arrangements[self.currentName] = self.mergeArrangements(addArrangement: self.arrangements[self.currentName]!, baseArrangement: self.refetchSet())
                 self.savePrefs()
@@ -206,9 +208,9 @@ class ViewController: NSViewController {
         doingTF.isHidden = false
         doingPI.startAnimation(nil)
         warningButton.isEnabled = false
-        quitButton.isEnabled = false
+        actionMenu.isEnabled = false
         warningButton.isHidden = true
-        quitButton.isHidden = true
+        actionMenu.isHidden = true
         warningTF.isHidden = true
         automaticSaveButton.isEnabled = false
         timeMenu.isEnabled = false
@@ -224,11 +226,11 @@ class ViewController: NSViewController {
         doingTF.isHidden = true
         doingPI.stopAnimation(nil)
         warningButton.isEnabled = true
-        quitButton.isEnabled = restoreAtStart
+        actionMenu.isEnabled = restoreAtStart
         warningButton.isHidden = false
-        quitButton.isHidden = false
-        warningTF.isHidden = !(restoreAtStart && quitAfterStart)
-        automaticSaveButton.isHidden = (restoreAtStart && quitAfterStart)
+        actionMenu.isHidden = false
+        warningTF.isHidden = !(restoreAtStart && actionAfterStart == .quit)
+        automaticSaveButton.isHidden = (restoreAtStart && actionAfterStart == .quit)
         automaticSaveButton.isEnabled = !automaticSaveButton.isHidden
         timeMenu.isHidden = automaticSaveButton.isHidden
         timeMenu.isEnabled = !timeMenu.isHidden && automaticSaveButton.state == .on
@@ -258,16 +260,22 @@ class ViewController: NSViewController {
         sanitize()
     }
     
-    // Check for Quit after Restore was toggled
-    @IBAction func quitThenCheck(_ sender: NSButton) {
-        quitAfterStart = (sender.state.rawValue == 1)             // "1" is checked
-        sanitize()
+    // Check action menu after Restore was toggled
+    @IBAction func selectActionMen(_ sender: NSPopUpButton) {
+        if let item = sender.selectedItem?.tag {
+            if actionAfterStart.rawValue != item {
+                actionAfterStart = ActionItems(rawValue: item)!
+                savePrefs()
+                sanitize()
+            }
+        }
     }
+
     func sanitize() {
-        quitTimer?.invalidate()
-        quitButton.isEnabled = restoreAtStart                     // enable Quit after Restore if latter is checked
-        warningTF.isHidden = !(restoreAtStart && quitAfterStart)  // if this is checked (we know Restore is), warn the user
-        automaticSaveButton.isHidden = (restoreAtStart && quitAfterStart)
+        quitTimer?.invalidate()                // enable Quit after Restore if latter is checked
+        actionMenu.isEnabled = restoreAtStart
+        warningTF.isHidden = !(restoreAtStart && actionAfterStart == .quit)  // if this is checked (we know Restore is), warn the user
+        automaticSaveButton.isHidden = (restoreAtStart && actionAfterStart == .quit)
         automaticSaveButton.isEnabled = !automaticSaveButton.isHidden
         timeMenu.isHidden = automaticSaveButton.isHidden
         timeMenu.isEnabled = !timeMenu.isHidden && automaticSaveButton.state == .on
@@ -277,7 +285,7 @@ class ViewController: NSViewController {
     
     func refreshTimer() {
         if saveTimer != nil { saveTimer?.invalidate(); saveTimer = nil }
-        if automaticSave && timerSeconds > 0 && !(restoreAtStart && quitAfterStart) {
+        if automaticSave && timerSeconds > 0 && !(restoreAtStart && actionAfterStart == .quit) {
             saveTimer = Timer.scheduledTimer(withTimeInterval: TimeInterval(timerSeconds), repeats: true, block: { timer in
                 if self.saveTimer != nil {
                     //self.arrangements[self.currentName] = self.refetchSet()
@@ -351,10 +359,11 @@ class ViewController: NSViewController {
     func loadPrefs() {  // go read user's perferences
         if goodLoadPrefs() {  // try to be robust in reading them back in, if there is an unrecoverable problem (or data doesn't exist), start afresh
             if restoreAtStart && !overrideSetting && noCommandLineArgs(CommandLine.arguments) {  // did they want us to restore automatically at start?
+                if actionAfterStart == .hide { NSApp.hide(self) }
 //              restore(currentName) //doesn't seem to work, so just brute force a restore  (instead of the next line)
                 setSet(set: arrangements[currentName]!)
                 dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
-                if quitAfterStart && dataVer == thisVer {  // should we quit in 5 seconds?
+                if actionAfterStart == .quit && dataVer == thisVer {  // should we quit in 5 seconds?
                     quitCount = UserDefaults.standard.object(forKey: "quitCount") != nil ? UserDefaults.standard.integer(forKey: "quitCount") : 20
                     warningTF.stringValue = "Hold ⌘ to abort Quit (\(Int(0.9 + Double(quitCount)/5.0)))"
                     quitTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.terminate), userInfo: nil, repeats: true)
@@ -366,7 +375,7 @@ class ViewController: NSViewController {
             }
         } else {   // first run or no user data or fatal problem reading user data
             restoreAtStart = false  // these are the defaults
-            quitAfterStart = true  // let's force user to select this, perhaps it will reduce confusion
+            actionAfterStart = .quit // let's force user to select this, perhaps it will reduce confusion
             automaticSave = false
             currentName = "Default"
             timerSeconds = -1
@@ -379,10 +388,9 @@ class ViewController: NSViewController {
         setTimerMenu()
         
         warningButton.state = (restoreAtStart ? .on : .off) // set default state of check for Restore at start
-        quitButton.state = (quitAfterStart ? .on : .off)    // set default state of check for Quit after Restore at start
-        quitButton.isEnabled = restoreAtStart               // if Restore at startup, allow the user to pick if we should quit or not, if not Restore at start, then don't allow the user to edit this
-        warningTF.isHidden = !(restoreAtStart && quitAfterStart) // if Restore and Quit at startup, warn the user how to get back to our screen
-        automaticSaveButton.isHidden = (restoreAtStart && quitAfterStart)
+        actionMenu.isEnabled = restoreAtStart                   // if Restore at startup, allow the user to pick action for after
+        warningTF.isHidden = !(restoreAtStart && actionAfterStart == .quit) // if Restore and Quit at startup, warn the user how to get back to our screen
+        automaticSaveButton.isHidden = (restoreAtStart && actionAfterStart == .quit)
         automaticSaveButton.state = (automaticSave ? .on : .off)
         timeMenu.isHidden = automaticSaveButton.isHidden
         timeMenu.isEnabled = !timeMenu.isHidden && automaticSaveButton.state == .on
@@ -396,7 +404,13 @@ class ViewController: NSViewController {
         guard let name = defaults.string(forKey: "currentName")  else { return false }  // is there a plist?
         guard (defaults.array(forKey: "orderedArrangements") != nil) else { return false }
         currentName = name
-        quitAfterStart = defaults.bool(forKey: "quitAfterStart")
+        if defaults.object(forKey: "actionAfterStart") != nil {
+            let item = defaults.integer(forKey: "actionAfterStart")
+            actionMenu.selectItem(at: item)
+            actionAfterStart = ActionItems(rawValue: item) ?? actionAfterStart
+        } else if defaults.object(forKey: "quitAfterStart") != nil {
+            actionAfterStart = ActionItems(rawValue: defaults.bool(forKey: "quitAfterStart") ? 2 : 0)!
+        }
         restoreAtStart = defaults.bool(forKey: "restoreAtStart")
         orderedArrangements = defaults.array(forKey: "orderedArrangements") as! [String]
         arrangements = defaults.dictionary(forKey: "arrangements")!
@@ -444,7 +458,7 @@ class ViewController: NSViewController {
         let defaults = UserDefaults.standard
         defaults.set(currentName, forKey: "currentName")
         defaults.set(restoreAtStart, forKey: "restoreAtStart")
-        defaults.set(quitAfterStart, forKey: "quitAfterStart")
+        defaults.set(actionAfterStart.rawValue, forKey: "actionAfterStart")
         defaults.set(orderedArrangements, forKey: "orderedArrangements")
         defaults.set(arrangements, forKey: "arrangements")
         defaults.set(automaticSave, forKey: "automaticSave")
@@ -455,6 +469,7 @@ class ViewController: NSViewController {
     
     // construct the Arrangement popdown menu
     func loadMenu() {
+        actionMenu.selectItem(at: actionAfterStart.rawValue)
         updateInfo()
         if let nn = arrangementButton.menu?.numberOfItems {  // destroy the existing menus
             for num in 1 ..< nn {
@@ -740,7 +755,7 @@ class ViewController: NSViewController {
                     let data = NSDictionary(dictionary: [
                         "currentName" : self.currentName,
                         "restoreAtStart" : self.restoreAtStart,
-                        "quitAfterStart" : self.quitAfterStart,
+                        "actionAfterStart" : self.actionAfterStart.rawValue,
                         "orderedArrangements" : self.orderedArrangements,
                         "arrangements" : self.arrangements,
                         "automaticSave" : self.automaticSave,
@@ -794,7 +809,7 @@ class ViewController: NSViewController {
             case .replace, .mergeIntoImported:
                 currentName = newData?["currentName"] as? String ?? currentName
                 restoreAtStart = newData?["restoreAtStart"] as? Bool ?? restoreAtStart
-                quitAfterStart = newData?["quitAfterStart"] as? Bool ?? quitAfterStart
+                actionAfterStart = ActionItems(rawValue: newData?["actionAfterStart"] as? Int ?? actionAfterStart.rawValue) ?? actionAfterStart
                 orderedArrangements = newData?["orderedArrangements"] as? [String] ?? orderedArrangements
                 automaticSave = newData?["automaticSave"] as? Bool ?? automaticSave
                 timerSeconds = newData?["timerSeconds"] as? Int ?? timerSeconds
