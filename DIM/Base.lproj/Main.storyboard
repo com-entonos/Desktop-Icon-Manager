@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="23727" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="24506" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="23727"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="24506"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -59,13 +59,16 @@
                                             </connections>
                                         </menuItem>
                                     </items>
+                                    <connections>
+                                        <outlet property="delegate" destination="Voe-Tx-rLC" id="0CK-bD-FO0"/>
+                                    </connections>
                                 </menu>
                             </menuItem>
                             <menuItem title="File" id="dMs-cI-mzQ">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="File" autoenablesItems="NO" id="bib-Uj-vzu">
                                     <items>
-                                        <menuItem title="Restore Icon Positions" keyEquivalent="r" identifier="do_restore" id="QqU-1B-97r">
+                                        <menuItem title="Restore Icon Positions" keyEquivalent="r" identifier="actionRestore" id="QqU-1B-97r">
                                             <connections>
                                                 <action selector="do_restore:" target="Ady-hI-5gd" id="y08-At-TzH"/>
                                             </connections>
@@ -82,9 +85,15 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="zo5-UG-jXM"/>
-                                        <menuItem title="Memorize Icon Positions" keyEquivalent="m" identifier="do_memorize" id="T82-nn-dxP">
+                                        <menuItem title="Memorize Icon Positions" keyEquivalent="m" identifier="actionMemorize" id="T82-nn-dxP">
                                             <connections>
                                                 <action selector="do_memorize:" target="Ady-hI-5gd" id="Tne-2h-R4i"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Purge Icon Positions" alternate="YES" keyEquivalent="m" identifier="actionPurge" id="Sp2-nz-o5R">
+                                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                                            <connections>
+                                                <action selector="do_memorize:" target="Ady-hI-5gd" id="Yh5-Zd-ZgS"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="2Zf-Eo-0Gy"/>
@@ -94,6 +103,9 @@
                                             </connections>
                                         </menuItem>
                                     </items>
+                                    <connections>
+                                        <outlet property="delegate" destination="Voe-Tx-rLC" id="gTY-RJ-2GN"/>
+                                    </connections>
                                 </menu>
                             </menuItem>
                             <menuItem title="Help" id="wpr-3q-Mcd">
@@ -106,9 +118,15 @@
                                             </connections>
                                         </menuItem>
                                     </items>
+                                    <connections>
+                                        <outlet property="delegate" destination="Voe-Tx-rLC" id="Cdr-fG-sLK"/>
+                                    </connections>
                                 </menu>
                             </menuItem>
                         </items>
+                        <connections>
+                            <outlet property="delegate" destination="Voe-Tx-rLC" id="l2A-dm-Arp"/>
+                        </connections>
                     </menu>
                     <connections>
                         <outlet property="delegate" destination="Voe-Tx-rLC" id="PrD-fu-P6m"/>
@@ -272,7 +290,7 @@
                                 <rect key="frame" x="296" y="21" width="16" height="16"/>
                             </progressIndicator>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RPs-yy-HEA">
-                                <rect key="frame" x="396" y="11" width="74" height="32"/>
+                                <rect key="frame" x="403" y="18" width="60" height="24"/>
                                 <buttonCell key="cell" type="push" title="Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="mbV-Z6-X8c">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -384,7 +402,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="a44-S5-ecF">
-                                <rect key="frame" x="245" y="13" width="60" height="32"/>
+                                <rect key="frame" x="249" y="20" width="49" height="24"/>
                                 <buttonCell key="cell" type="push" title="Quit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="DAJ-Xf-3FW">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -453,7 +471,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="DZ9-EQ-FiY">
-                                <rect key="frame" x="13" y="109" width="190" height="33"/>
+                                <rect key="frame" x="20" y="116" width="176" height="21"/>
                                 <buttonCell key="cell" type="push" title="Memorize Icon Positions" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="QCb-aW-V8r">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -467,7 +485,7 @@ Gw
                                 </connections>
                             </button>
                             <button imageHugsTitle="YES" horizontalHuggingPriority="249" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1ML-jo-5DP">
-                                <rect key="frame" x="264" y="109" width="209" height="33"/>
+                                <rect key="frame" x="271" y="116" width="195" height="21"/>
                                 <buttonCell key="cell" type="push" title="Restore Icon Positions" bezelStyle="rounded" alignment="center" enabled="NO" borderStyle="border" inset="2" id="1mv-hk-Kog">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -580,7 +598,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YOj-kM-lfG">
-                                <rect key="frame" x="26" y="85" width="350" height="16"/>
+                                <rect key="frame" x="28" y="86" width="346" height="14"/>
                                 <buttonCell key="cell" type="check" title="Automatically Restore Icon Positions at start and then" bezelStyle="regularSquare" imagePosition="left" inset="2" id="S9S-0n-Cm6">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -628,7 +646,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PkV-EO-1tK">
-                                <rect key="frame" x="76" y="64" width="174" height="18"/>
+                                <rect key="frame" x="78" y="65" width="170" height="16"/>
                                 <buttonCell key="cell" type="check" title="Memorize Icon Positions" bezelStyle="regularSquare" imagePosition="left" inset="2" id="gor-4r-4VB">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -641,7 +659,7 @@ Gw
                                 </connections>
                             </button>
                             <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="WbH-dN-Gnb">
-                                <rect key="frame" x="377" y="82" width="78" height="22"/>
+                                <rect key="frame" x="375" y="82" width="78" height="22"/>
                                 <popUpButtonCell key="cell" type="smallSquare" title="stay open" bezelStyle="smallSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" inset="2" selectedItem="Wtv-xz-gdL" id="HpZ-ek-Uh2">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="message"/>
@@ -658,7 +676,7 @@ Gw
                                 </connections>
                             </popUpButton>
                             <popUpButton translatesAutoresizingMaskIntoConstraints="NO" id="MhN-1z-ysc">
-                                <rect key="frame" x="251" y="62" width="123" height="22"/>
+                                <rect key="frame" x="249" y="62" width="123" height="22"/>
                                 <popUpButtonCell key="cell" type="smallSquare" title="every 30 minutes" bezelStyle="smallSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" inset="2" selectedItem="7XQ-wm-cTe" id="RuE-wd-oiz">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="message"/>
@@ -757,7 +775,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Kec-La-loO">
-                                <rect key="frame" x="30" y="126" width="176" height="18"/>
+                                <rect key="frame" x="35" y="111" width="171" height="32"/>
                                 <buttonCell key="cell" type="radio" title="Replace current Settings" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="DZy-um-rxp">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -767,7 +785,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Xt3-su-vjh">
-                                <rect key="frame" x="30" y="82" width="251" height="18"/>
+                                <rect key="frame" x="35" y="51" width="254" height="16"/>
                                 <buttonCell key="cell" type="radio" title="Merge imported into current Settings" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="ECL-2x-p4s">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -777,7 +795,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="t8V-l2-0hN">
-                                <rect key="frame" x="30" y="104" width="251" height="18"/>
+                                <rect key="frame" x="35" y="73" width="246" height="32"/>
                                 <buttonCell key="cell" type="radio" title="Merge current into imported Settings" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="g4D-gA-K9D">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -787,7 +805,7 @@ Gw
                                 </connections>
                             </button>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yZQ-HZ-zu2">
-                                <rect key="frame" x="30" y="151" width="273" height="16"/>
+                                <rect key="frame" x="33" y="151" width="270" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Choose one option:" id="eWt-GM-kb1">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -795,7 +813,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5Dq-cZ-bbP">
-                                <rect key="frame" x="235" y="13" width="53" height="32"/>
+                                <rect key="frame" x="246" y="20" width="43" height="24"/>
                                 <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aGh-1Z-YYK">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -808,7 +826,7 @@ DQ
                                 </connections>
                             </button>
                             <button identifier="cancel" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YBO-lB-nva">
-                                <rect key="frame" x="161" y="13" width="76" height="32"/>
+                                <rect key="frame" x="168" y="20" width="66" height="24"/>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Fee-mG-8AY">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -821,7 +839,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NVe-Mc-rix">
-                                <rect key="frame" x="59" y="58" width="181" height="18"/>
+                                <rect key="frame" x="62" y="27" width="177" height="16"/>
                                 <buttonCell key="cell" type="check" title="include any missing icons" bezelStyle="regularSquare" imagePosition="left" enabled="NO" inset="2" id="x2o-fw-DKx">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -891,7 +909,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="BZE-Es-dML">
-                                <rect key="frame" x="356" y="13" width="81" height="33"/>
+                                <rect key="frame" x="359" y="20" width="71" height="21"/>
                                 <buttonCell key="cell" type="push" title="Change" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xSz-Y4-7Zk">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -907,7 +925,7 @@ DQ
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="P5Y-XG-2u9">
-                                <rect key="frame" x="263" y="13" width="84" height="33"/>
+                                <rect key="frame" x="266" y="20" width="70" height="21"/>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="FTI-jV-CUs">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -999,7 +1017,7 @@ Gw
                                 </connections>
                             </popUpButton>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NZF-Fp-dTm">
-                                <rect key="frame" x="18" y="81" width="288" height="16"/>
+                                <rect key="frame" x="20" y="79" width="286" height="14"/>
                                 <buttonCell key="cell" type="check" title="memorize/restore window position" bezelStyle="regularSquare" imagePosition="left" inset="2" id="lrj-hh-yuw">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1013,7 +1031,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hDU-hg-CL1">
-                                <rect key="frame" x="18" y="61" width="288" height="16"/>
+                                <rect key="frame" x="20" y="59" width="286" height="14"/>
                                 <buttonCell key="cell" type="check" title="memorize/restore window size" bezelStyle="regularSquare" imagePosition="left" inset="2" id="fce-D6-7EV">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1027,7 +1045,7 @@ Gw
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="QVr-bo-qpg">
-                                <rect key="frame" x="378" y="13" width="59" height="32"/>
+                                <rect key="frame" x="382" y="20" width="48" height="24"/>
                                 <buttonCell key="cell" type="push" title="Add" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="xFV-uw-we7">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1040,7 +1058,7 @@ DQ
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="btz-cj-UIW">
-                                <rect key="frame" x="293" y="13" width="76" height="32"/>
+                                <rect key="frame" x="293" y="20" width="66" height="24"/>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kk9-Jw-WuQ">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1053,7 +1071,7 @@ Gw
                                 </connections>
                             </button>
                             <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eRS-Ed-yzq">
-                                <rect key="frame" x="20" y="108" width="410" height="21"/>
+                                <rect key="frame" x="20" y="105" width="410" height="24"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" title="new arrangement" drawsBackground="YES" id="AJC-Ad-ZRB">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -1165,7 +1183,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7bU-c8-psR">
-                                <rect key="frame" x="245" y="13" width="60" height="32"/>
+                                <rect key="frame" x="249" y="20" width="49" height="24"/>
                                 <buttonCell key="cell" type="push" title="Quit" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="e7w-c4-tie">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1230,11 +1248,11 @@ Gw
             <objects>
                 <viewController title="toBadFile" id="tAA-mJ-ajw" customClass="ErrorSheet" customModule="DIM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="NfH-E6-jds">
-                        <rect key="frame" x="0.0" y="0.0" width="415" height="128"/>
+                        <rect key="frame" x="0.0" y="0.0" width="415" height="132"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tFm-hv-sXF">
-                                <rect key="frame" x="35" y="91" width="346" height="17"/>
+                                <rect key="frame" x="35" y="95" width="346" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="This file does not appear to be a DIM Settings file!" id="Gg0-c1-yhh">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1242,7 +1260,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MuF-EO-2T5">
-                                <rect key="frame" x="63" y="60" width="290" height="16"/>
+                                <rect key="frame" x="63" y="64" width="290" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Import failed. Perhaps try another Settings file?" id="tXa-2I-jQ1">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1250,7 +1268,7 @@ Gw
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="xP1-4O-4KL">
-                                <rect key="frame" x="349" y="13" width="53" height="32"/>
+                                <rect key="frame" x="353" y="20" width="42" height="24"/>
                                 <buttonCell key="cell" type="push" title="OK" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="aJ3-bO-g5l">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1284,11 +1302,11 @@ DQ
             <objects>
                 <viewController title="toUpdate" id="hKp-ko-XVg" customClass="UpdateSheet" customModule="DIM" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="wg0-JQ-Yhe">
-                        <rect key="frame" x="0.0" y="0.0" width="415" height="128"/>
+                        <rect key="frame" x="0.0" y="0.0" width="415" height="132"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="jCN-rC-G0E">
-                                <rect key="frame" x="101" y="91" width="213" height="17"/>
+                                <rect key="frame" x="101" y="95" width="213" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="An update for DIM is available!" id="X08-3r-ne7">
                                     <font key="font" metaFont="systemBold" size="14"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1296,7 +1314,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <textField identifier="infoLabel" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hEa-yn-F3q">
-                                <rect key="frame" x="71" y="60" width="274" height="16"/>
+                                <rect key="frame" x="71" y="64" width="274" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="New version is 4, currently running version 4" id="Esy-Jh-qA4">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1304,7 +1322,7 @@ DQ
                                 </textFieldCell>
                             </textField>
                             <button identifier="downloadButtom" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Rgo-Om-tf3">
-                                <rect key="frame" x="307" y="13" width="95" height="32"/>
+                                <rect key="frame" x="311" y="20" width="84" height="24"/>
                                 <buttonCell key="cell" type="push" title="Download" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Twp-sP-ph1">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1317,7 +1335,7 @@ DQ
                                 </connections>
                             </button>
                             <button identifier="cancelButton" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NTi-vu-R3H">
-                                <rect key="frame" x="13" y="13" width="76" height="32"/>
+                                <rect key="frame" x="20" y="20" width="66" height="24"/>
                                 <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hiI-x0-8C5">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1330,7 +1348,7 @@ Gw
                                 </connections>
                             </button>
                             <button identifier="visitButton" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="z2Y-ZB-fYa">
-                                <rect key="frame" x="152" y="13" width="111" height="32"/>
+                                <rect key="frame" x="157" y="20" width="101" height="24"/>
                                 <buttonCell key="cell" type="push" title="Visit website" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dX0-Ym-Jsm">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
