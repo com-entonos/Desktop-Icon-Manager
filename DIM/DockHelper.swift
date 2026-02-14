@@ -27,15 +27,11 @@ extension Logger {
 }
 
 class DockHelper {
-    let BundleID = "com.parker9.DIM-4"
+    let BundleID = Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as? String ?? "com.parker9.DIM-4"
     var allArrangements = [String]()
     var nameList : [String]? = nil
-    
-    var optionHeld = false
 
     init() {
-        NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { self.myFlagsChanged(with: $0); return $0} // capture if option key is being held
-
         NotificationCenter.default.addObserver(forName: .newArrangement, object: nil, queue: .main, using: { notice in  // listen for new arrangment list -> newList
             self.nameList = notice.object as? [String] ?? nil
             //if #available(macOS 11.0, *) { Logger.diag.log("notice recieved: \(notice.name.rawValue, privacy: .public) nameList=\(self.nameList ?? [], privacy: .private(mask: .hash))<") }
@@ -66,8 +62,10 @@ class DockHelper {
         }
         menu.addItem(NSMenuItem.separator())
         for index in -1..<(allArrangements.count > 1 ? allArrangements.count : 0) {
-            let it = NSMenuItem(title: (!optionHeld ? "Memorize" : "Purge") + "\(index < 0 ? "" : (" " + allArrangements[index]))", action: #selector(self.selectDMI(_:)), keyEquivalent: "");it.target = self; it.tag = index
+            let it = NSMenuItem(title: "Memorize\(index < 0 ? "" : (" " + allArrangements[index]))", action: #selector(self.selectDMI(_:)), keyEquivalent: ""); it.target = self; it.tag = index
+            let itA = NSMenuItem(title: "Purge\(index < 0 ? "" : (" " + allArrangements[index]))", action: #selector(self.selectDMI(_:)), keyEquivalent: "");itA.target = self; itA.tag = index; itA.isAlternate = true; itA.keyEquivalentModifierMask = .option
             menu.addItem(it)
+            menu.addItem(itA)
         }
         return menu
     }
@@ -76,10 +74,5 @@ class DockHelper {
         let noticeName: Notification.Name = sender.title.hasPrefix("Purge") ? .doMemorize : (sender.title.hasPrefix("Memorize") ? .doAdd : .doRestore)
         if #available(macOS 11.0, *) { Logger.diag.log("DockHelper.selectDMI sending notice: \(sender.tag, privacy: .public) \(noticeName.rawValue, privacy: .public) name=\(name, privacy: .private(mask: .hash))<") }
         NotificationCenter.default.post(name: noticeName, object: sender.tag < 0 ? nil : name)
-    }
-    
-    func myFlagsChanged(with event: NSEvent) {
-        optionHeld = event.modifierFlags.contains(.option)
-        //if #available(macOS 11.0, *) { Logger.diag.log("DockHelper.myFlagsChanged optionHeld=\(self.optionHeld, privacy: .public)")}
     }
 }
