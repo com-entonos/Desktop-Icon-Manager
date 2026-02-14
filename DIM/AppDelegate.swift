@@ -9,6 +9,11 @@
 import Cocoa
 import OSLog
 
+extension Notification.Name {
+    static let doMemorizeButton = Notification.Name("doMemorizeButton")
+    static let atEnd = NSNotification.Name("atEnd")
+}
+
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
     
@@ -42,7 +47,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
          */
     }
     func applicationWillTerminate(_ aNotification: Notification) {
-        NotificationCenter.default.post(name: NSNotification.Name("atEnd"), object: nil)
+        NotificationCenter.default.post(name: .atEnd, object: nil)
     }
     func applicationShouldTerminateAfterLastWindowClosed(_ sender: NSApplication) -> Bool {
         return true
@@ -58,3 +63,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return dockHelper.dockMenu()
     }/**/
 }
+
+/* try to keep Memorize/Purge button display correctly */
+extension AppDelegate: NSMenuDelegate {
+    func menuDidClose(_ menu: NSMenu) {  NotificationCenter.default.post(name: .doMemorizeButton, object: nil) } // in case menu is dismissed
+    func menu(_ menu: NSMenu, willHighlight item: NSMenuItem?) { NotificationCenter.default.post(name: .doMemorizeButton, object: nil) } // update button as we select different menu items- can't seem to catch key down when menu open
+}
+/**/
