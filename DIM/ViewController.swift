@@ -30,7 +30,6 @@ class ViewController: NSViewController {
     var dataVer = "0.0"
     var quitTimer: Timer?
     var quitCount = 20
-    var optionHeld = false      // is option key being held?
     var didChangeScreen = false
     
     // this is for updating
@@ -61,8 +60,12 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         overrideSetting = NSEvent.modifierFlags == .command  // check to see if user is holding command key during launch
         
+        /* capture option key press/release - FIXME: doesn't trigger if menu is open */
+        NSEvent.addLocalMonitorForEvents(matching: .flagsChanged, handler: { event in self.setMemorizeButtonTitle(!event.modifierFlags.contains(.option)); return event})
+            //self.flagsChanged(with: event); return event })
+            
         // quiting: invalidate any timers and should we do a save?
-        NotificationCenter.default.addObserver(forName: NSNotification.Name("atEnd"), object: nil, queue: .main, using: { notice in
+        NotificationCenter.default.addObserver(forName: .atEnd, object: nil, queue: .main, using: { notice in
             if self.automaticSave && self.timerSeconds < 0 && !(self.restoreAtStart && self.actionAfterStart == .quit) {
                 //self.arrangements[self.currentName] = self.refetchSet()  // w/o gui
                 self.arrangements[self.currentName] = self.mergeArrangements(addArrangement: self.arrangements[self.currentName]!, baseArrangement: self.refetchSet())
@@ -79,13 +82,17 @@ class ViewController: NSViewController {
         NotificationCenter.default.addObserver(forName: .doRestore, object: nil, queue: .main, using: { notice in
             //if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "restoreButton", privacy: .private(mask: .hash))") }
             if let name = notice.object as? String { self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.restore(name) } else { self.do_restore(self.restoreButton as Any)} })
-        NotificationCenter.default.addObserver(forName: .doMemorize, object: nil, queue: .main, using: { notice in
+        NotificationCenter.default.addObserver(forName: .doMemorize, object: nil, queue: .main, using: { notice in //this is Purge
             //if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? "memorizeButton", privacy: .private(mask: .hash))") }
-            if let name = notice.object as? String { self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.memorize(name) } else { self.do_memorize(self.memorizeButton as Any)} })
+            let name = notice.object as? String ?? self.currentName
+            self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.memorize(name) })
         NotificationCenter.default.addObserver(forName: .doAdd, object: nil, queue: .main, using: { notice in
             //if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public)<>\(notice.object as? String ?? self.currentName, privacy: .private(mask: .hash))") }
             let name = notice.object as? String ?? self.currentName
             self.currentTF.stringValue = "Using Icon Arrangement: " + name; self.memorize(name, addTo: true) })
+        
+        /* redraw Memorize/Purge Icon Positions button */
+        NotificationCenter.default.addObserver(forName: .doMemorizeButton, object: nil, queue: .main, using: { _ in self.setMemorizeButtonTitle() })
         
     }
     func doWaitRestore(_ notice : Notification) {
@@ -102,7 +109,6 @@ class ViewController: NSViewController {
         if start {
             thisVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
             if #available(macOS 11.0, *) { Logger.diag.info("starting DIM \(self.thisVer, privacy: .public)") }
-            NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { self.myFlagsChanged(with: $0); return $0}
             DispatchQueue.global(qos: .userInteractive).async {
                 if self.dim == nil { self.dim = DIM() }
                 DispatchQueue.main.async {
@@ -122,12 +128,17 @@ class ViewController: NSViewController {
             }
         }
     }
-    
-    func myFlagsChanged(with event: NSEvent) {
-        //super.flagsChanged(with: event)
-        optionHeld = !event.modifierFlags.contains(.option)
-        memorizeButton.title = optionHeld ? "Memorize Icon Positions" : "Purge Icon Positions"
-        //if #available(macOS 11.0, *) { Logger.diag.log("ViewController.myFlagsChanged optionHeld=\(self.optionHeld, privacy: .public)")}
+    /* this doesn't seem to catch anything.... /**/
+    override var acceptsFirstResponder: Bool { return true }
+    override func flagsChanged(with event: NSEvent) {
+        print("flagsChanged: \(event.modifierFlags)")
+        setMemorizeButtonTitle(!event.modifierFlags.contains(.option))
+        super.flagsChanged(with: event)
+    } */
+    func setMemorizeButtonTitle(_ doAddI : Bool? = nil) {
+        let doAdd = doAddI ?? !NSEvent.modifierFlags.contains(.option)
+        memorizeButton.title = doAdd ? "Memorize Icon Positions" : "Purge Icon Positions"
+      //print("setMemorizeButtonTitle: \(doAdd) \(memorizeButton.title)")
     }
     
     @objc func terminate() {
@@ -152,13 +163,15 @@ class ViewController: NSViewController {
     
     // Button pressed to Memorize...
     @IBAction func do_memorize(_ sender: Any) {
+        setMemorizeButtonTitle()
         quitTimer?.invalidate()
-        memorize(currentName,addTo: optionHeld)
+        memorize(currentName,addTo: !NSEvent.modifierFlags.contains(.option))
         refreshTimer()
     }
     
     // Button pressedd to Restore...
     @IBAction func do_restore(_ sender: Any) {
+        setMemorizeButtonTitle()
         quitTimer?.invalidate()
         restore(currentName)
         refreshTimer()
