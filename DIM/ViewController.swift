@@ -3,7 +3,7 @@
 //  DIM
 //
 //  Created by G.J. Parker on 19/1/17.
-//  Copyright © 2021 G.J. Parker. All rights reserved.
+//  Copyright © 2026 G.J. Parker. All rights reserved.
 //
 
 import Cocoa
@@ -109,23 +109,25 @@ class ViewController: NSViewController {
         if start {
             thisVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
             if #available(macOS 11.0, *) { Logger.diag.info("starting DIM \(self.thisVer, privacy: .public)") }
-            DispatchQueue.global(qos: .userInteractive).async {
-                if self.dim == nil { self.dim = DIM() }
-                DispatchQueue.main.async {
-                    if self.dim == nil || self.dim!.testBridge == "no" || self.dim!.testBridge == nil {
-                        if #available(macOS 11.0, *) { Logger.err.error("DIM failed to connect to Finder") }
-                        self.errorwithAS()
-                    } else {
-                        self.updateUI("Starting...")
-                        self.loadPrefs()
-                        self.start = false
-                        self.updateUI()
-                        if !self.noCommandLineArgs(CommandLine.arguments) { self.doCommandLineArgs(CommandLine.arguments) }
-                        //DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true); if #available(macOS 11.0, *) { Logger.diag.log("ViewController DistributedNotice .newArrangement posted") }
-                        NotificationCenter.default.post(name: .newArrangement, object: self.orderedArrangements)//; if #available(macOS 11.0, *) { Logger.diag.log("viewDidAppear post NotificationCenter .newArrangement >\(self.orderedArrangements,privacy: .private(mask: .hash))<") }
-                    }
+            doingPI.startAnimation(nil)
+            DispatchQueue.main.async {
+                self.dim = DIM()
+                if self.dim == nil || self.dim!.testBridge == "no" || self.dim!.testBridge == nil {
+                    if #available(macOS 11.0, *) { Logger.err.error("DIM failed to connect to Finder") }
+                    self.errorwithAS()
+                } else {
+                    self.loadPrefs()
+                    self.start = false
+                    self.updateUI()
+                    if !self.noCommandLineArgs(CommandLine.arguments) {self.doCommandLineArgs(CommandLine.arguments) }
+                    NotificationCenter.default.post(name: .newArrangement, object: self.orderedArrangements)//; if #available(macOS 11.0, *) { Logger.diag.log("viewDidAppear post NotificationCenter .newArrangement >\(self.orderedArrangements,privacy: .private(mask: .hash))<") }
                 }
             }
+            //DispatchQueue.global(qos: .userInteractive).async {
+            //    if self.dim == nil { self.dim = DIM() }
+            //    DispatchQueue.main.async {
+            //    }
+            //}
         }
     }
     /* this doesn't seem to catch anything.... /**/
@@ -686,7 +688,7 @@ class ViewController: NSViewController {
                     arrangements.removeValue(forKey: arrangementName)
                     if currentName == arrangementName {
                         currentName = orderedArrangements[0]
-                        _arrangeButton(self.currentName)
+                        _arrangeButton(currentName)
                     }
                 }
             case "--memorize", "--purge" :
@@ -694,13 +696,11 @@ class ViewController: NSViewController {
                 DispatchQueue.global(qos: .utility).sync { [unowned self] in
                     let currentArrangement = (arrangementName == currentName) ? refetchSet() : fetchSet()
                     arrangements[arrangementName] = currentArrangement
-                    if arrangementName != currentName {
-                        dim!.iconSet = arrangements[currentName]
-                    }
+                    if arrangementName != currentName { dim!.iconSet = arrangements[currentName] }
                     savePrefs()
-                    if !self.orderedArrangements.contains(arrangementName) {
-                        self.orderedArrangements.append(arrangementName)
-                        self._arrangeButton(self.currentName)
+                    if !orderedArrangements.contains(arrangementName) {
+                        orderedArrangements.append(arrangementName)
+                        _arrangeButton(currentName)
                     }
                 }
                 updateUI()
@@ -728,11 +728,11 @@ class ViewController: NSViewController {
                         dim!.numOnDesktop = 0
                         if arrangementName != currentName {
                             dim!.iconSet = arrangements[currentName]
-                            _arrangeButton(self.currentName)
+                            _arrangeButton(currentName)
                         }
                     }
                     updateUI()
-                    self.refreshTimer()
+                    refreshTimer()
                 }
             case "--arrangement" :
                 if orderedArrangements.contains(arrangementName) && arrangements[arrangementName] != nil && arrangementName != currentName {
