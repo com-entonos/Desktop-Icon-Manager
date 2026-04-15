@@ -4,6 +4,10 @@
 <dict>
 	<key>com.apple.security.app-sandbox</key>
 	<true/>
+	<key>com.apple.security.application-groups</key>
+	<array>
+		<string>group.com.parker9.DIM-4</string>
+	</array>
 	<key>com.apple.security.automation.apple-events</key>
 	<true/>
 	<key>com.apple.security.files.downloads.read-write</key>
@@ -13,6 +17,8 @@
 	<key>com.apple.security.network.client</key>
 	<true/>
 	<key>com.apple.security.temporary-exception.apple-events</key>
-	<string>com.apple.finder</string>
+	<array>
+		<string>com.apple.finder</string>
+	</array>
 </dict>
 </plist>
