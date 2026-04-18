@@ -7,8 +7,6 @@
 //
 
 import Cocoa
-import OSLog
-import ServiceManagement
 
 extension Notification.Name {
     static let doMemorizeButton = Notification.Name("doMemorizeButton")
@@ -28,14 +26,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if !FileManager.default.fileExists(atPath: FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/" + bDIM.bID + ".plist") {
             exportMenuItem.isEnabled = false
         }
-        if #available(macOS 13.0, *) {
-            // incase we updated, stop old if running...
-            let serv = SMAppService.loginItem(identifier: bDIM.hID)
-            try? serv.unregister()
-            if UserDefaults(suiteName: bDIM.gUD)?.bool(forKey: "doHelper") ?? false {
-                try? serv.register()
-            }
-        }/** //place holder if we ever want to deal w/ the dock
+        /** //place holder if we ever want to deal w/ the dock
         print("contentView=\(NSApp.dockTile.contentView)")
             print(NSApp.dockTile)
         let x = NSApp.applicationIconImage!
@@ -67,7 +58,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     /*  do applicationDockMenu? */
     let dockHelper = DockHelper()
     func applicationDockMenu(_ sender: NSApplication) -> NSMenu? {
-        //if #available(macOS 11.0, *) { Logger(subsystem: "DIMDTP", category: "info").log("applicationDockMenu called, return dockHelper.setMenu()") }
         return dockHelper.dockMenu()
     }/**/
 }
