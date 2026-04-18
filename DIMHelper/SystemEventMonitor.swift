@@ -11,6 +11,11 @@
 import Cocoa
 import OSLog
 
+
+extension Notification.Name {
+    static let doTest = Notification.Name("doTest")
+}
+
 final class SystemEventMonitor {
     
     private var observers: [NSObjectProtocol] = []
@@ -20,8 +25,6 @@ final class SystemEventMonitor {
             withBundleIdentifier: bDIM.bID
         ).isEmpty
     }
-
-    var waitingForTest = false  // only used in for testing...
     
     func start() {
 
@@ -33,7 +36,8 @@ final class SystemEventMonitor {
              "screenWake": (ws, NSWorkspace.screensDidWakeNotification),
                  "change": (nc, NSApplication.didChangeScreenParametersNotification),
                   "sleep": (ws, NSWorkspace.willSleepNotification),
-            "screenSleep": (ws, NSWorkspace.screensDidSleepNotification)
+            "screenSleep": (ws, NSWorkspace.screensDidSleepNotification),
+                   "test": (nc, .doTest)
         ]
         
         // what is requested?
@@ -60,10 +64,12 @@ final class SystemEventMonitor {
         //UserDefaults(suiteName: bDIM.gUD)?.synchronize()
         //UserDefaults(suiteName: bDIM.gUD)?.removeObject(forKey: "data")
         
+        data["test"] = (1.0, ["--restore"])
+        
         var events: [(NotificationCenter, NSNotification.Name, Double, [String])] = []
         for (key, (delay, args)) in data {
             events.append((cn[key]!.0, cn[key]!.1, delay, args))
-            Logger.log("events: nc:\(cn[key]!.0) name:\(cn[key]!.1) delay:\(delay) args:\(args)", category: .lifecycle, level: .debug)
+            //Logger.log("events: nc:\(cn[key]!.0) name:\(cn[key]!.1) delay:\(delay) args:\(args)", category: .lifecycle, level: .debug)
         }
         //Logger.log("events: \(events)", category: .lifecycle, level: .debug)
         if events.isEmpty {
@@ -74,38 +80,36 @@ final class SystemEventMonitor {
         for (center, name, time, args) in events {
             let obs = center.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
                 self?.handleEvent(time: time, args: args)
-                Logger.log("name:\(name) delay:\(time) args:\(args) )",category: .lifecycle, level: .debug)
+                //Logger.log("name:\(name) delay:\(time) args:\(args) )",category: .lifecycle, level: .debug)
+                Logger.diag.log("observing for name:\(name.rawValue , privacy: .public) with delay:\(time,privacy: .public) & args:\(args, privacy: .private(mask: .hash))")
             }
             observers.append(obs)
         }
     }
 
     private func handleEvent(time: Double, args: [String]) {
-        guard !isMainAppRunning, let appURl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bDIM.bID) else { self.waitingForTest = false
+        guard !isMainAppRunning, let appURl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bDIM.bID) else {
             Logger.log("failed handleEvent: running? \(self.isMainAppRunning) appURL:\(NSWorkspace.shared.urlForApplication(withBundleIdentifier: bDIM.bID)?.absoluteString ?? "nil")" ,category: .lifecycle, level: .debug)
             return
         }
         
-        Logger.log("going to start in \(time), doing:\(args)",category: .lifecycle, level: .debug)
+        Logger.log("going to start in \(time)...",category: .lifecycle, level: .debug)
+        let GDefaults = UserDefaults(suiteName: bDIM.gUD)
         Timer.scheduledTimer(withTimeInterval: time, repeats: false) { _ in
             let config = NSWorkspace.OpenConfiguration()
             config.arguments = args
             config.activates = false
-            UserDefaults(suiteName: bDIM.gUD)?.set(args, forKey: "args")
-            UserDefaults(suiteName: bDIM.gUD)?.synchronize(); self.waitingForTest = false
-            Logger.log("about to open DIM with \(config.arguments)",category: .lifecycle, level: .debug)
+            GDefaults?.set(args, forKey: "args")
+            GDefaults?.synchronize()
+            //Logger.log("about to open DIM with \(config.arguments)",category: .lifecycle, level: .debug)
+            Logger.diag.log("about to open DIM with \(config.arguments, privacy: .private(mask: .hash))")
             NSWorkspace.shared.openApplication(at: appURl, configuration: config)
         }
     }
     
     private func test() {
-        Timer.scheduledTimer(withTimeInterval: 7.5, repeats: true) {_ in
-            let doIt = self.waitingForTest ? false : (UserDefaults(suiteName: bDIM.gUD)?.object(forKey: "args") == nil)
-            Logger.log("doing test, doIt? \(doIt), waiting? \(self.waitingForTest)",category: .lifecycle, level: .debug)
-            if doIt {
-                self.waitingForTest = true
-                self.handleEvent(time: 20.0, args: ["--restore", "--quit"])
-            }
+        Timer.scheduledTimer(withTimeInterval: 15.0, repeats: true) {_ in
+            NotificationCenter.default.post(name: .doTest, object: nil)
         }
     }
 
