@@ -96,6 +96,15 @@ class ViewController: NSViewController {
         /* redraw Memorize/Purge Icon Positions button */
         NotificationCenter.default.addObserver(forName: .doMemorizeButton, object: nil, queue: .main, using: { _ in self.setMemorizeButtonTitle() })
         
+        if #available(macOS 13.0, *) {
+            // incase we updated, stop old if running...
+            let serv = SMAppService.loginItem(identifier: bDIM.hID)
+            try? serv.unregister()
+            if UserDefaults(suiteName: bDIM.gUD)?.bool(forKey: "doHelper") ?? false {
+                _ = toggleHelper(to: true)
+            }
+        }
+        arrangementButton.cell?.menu?.delegate = self  // so loadMenu constructs itself when button is pressed
     }
     func doWaitRestore(_ notice : Notification) {
         if !self.didChangeScreen {
@@ -412,7 +421,7 @@ class ViewController: NSViewController {
         automaticSaveButton.state = (automaticSave ? .on : .off)
         timeMenu.isHidden = automaticSaveButton.isHidden
         timeMenu.isEnabled = !timeMenu.isHidden && automaticSaveButton.state == .on
-        loadMenu()  // finally, construct the arrangement drop down menu
+        updateInfo() // loadMenu()  // finally, construct the arrangement drop down menu
         refreshTimer()
     }
     
@@ -510,13 +519,21 @@ class ViewController: NSViewController {
             
             if #available(macOS 13.0, *) {
                 arrangementButton.menu?.addItem(NSMenuItem.separator())
-                let runningHelper = SMAppService.loginItem(identifier: bDIM.hID).status == .enabled
-                let enabled = UserDefaults(suiteName: bDIM.gUD)?.bool(forKey: "doHelper") ?? false
-                if runningHelper != enabled { // Helper and user is out of sync. seems impossible...
-                    toggleHelper(to: enabled)
+
+                let serv = SMAppService.loginItem(identifier: bDIM.hID)
+                let runningHelper = serv.status == .enabled
+                let want = UserDefaults(suiteName: bDIM.gUD)?.bool(forKey: "doHelper") ?? false
+                let userDenied = (runningHelper != want) ? toggleHelper(to: want) : false
+                let menuTitle = "DIM helper is " + (userDenied ? "denied!" : (serv.status == .enabled ? "running" : "stopped"))
+                let submenuItem = NSMenuItem(title: menuTitle, action: nil, keyEquivalent: "")
+                let submenu = NSMenu(title: menuTitle)
+                if userDenied {
+                    submenu.addItem(NSMenuItem(title: "Perhaps allow DIM in App Background Activity...", action: #selector(doHelperUD), keyEquivalent: ""))
+                } else {
+                    submenu.addItem(NSMenuItem(title: serv.status == .enabled ? "Stop DIM helper" : "Start DIM helper", action: #selector(doHelper), keyEquivalent: ""))
                 }
-                let helperMenu = NSMenuItem(title: enabled ? "Stop DIM helper" : "Start DIM helper", action: #selector(doHelper), keyEquivalent: "")
-                arrangementButton.menu?.addItem(helperMenu)
+                submenuItem.submenu = submenu
+                arrangementButton.menu?.addItem(submenuItem)
             }
         }
     }
@@ -554,14 +571,17 @@ class ViewController: NSViewController {
         dim!.numInSet = 0
         dim!.numOnDesktop = 0
         savePrefs()
-        loadMenu()
+        updateInfo() //loadMenu()
     }
-    
+    @objc func doHelperUD(_ sender: NSMenuItem) {
+        if let url = URL(string: "x-apple.systempreferences:com.apple.LoginItems-Settings.extension") {
+            NSWorkspace.shared.open(url)
+        }
+    }
     @objc func doHelper(_ sender: NSMenuItem) {
         let start = sender.title.contains("Start")
         if #available(macOS 13.0, *) {
-            toggleHelper(to: start)
-            loadMenu()
+            _ = toggleHelper(to: start)
         }
     }
     
@@ -577,7 +597,7 @@ class ViewController: NSViewController {
             hider = Hider()
         }
         hiding = !hiding // toggle state
-        loadMenu()
+        //updateInfo() //loadMenu()
     }
     
     // user wants to highlight new icons...
@@ -922,7 +942,7 @@ class ViewController: NSViewController {
     
     // helper app
     @available(macOS 13.0, *)
-    func toggleHelper(to start: Bool,_ helperBundleID: String = bDIM.hID) {
+    func toggleHelper(to start: Bool,_ helperBundleID: String = bDIM.hID) -> Bool {
         
         let groupDefaults = UserDefaults(suiteName: bDIM.gUD)
         groupDefaults?.set(start, forKey: "doHelper")
@@ -933,8 +953,11 @@ class ViewController: NSViewController {
             do {
                 try helperService.register()
                 Logger.diag.info("DIMHelper enabled successfully")
+                //} catch let error as NSError where error.code == kSMErrorLaunchDeniedByUser {
             } catch {
                 Logger.diag.info("DIMHelper registration failed: \(error.localizedDescription, privacy: .public)")
+                //userDenied = error.localizedDescription.contains("Operation not permitted")
+                return false
             }
         } else if !start && isEnabled {
             helperService.unregister { error in
@@ -947,5 +970,13 @@ class ViewController: NSViewController {
             }
         }
         groupDefaults?.synchronize()
+        return true
+    }
+}
+
+extension ViewController: NSMenuDelegate {  // so loadMenu constructs itself when button is pressed
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        //print("NSMenuDelegate fired! \(menu)")
+        loadMenu()
     }
 }
