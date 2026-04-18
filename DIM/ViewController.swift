@@ -9,6 +9,8 @@
 import Cocoa
 import OSLog
 
+import ServiceManagement
+
 enum ActionItems : Int, CaseIterable { case  open = 0, hide, quit }
 
 class ViewController: NSViewController {
@@ -506,16 +508,16 @@ class ViewController: NSViewController {
             let hiderMenu = NSMenuItem(title: hiding ? "Show Desktop icons" : "Hide Desktop icons", action: #selector(doHider), keyEquivalent: "")    // "Hide/Show Desktop icons" option
             arrangementButton.menu?.addItem(hiderMenu)
             
-            // for 4.0.1
-            if ProcessInfo().operatingSystemVersion.minorVersion < 13 &&  ProcessInfo().operatingSystemVersion.majorVersion == 10 {
-                editMenu.target = self
-                editMenu.isEnabled = true
-                showMenu.target = self
-                showMenu.isEnabled = true
-                hiderMenu.target = self
-                hiderMenu.isEnabled = true
+            if #available(macOS 13.0, *) {
+                arrangementButton.menu?.addItem(NSMenuItem.separator())
+                let runningHelper = SMAppService.loginItem(identifier: bDIM.hID).status == .enabled
+                let enabled = UserDefaults(suiteName: bDIM.gUD)?.bool(forKey: "doHelper") ?? false
+                if runningHelper != enabled { // Helper and user is out of sync. seems impossible...
+                    toggleHelper(to: enabled)
+                }
+                let helperMenu = NSMenuItem(title: enabled ? "Stop DIM helper" : "Start DIM helper", action: #selector(doHelper), keyEquivalent: "")
+                arrangementButton.menu?.addItem(helperMenu)
             }
-            
         }
     }
     
@@ -553,6 +555,14 @@ class ViewController: NSViewController {
         dim!.numOnDesktop = 0
         savePrefs()
         loadMenu()
+    }
+    
+    @objc func doHelper(_ sender: NSMenuItem) {
+        let start = sender.title.contains("Start")
+        if #available(macOS 13.0, *) {
+            toggleHelper(to: start)
+            loadMenu()
+        }
     }
     
     // toggle hiding/unhiding Desktop icons
@@ -668,10 +678,19 @@ class ViewController: NSViewController {
     
     func noCommandLineArgs(_ args : [String]) -> Bool {
         let commands : Set = ["--memorize", "--add", "--restore", "--arrangement", "--hide-icons", "--select-missing-icons", "--delete", "--quit", "--update", "--purge"]
-        return Set(args).intersection(commands).isEmpty
+        return Set(args).intersection(commands).isEmpty &&
+                UserDefaults(suiteName: bDIM.gUD)?.object(forKey: "args") == nil
+        // N=0   UD!=nil  ==nil
+        //  T       T       F       F
+        //  F       T       F       F
+        //  T       F       T       T
+        //  F       F       T       F
     }
     func doCommandLineArgs(_ args : [String]) {
-        var newArgs = args
+        let groupDefaults = UserDefaults(suiteName: bDIM.gUD)
+        var newArgs = args + (groupDefaults?.stringArray(forKey: "args") ?? [])
+        groupDefaults?.removeObject(forKey: "args")
+        groupDefaults?.synchronize()
         while (!newArgs.isEmpty) {
             let isName = (newArgs.count > 1) ? newArgs[1].prefix(2) != "--"  : false
             let arrangementName = isName ? newArgs[1] : currentName
@@ -755,12 +774,12 @@ class ViewController: NSViewController {
 
 // add Import and Export of UserDefaults
     @IBAction func writePlist(_ sender: NSMenuItem) {  // this will (hopefully) copy the current UserDefaults data to user specified place
-        let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/com.parker9.DIM-4.plist"
+        let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/" + bDIM.bID + ".plist"
         if FileManager.default.fileExists(atPath: url2) {
             let panel = NSSavePanel()
             panel.canCreateDirectories = true
             panel.message = "Select location to export DIM Settings:"
-            panel.nameFieldStringValue = "com.parker9.DIM-4.plist"
+            panel.nameFieldStringValue = bDIM.bID + ".plist"
             panel.prompt = "Export"
             panel.allowedFileTypes = ["plist"]
             panel.nameFieldLabel = "Export As:"
@@ -899,5 +918,34 @@ class ViewController: NSViewController {
         } else {
             return baseArrangement  // some problem, just return base (i.e. no merge)
         }
+    }
+    
+    // helper app
+    @available(macOS 13.0, *)
+    func toggleHelper(to start: Bool,_ helperBundleID: String = bDIM.hID) {
+        
+        let groupDefaults = UserDefaults(suiteName: bDIM.gUD)
+        groupDefaults?.set(start, forKey: "doHelper")
+        
+        let helperService = SMAppService.loginItem(identifier: helperBundleID)
+        let isEnabled = helperService.status == .enabled
+        if start && !isEnabled {
+            do {
+                try helperService.register()
+                Logger.diag.info("DIMHelper enabled successfully")
+            } catch {
+                Logger.diag.info("DIMHelper registration failed: \(error.localizedDescription, privacy: .public)")
+            }
+        } else if !start && isEnabled {
+            helperService.unregister { error in
+                if let error = error {
+                    Logger.diag.info("Failed to unregister DIMHelper: \(error.localizedDescription, privacy: .public)")
+                } else {
+                    Logger.diag.info("Unregistered DIMHelper")
+                    groupDefaults?.removeObject(forKey: "args") //remove debris...
+                }
+            }
+        }
+        groupDefaults?.synchronize()
     }
 }

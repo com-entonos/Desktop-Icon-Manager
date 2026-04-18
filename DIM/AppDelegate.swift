@@ -8,6 +8,7 @@
 
 import Cocoa
 import OSLog
+import ServiceManagement
 
 extension Notification.Name {
     static let doMemorizeButton = Notification.Name("doMemorizeButton")
@@ -24,10 +25,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if UserDefaults.standard.object(forKey: "startHidden") != nil ? UserDefaults.standard.bool(forKey: "startHidden") : false { NSApplication.shared.hide(self) }
       //NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.willPowerOffNotification, object: nil, queue: .main, using: { note in NSApplication.shared.mainWindow?.performClose(nil)})
         NSApplication.shared.disableRelaunchOnLogin()
-        if !FileManager.default.fileExists(atPath: FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/com.parker9.DIM-4.plist") {
+        if !FileManager.default.fileExists(atPath: FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/" + bDIM.bID + ".plist") {
             exportMenuItem.isEnabled = false
         }
-        /** //place holder if we ever want to deal w/ the dock 
+        if #available(macOS 13.0, *) {
+            // incase we updated, stop old if running...
+            let serv = SMAppService.loginItem(identifier: bDIM.hID)
+            try? serv.unregister()
+            if UserDefaults(suiteName: bDIM.gUD)?.bool(forKey: "doHelper") ?? false {
+                try? serv.register()
+            }
+        }/** //place holder if we ever want to deal w/ the dock
         print("contentView=\(NSApp.dockTile.contentView)")
             print(NSApp.dockTile)
         let x = NSApp.applicationIconImage!

@@ -16,18 +16,9 @@ extension Notification.Name {
     static let doAdd = Notification.Name("doAdd")
     static let newArrangement = Notification.Name("newArrangement")
 }
-@available(macOS 11.0, *)
-extension Logger {
-    /// Using your bundle identifier is a great way to ensure a unique identifier.
-    private static var subsystem = Bundle.main.bundleIdentifier!
-
-    /// All logs related to tracking and analytics.
-    static let diag = Logger(subsystem: subsystem, category: "info")
-    static let err = Logger(subsystem: subsystem, category: "error")
-}
 
 class DockHelper {
-    let BundleID = Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as? String ?? "com.parker9.DIM-4"
+    let BundleID = Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as? String ?? bDIM.bID
     var allArrangements = [String]()
     var nameList : [String]? = nil
 
