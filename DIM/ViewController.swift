@@ -523,7 +523,7 @@ class ViewController: NSViewController {
                 let serv = SMAppService.loginItem(identifier: bDIM.hID)
                 let runningHelper = serv.status == .enabled
                 let want = UserDefaults(suiteName: bDIM.gUD)?.bool(forKey: "doHelper") ?? false
-                let userDenied = (runningHelper != want) ? toggleHelper(to: want) : false
+                let userDenied = (runningHelper != want) ? !toggleHelper(to: want) : false
                 let menuTitle = "DIM helper is " + (userDenied ? "denied!" : (serv.status == .enabled ? "running" : "stopped"))
                 let submenuItem = NSMenuItem(title: menuTitle, action: nil, keyEquivalent: "")
                 let submenu = NSMenu(title: menuTitle)
@@ -953,7 +953,6 @@ class ViewController: NSViewController {
             do {
                 try helperService.register()
                 Logger.diag.info("DIMHelper enabled successfully")
-                //} catch let error as NSError where error.code == kSMErrorLaunchDeniedByUser {
             } catch {
                 Logger.diag.info("DIMHelper registration failed: \(error.localizedDescription, privacy: .public)")
                 //userDenied = error.localizedDescription.contains("Operation not permitted")
