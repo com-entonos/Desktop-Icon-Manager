@@ -516,8 +516,15 @@ class ViewController: NSViewController {
             let showMenu = NSMenuItem(title: "Select unmemorized Icons", action: #selector(showNewIcons), keyEquivalent: "")    // "Select unmemorized icons" option
             arrangementButton.menu?.addItem(showMenu)
             arrangementButton.menu?.addItem(NSMenuItem.separator())
-            let hiderMenu = NSMenuItem(title: hiding ? "Show Desktop icons" : "Hide Desktop icons", action: #selector(doHider), keyEquivalent: "")    // "Hide/Show Desktop icons" option
-            arrangementButton.menu?.addItem(hiderMenu)
+            if #available(macOS 13.0, *) {
+                let runningHelper = SMAppService.loginItem(identifier: bDIM.hHI).status == .enabled
+                let hiderMenu = NSMenuItem(title: !runningHelper ? "Start Hide Icons" : "Stop Hide Icons", action: #selector(doHider), keyEquivalent: "")    // "Hide/Show Desktop icons" option
+                arrangementButton.menu?.addItem(hiderMenu)
+            } else {
+                let hiderMenu = NSMenuItem(title: hiding ? "Show Desktop icons" : "Hide Desktop icons", action: #selector(doHider), keyEquivalent: "")    // "Hide/Show Desktop icons" option
+                arrangementButton.menu?.addItem(hiderMenu)
+            }
+            
             
             if #available(macOS 13.0, *) {
                 arrangementButton.menu?.addItem(NSMenuItem.separator())
@@ -593,10 +600,20 @@ class ViewController: NSViewController {
     }
     func _doHider() {
         quitTimer?.invalidate()
-        if hider != nil {
-            NotificationCenter.default.post(name: .doHide, object: nil)
+        
+        if #available(macOS 13.0, *) {
+            let serv = SMAppService.loginItem(identifier: bDIM.hHI)
+            if serv.status == .enabled {
+                try? serv.unregister()
+            } else {
+                try? serv.register()
+            }
         } else {
-            hider = Hider()
+            if hider != nil {
+                NotificationCenter.default.post(name: .doHide, object: nil)
+            } else {
+                hider = Hider()
+            }
         }
         hiding = !hiding // toggle state
         //updateInfo() //loadMenu()

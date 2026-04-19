@@ -10,6 +10,7 @@ enum bDIM {
     static let bID = "com.parker9.DIM-4"
     static let hID = "com.parker9.DIMHelper"
     static let gUD = "group." + bID
+    static let hHI = "com.entonos.HideIcons"
 }
 
 import OSLog

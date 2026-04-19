@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 70;
+	objectVersion = 73;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -71,8 +71,34 @@
 		2CF787F12AB64ED70053E8A9 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		2CE074882F9594DB0096F810 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				"Hide Icons.app",
+			);
+			target = 2C066B5521F1942700DCF5AD /* DIM */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		2CE0748A2F9594F10096F810 /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			attributesByRelativePath = {
+				"Hide Icons.app" = (
+					RemoveHeadersOnCopy,
+				);
+			};
+			buildPhase = 2CFDCAC32DCFFEFC009ACE63 /* CopyFiles */;
+			membershipExceptions = (
+				"Hide Icons.app",
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2C370D612F9044AE0004D08A /* DIMHelper */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = DIMHelper; sourceTree = "<group>"; };
+		2CE074862F9594840096F810 /* not notarized Hide Icons */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (2CE074882F9594DB0096F810 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 2CE0748A2F9594F10096F810 /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = "not notarized Hide Icons"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -111,6 +137,7 @@
 				2C370D612F9044AE0004D08A /* DIMHelper */,
 				2C066B5721F1942700DCF5AD /* Products */,
 				2C066B6F21F1A67F00DCF5AD /* Frameworks */,
+				2CE074862F9594840096F810 /* not notarized Hide Icons */,
 			);
 			sourceTree = "<group>";
 		};
@@ -179,6 +206,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				2CE074862F9594840096F810 /* not notarized Hide Icons */,
 			);
 			name = DIM;
 			productName = "DIM 3.0";
@@ -262,7 +292,6 @@
 				};
 			};
 			buildConfigurationList = 2C066B5121F1942600DCF5AD /* Build configuration list for PBXProject "DIM" */;
-			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -270,6 +299,7 @@
 				Base,
 			);
 			mainGroup = 2C066B4D21F1942600DCF5AD;
+			preferredProjectObjectVersion = 50;
 			productRefGroup = 2C066B5721F1942700DCF5AD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
