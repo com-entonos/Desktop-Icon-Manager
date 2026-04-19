@@ -944,7 +944,37 @@ class ViewController: NSViewController {
     
     func migrateToAppGroupIfNeeded() {
         let appGroup = UserDefaults(suiteName: bDIM.gUD)!
+      
+        guard !appGroup.bool(forKey: "migratedFromStandard") else { return }
         
+        // sandboxed: UserDefaults.standard is already scoped to container
+        // unsandboxed: UserDefaults.standard is ~/Library/Preferences — may be empty
+        
+        var dict: [String: Any] = [:]
+        
+        if dict.isEmpty {
+            // sandboxed app can not read sandbox container this way, but unsandbox can...
+            let sandboxPlist = ("~/Library/Containers/" + bDIM.bID +
+                                "/Data/Library/Preferences/" + bDIM.bID + ".plist") as NSString
+            let url = URL(fileURLWithPath: sandboxPlist.expandingTildeInPath)
+            if FileManager.default.fileExists(atPath: url.path),
+               let containerDict = NSDictionary(contentsOf: url) as? [String: Any] {
+                dict = containerDict
+            }
+        }
+        
+        if dict.isEmpty {  // we are sandboxed OR nothing was in the container to start with
+            dict = UserDefaults.standard.dictionaryRepresentation()
+        }
+        // filter out junk...
+        let systemPrefixes = ["com.apple.", "Apple", "NS", "AK", "ATS", "PL", "KB_", "ACD", "_HI", "shouldShowRSVP", "Countr", "MultipleSess", "NavPanel", "Web", "_AKB", "PKS"]
+        dict.forEach { key, value in
+            guard !systemPrefixes.contains(where: { key.hasPrefix($0) }) else { return }
+            appGroup.set(value, forKey: key) }
+    
+        appGroup.set(true, forKey: "migratedFromStandard")
+        
+        /*
         // only migrate once
         guard appGroup.bool(forKey: "migratedFromStandard") == false else { return }
         
@@ -955,6 +985,7 @@ class ViewController: NSViewController {
         
         appGroup.set(true, forKey: "migratedFromStandard")
         appGroup.synchronize()
+        */
     }
     
     // helper app
