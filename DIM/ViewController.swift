@@ -796,6 +796,12 @@ class ViewController: NSViewController {
 
 // add Import and Export of UserDefaults
     @IBAction func writePlist(_ sender: NSMenuItem) {  // this will (hopefully) copy the current UserDefaults data to user specified place
+        // export any optional UserDefaults
+        let defaults = UserDefaults(suiteName: bDIM.gUD)!
+        let waitRestore = defaults.object(forKey: "waitRestore") != nil ? defaults.double(forKey: "waitRestore") : 10.0
+        let quitCount = defaults.object(forKey: "quitCount") != nil ? defaults.integer(forKey: "quitCount") : 20
+        let startHidden = defaults.object(forKey: "startHidden") != nil ? defaults.bool(forKey: "startHidden") : false
+        let doHelper = defaults.bool(forKey: "doHelper")
         // old
         //let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/" + bDIM.bID + ".plist"
         // should have been?
@@ -822,7 +828,11 @@ class ViewController: NSViewController {
                         "orderedArrangements" : self.orderedArrangements,
                         "arrangements" : self.arrangements,
                         "automaticSave" : self.automaticSave,
-                        "timerSeconds" : self.timerSeconds] )
+                        "timerSeconds" : self.timerSeconds,
+                        "waitRestore" : waitRestore,
+                        "quitCount" : quitCount,
+                        "startHidden" : startHidden,
+                        "doHelper" : doHelper] )
                     if !data.write(toFile: exportURL.path, atomically: true) {if #available(macOS 11.0, *) { Logger.err.error("could not create exported Settings to \(exportURL.path, privacy: .private(mask: .hash))")}}
                 }
             }
@@ -858,6 +868,13 @@ class ViewController: NSViewController {
         if plistOption != .cancel && newData?["arrangements"] != nil {
             switch plistOption {
             case .mergeIntoCurrent:
+                
+                // if optional UserDefaults do not exist and newData does, save optionals to UserDefaults
+                let defaults = UserDefaults(suiteName: bDIM.gUD)!
+                if defaults.object(forKey: "waitRestore") == nil, let waitRestore = newData!["waitRestore"] as? Double { defaults.set(waitRestore, forKey: "waitRestore") }
+                if defaults.object(forKey: "quitCount") == nil, let quitCount = newData!["quitCount"] as? Bool { defaults.set(quitCount, forKey: "quitCount") }
+                if defaults.object(forKey: "startHidden") == nil, let startHidden = newData!["startHidden"] as? Bool { defaults.set(startHidden, forKey: "startHidden") }
+                
                 if let newArrangements = newData!["arrangements"] as? [String: Any] {
                     if #available(macOS 11.0, *) { Logger.diag.info(".mergIntoCurrent \(newArrangements.count, privacy: .public) \(self.arrangements.count, privacy: .public)") }
                     for (name, arrangement) in newArrangements {
@@ -876,6 +893,14 @@ class ViewController: NSViewController {
                 orderedArrangements = newData?["orderedArrangements"] as? [String] ?? orderedArrangements
                 automaticSave = newData?["automaticSave"] as? Bool ?? automaticSave
                 timerSeconds = newData?["timerSeconds"] as? Int ?? timerSeconds
+        
+                // if newData has any optional UserDefaults replace them
+                let defaults = UserDefaults(suiteName: bDIM.gUD)!
+                if let waitRestore = newData?["waitRestore"] as? Double {defaults.set(waitRestore, forKey: "waitRestore")}
+                if let quitCount = newData?["quitCount"] as? Int {defaults.set(quitCount, forKey: "quitCount")}
+                if let startHidden =  newData?["startHidden"] as? Bool {defaults.set(startHidden, forKey: "startHidden")}
+                if let doHelper = newData?["doHelper"] as? Bool {defaults.set(doHelper, forKey: "doHelper")}
+                
                 if plistOption == .replace {
                     arrangements = newData!["arrangements"] as? [String: Any] ?? arrangements
                     if #available(macOS 11.0, *) { Logger.diag.info(".replace \(self.arrangements.count, privacy: .public)") }
