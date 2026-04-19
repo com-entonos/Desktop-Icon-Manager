@@ -28,7 +28,6 @@ final class SystemEventMonitor {
     
     func start() {
 
-        //test()
         let ws = NSWorkspace.shared.notificationCenter
         let nc = NotificationCenter.default
         let cn:[ String: (NotificationCenter, NSNotification.Name)] = [
@@ -64,7 +63,7 @@ final class SystemEventMonitor {
         //UserDefaults(suiteName: bDIM.gUD)?.synchronize()
         //UserDefaults(suiteName: bDIM.gUD)?.removeObject(forKey: "data")
         
-        data["test"] = (1.0, ["--restore"])
+        //data["test"] = (1.0, ["--restore"]); test(); Logger.log("added delay:\(data["test"]!.0) args:\(data["test"]!.1) )",category: .lifecycle, level: .debug)
         
         var events: [(NotificationCenter, NSNotification.Name, Double, [String])] = []
         for (key, (delay, args)) in data {
@@ -78,10 +77,10 @@ final class SystemEventMonitor {
         }
     
         for (center, name, time, args) in events {
+            //Logger.log("name:\(name) delay:\(time) args:\(args) )",category: .lifecycle, level: .debug)
+            Logger.diag.log("observing for name:\(name.rawValue , privacy: .public) delay:\(time,privacy: .public) args:\(args, privacy: .private(mask: .hash))")
             let obs = center.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
                 self?.handleEvent(time: time, args: args)
-                //Logger.log("name:\(name) delay:\(time) args:\(args) )",category: .lifecycle, level: .debug)
-                Logger.diag.log("observing for name:\(name.rawValue , privacy: .public) with delay:\(time,privacy: .public) & args:\(args, privacy: .private(mask: .hash))")
             }
             observers.append(obs)
         }
