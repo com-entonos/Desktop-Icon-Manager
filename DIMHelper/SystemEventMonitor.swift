@@ -40,7 +40,8 @@ final class SystemEventMonitor {
         ]
         
         // what is requested?
-        let rawData = UserDefaults(suiteName: bDIM.gUD)!.dictionary(forKey: "data") ?? [:]
+        let defaults = UserDefaults(suiteName: bDIM.gUD)!
+        let rawData = defaults.dictionary(forKey: "data") ?? [:]
         var data: [String: (Double, [String])] = [:]
         for (key, value) in rawData {
             if let entry = value as? [Any],
@@ -67,6 +68,7 @@ final class SystemEventMonitor {
         
         var events: [(NotificationCenter, NSNotification.Name, Double, [String])] = []
         for (key, (delay, args)) in data {
+            guard key != "startup" else {return}
             events.append((cn[key]!.0, cn[key]!.1, delay, args))
             //Logger.log("events: nc:\(cn[key]!.0) name:\(cn[key]!.1) delay:\(delay) args:\(args)", category: .lifecycle, level: .debug)
         }
@@ -83,6 +85,11 @@ final class SystemEventMonitor {
                 self?.handleEvent(time: time, args: args)
             }
             observers.append(obs)
+        }
+        if let (delay, args) = data["startup"], defaults.bool(forKey: "newData") {
+            handleEvent(time: delay, args: args)
+            defaults.removeObject(forKey: "newData")
+            defaults.synchronize()
         }
     }
 
