@@ -796,7 +796,15 @@ class ViewController: NSViewController {
 
 // add Import and Export of UserDefaults
     @IBAction func writePlist(_ sender: NSMenuItem) {  // this will (hopefully) copy the current UserDefaults data to user specified place
-        let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/" + bDIM.bID + ".plist"
+        // old
+        //let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/" + bDIM.bID + ".plist"
+        // should have been?
+        //let url2 = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Containers/\(bDIM.bID)/Data/Library/Preferences/\(bDIM.bID).plist")
+        
+        // to read Group App UserDefaults...
+        //defaults read ~/Library/Group\ Containers/group.com.parker9.DIM-4/Library/Preferences/group.com.parker9.DIM-4.plist
+        let url2 = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: bDIM.gUD)!
+            .appendingPathComponent("Library/Preferences/\(bDIM.gUD).plist").path
         if FileManager.default.fileExists(atPath: url2) {
             let panel = NSSavePanel()
             panel.canCreateDirectories = true
