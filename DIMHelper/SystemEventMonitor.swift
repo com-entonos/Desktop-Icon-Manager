@@ -95,7 +95,7 @@ final class SystemEventMonitor {
 
     private func handleEvent(time: Double, args: [String]) {
         guard let appURl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bDIM.bID) else {
-            Logger.log("failed handleEvent: appURL = \(NSWorkspace.shared.urlForApplication(withBundleIdentifier: bDIM.bID)?.absoluteString ?? "nil")" ,category: .lifecycle, level: .debug)
+            Logger.log("failed handleEvent: url for \(bDIM.gUD) failed" ,category: .lifecycle, level: .debug)
             return
         }
         
