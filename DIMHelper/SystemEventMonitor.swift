@@ -86,7 +86,7 @@ final class SystemEventMonitor {
             }
             observers.append(obs)
         }
-        if let (delay, args) = data["startup"], defaults.bool(forKey: "newData") {
+        if let (delay, args) = data["startup"] {
             handleEvent(time: delay, args: args)
             defaults.removeObject(forKey: "newData")
             defaults.synchronize()
@@ -94,22 +94,26 @@ final class SystemEventMonitor {
     }
 
     private func handleEvent(time: Double, args: [String]) {
-        guard !isMainAppRunning, let appURl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bDIM.bID) else {
-            Logger.log("failed handleEvent: running? \(self.isMainAppRunning) appURL:\(NSWorkspace.shared.urlForApplication(withBundleIdentifier: bDIM.bID)?.absoluteString ?? "nil")" ,category: .lifecycle, level: .debug)
+        guard let appURl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bDIM.bID) else {
+            Logger.log("failed handleEvent: appURL = \(NSWorkspace.shared.urlForApplication(withBundleIdentifier: bDIM.bID)?.absoluteString ?? "nil")" ,category: .lifecycle, level: .debug)
             return
         }
         
         Logger.log("going to start in \(time) seconds...",category: .lifecycle, level: .debug)
         let GDefaults = UserDefaults(suiteName: bDIM.gUD)!
         Timer.scheduledTimer(withTimeInterval: time, repeats: false) { _ in
-            GDefaults.set(args, forKey: "helperArgs")
-            GDefaults.synchronize()
-            let config = NSWorkspace.OpenConfiguration()
-            config.arguments = args
-            config.activates = false
-            //Logger.log("about to open DIM with \(config.arguments)",category: .lifecycle, level: .debug)
-            Logger.diag.log("about to open DIM with \(config.arguments, privacy: .private(mask: .hash))")
-            NSWorkspace.shared.openApplication(at: appURl, configuration: config)
+            if !self.isMainAppRunning {
+                GDefaults.set(args, forKey: "helperArgs")
+                GDefaults.synchronize()
+                let config = NSWorkspace.OpenConfiguration()
+                config.arguments = args
+                config.activates = false
+                //Logger.log("about to open DIM with \(config.arguments)",category: .lifecycle, level: .debug)
+                Logger.diag.log("about to open DIM with \(config.arguments, privacy: .private(mask: .hash))")
+                NSWorkspace.shared.openApplication(at: appURl, configuration: config)
+            } else {
+                Logger.log("failed handleEvent: \(bDIM.bID) running" ,category: .lifecycle, level: .debug)
+            }
         }
     }
     
