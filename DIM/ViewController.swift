@@ -832,7 +832,7 @@ class ViewController: NSViewController {
             let panel = NSSavePanel()
             panel.canCreateDirectories = true
             panel.message = "Select location to export DIM Settings:"
-            panel.nameFieldStringValue = bDIM.bID + ".plist"
+            panel.nameFieldStringValue = bDIM.gUD + ".plist"
             panel.prompt = "Export"
             panel.allowedFileTypes = ["plist"]
             panel.nameFieldLabel = "Export As:"
