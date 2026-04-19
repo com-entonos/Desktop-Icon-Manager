@@ -40,7 +40,7 @@ final class SystemEventMonitor {
         ]
         
         // what is requested?
-        let rawData = UserDefaults(suiteName: bDIM.gUD)?.dictionary(forKey: "data") ?? [:]
+        let rawData = UserDefaults(suiteName: bDIM.gUD)!.dictionary(forKey: "data") ?? [:]
         var data: [String: (Double, [String])] = [:]
         for (key, value) in rawData {
             if let entry = value as? [Any],
@@ -59,11 +59,11 @@ final class SystemEventMonitor {
         //    let (key, (delay, args)) = element
         //    result[key] = [delay, args] // Store as a simple array
         //}
-        //UserDefaults(suiteName: bDIM.gUD)?.set(plistCompatibleDict, forKey: "data")
-        //UserDefaults(suiteName: bDIM.gUD)?.synchronize()
-        //UserDefaults(suiteName: bDIM.gUD)?.removeObject(forKey: "data")
+        //UserDefaults(suiteName: bDIM.gUD)!.set(plistCompatibleDict, forKey: "data")
+        //UserDefaults(suiteName: bDIM.gUD)!.synchronize()
+        //UserDefaults(suiteName: bDIM.gUD)!.removeObject(forKey: "data")
         
-        //data["test"] = (1.0, ["--restore"]); test(); Logger.log("added delay:\(data["test"]!.0) args:\(data["test"]!.1) )",category: .lifecycle, level: .debug)
+        //data["test"] = (1.0, ["--restore", "--quit"]); test(); Logger.log("added delay:\(data["test"]!.0) args:\(data["test"]!.1) )",category: .lifecycle, level: .debug)
         
         var events: [(NotificationCenter, NSNotification.Name, Double, [String])] = []
         for (key, (delay, args)) in data {
@@ -93,13 +93,13 @@ final class SystemEventMonitor {
         }
         
         Logger.log("going to start in \(time)...",category: .lifecycle, level: .debug)
-        let GDefaults = UserDefaults(suiteName: bDIM.gUD)
+        let GDefaults = UserDefaults(suiteName: bDIM.gUD)!
         Timer.scheduledTimer(withTimeInterval: time, repeats: false) { _ in
             let config = NSWorkspace.OpenConfiguration()
             config.arguments = args
             config.activates = false
-            GDefaults?.set(args, forKey: "args")
-            GDefaults?.synchronize()
+            GDefaults.set(args, forKey: "args")
+            GDefaults.synchronize()
             //Logger.log("about to open DIM with \(config.arguments)",category: .lifecycle, level: .debug)
             Logger.diag.log("about to open DIM with \(config.arguments, privacy: .private(mask: .hash))")
             NSWorkspace.shared.openApplication(at: appURl, configuration: config)

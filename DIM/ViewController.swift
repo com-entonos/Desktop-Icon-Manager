@@ -62,6 +62,8 @@ class ViewController: NSViewController {
         super.viewDidLoad()
         overrideSetting = NSEvent.modifierFlags == .command  // check to see if user is holding command key during launch
         
+        migrateToAppGroupIfNeeded()
+        
         /* capture option key press/release - FIXME: doesn't trigger if menu is open */
         NSEvent.addLocalMonitorForEvents(matching: .flagsChanged, handler: { event in self.setMemorizeButtonTitle(!event.modifierFlags.contains(.option)); return event})
             //self.flagsChanged(with: event); return event })
@@ -100,7 +102,7 @@ class ViewController: NSViewController {
             // incase we updated, stop old if running...
             let serv = SMAppService.loginItem(identifier: bDIM.hID)
             try? serv.unregister()
-            if UserDefaults(suiteName: bDIM.gUD)?.bool(forKey: "doHelper") ?? false {
+            if UserDefaults(suiteName: bDIM.gUD)!.bool(forKey: "doHelper") {
                 _ = toggleHelper(to: true)
             }
         }
@@ -109,7 +111,7 @@ class ViewController: NSViewController {
     func doWaitRestore(_ notice : Notification) {
         if !self.didChangeScreen {
             self.didChangeScreen = true; Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { _ in self.didChangeScreen = false}) // ignore future calls until we reset
-            let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
+            let waitRestore = UserDefaults(suiteName: bDIM.gUD)!.object(forKey: "waitRestore") != nil ? UserDefaults(suiteName: bDIM.gUD)!.double(forKey: "waitRestore") : 10.0
             if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
             self.do_restore(self.restoreButton as Any)
         }
@@ -391,7 +393,7 @@ class ViewController: NSViewController {
                 setSet(set: arrangements[currentName]!)
                 dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
                 if actionAfterStart == .quit && dataVer == thisVer {  // should we quit in 5 seconds?
-                    quitCount = UserDefaults.standard.object(forKey: "quitCount") != nil ? UserDefaults.standard.integer(forKey: "quitCount") : 20
+                    quitCount = UserDefaults(suiteName: bDIM.gUD)!.object(forKey: "quitCount") != nil ? UserDefaults(suiteName: bDIM.gUD)!.integer(forKey: "quitCount") : 20
                     warningTF.stringValue = "Hold ⌘ to abort Quit (\(Int(0.9 + Double(quitCount)/5.0)))"
                     quitTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.terminate), userInfo: nil, repeats: true)
                 }
@@ -427,7 +429,7 @@ class ViewController: NSViewController {
     
     //let's assume something bad happened to the stored user data...
     func goodLoadPrefs() -> Bool {
-        let defaults = UserDefaults.standard
+        let defaults = UserDefaults(suiteName: bDIM.gUD)!
         guard let name = defaults.string(forKey: "currentName")  else { return false }  // is there a plist?
         guard (defaults.array(forKey: "orderedArrangements") != nil) else { return false }
         currentName = name
@@ -482,7 +484,7 @@ class ViewController: NSViewController {
     
     // save user's preferences
     func savePrefs() {
-        let defaults = UserDefaults.standard
+        let defaults = UserDefaults(suiteName: bDIM.gUD)!
         defaults.set(currentName, forKey: "currentName")
         defaults.set(restoreAtStart, forKey: "restoreAtStart")
         defaults.set(actionAfterStart.rawValue, forKey: "actionAfterStart")
@@ -522,7 +524,7 @@ class ViewController: NSViewController {
 
                 let serv = SMAppService.loginItem(identifier: bDIM.hID)
                 let runningHelper = serv.status == .enabled
-                let want = UserDefaults(suiteName: bDIM.gUD)?.bool(forKey: "doHelper") ?? false
+                let want = UserDefaults(suiteName: bDIM.gUD)!.bool(forKey: "doHelper")
                 let userDenied = (runningHelper != want) ? !toggleHelper(to: want) : false
                 let menuTitle = "DIM helper is " + (userDenied ? "denied!" : (serv.status == .enabled ? "running" : "stopped"))
                 let submenuItem = NSMenuItem(title: menuTitle, action: nil, keyEquivalent: "")
@@ -636,7 +638,7 @@ class ViewController: NSViewController {
         let url = URL(string: "http://www.parker9.com/d")
         NSWorkspace.shared.open(url!)
         donateLabel.textColor = NSColor.systemGray  //labelColor.withAlphaComponent(0.2)
-        UserDefaults.standard.set("done", forKey: "donate")
+        UserDefaults(suiteName: bDIM.gUD)!.set("done", forKey: "donate")
     }
     
     // hardcoded URL for home
@@ -699,7 +701,7 @@ class ViewController: NSViewController {
     func noCommandLineArgs(_ args : [String]) -> Bool {
         let commands : Set = ["--memorize", "--add", "--restore", "--arrangement", "--hide-icons", "--select-missing-icons", "--delete", "--quit", "--update", "--purge"]
         return Set(args).intersection(commands).isEmpty &&
-                UserDefaults(suiteName: bDIM.gUD)?.object(forKey: "args") == nil
+                UserDefaults(suiteName: bDIM.gUD)!.object(forKey: "args") == nil
         // N=0   UD!=nil  ==nil
         //  T       T       F       F
         //  F       T       F       F
@@ -707,10 +709,10 @@ class ViewController: NSViewController {
         //  F       F       T       F
     }
     func doCommandLineArgs(_ args : [String]) {
-        let groupDefaults = UserDefaults(suiteName: bDIM.gUD)
-        var newArgs = args + (groupDefaults?.stringArray(forKey: "args") ?? [])
-        groupDefaults?.removeObject(forKey: "args")
-        groupDefaults?.synchronize()
+        let groupDefaults = UserDefaults(suiteName: bDIM.gUD)!
+        var newArgs = args + (groupDefaults.stringArray(forKey: "args") ?? [])
+        groupDefaults.removeObject(forKey: "args")
+        groupDefaults.synchronize()
         while (!newArgs.isEmpty) {
             let isName = (newArgs.count > 1) ? newArgs[1].prefix(2) != "--"  : false
             let arrangementName = isName ? newArgs[1] : currentName
@@ -940,12 +942,27 @@ class ViewController: NSViewController {
         }
     }
     
+    func migrateToAppGroupIfNeeded() {
+        let appGroup = UserDefaults(suiteName: bDIM.gUD)!
+        
+        // only migrate once
+        guard appGroup.bool(forKey: "migratedFromStandard") == false else { return }
+        
+        // copy all keys from standard to app group
+        UserDefaults.standard.dictionaryRepresentation().forEach { key, value in
+            appGroup.set(value, forKey: key)
+        }
+        
+        appGroup.set(true, forKey: "migratedFromStandard")
+        appGroup.synchronize()
+    }
+    
     // helper app
     @available(macOS 13.0, *)
     func toggleHelper(to start: Bool,_ helperBundleID: String = bDIM.hID) -> Bool {
         
-        let groupDefaults = UserDefaults(suiteName: bDIM.gUD)
-        groupDefaults?.set(start, forKey: "doHelper")
+        let groupDefaults = UserDefaults(suiteName: bDIM.gUD)!
+        groupDefaults.set(start, forKey: "doHelper")
         
         let helperService = SMAppService.loginItem(identifier: helperBundleID)
         let isEnabled = helperService.status == .enabled
@@ -964,11 +981,11 @@ class ViewController: NSViewController {
                     Logger.diag.info("Failed to unregister DIMHelper: \(error.localizedDescription, privacy: .public)")
                 } else {
                     Logger.diag.info("Unregistered DIMHelper")
-                    groupDefaults?.removeObject(forKey: "args") //remove debris...
+                    groupDefaults.removeObject(forKey: "args") //remove debris...
                 }
             }
         }
-        groupDefaults?.synchronize()
+        groupDefaults.synchronize()
         return true
     }
 }

@@ -19,7 +19,7 @@ class DIMDockTilePlugin: NSObject, NSDockTilePlugIn {
     
    // let noticeNewArrangement = NSWorkspace.shared.notificationCenter.addObserver(forName: NSNotification.Name("newArrangement"), object: nil, queue: .main, using: { notice in
    //     if #available(macOS 11.0, *) { Logger(subsystem: SUBSYSTEM, category: "info").log("DIMDockTilePlugin.notification newArrangement recieved:\(notice.object as? [String] ?? ["nil"], privacy: .public)<")}
-   //     if let list = notice.object as? [String] { UserDefaults.standard.set(list, forKey: "orderedArrangements")} })
+    //if let list = notice.object as? [String] { UserDefaults(suiteName: bDIM.gUD)!.set(list, forKey: "orderedArrangements")} })
 
     override init() {
         super.init()
@@ -28,14 +28,14 @@ class DIMDockTilePlugin: NSObject, NSDockTilePlugIn {
         /*DistributedNotificationCenter.default().addObserver(forName: .newArrangement, object: nil , queue: .main, using: { notice in
             if #available(macOS 11.0, *) { Logger.diag.log("DIMDockTilePlugin.distributedNot newArrangement recieved=\(notice.name.rawValue ,privacy: .public)<>\(notice.userInfo?["orderedArrangements"] as? [String] ?? [""],privacy: .public)<") }
             if let list = notice.userInfo?["orderedArrangements"] as? [String] {
-                UserDefaults.standard.set(list, forKey: "orderedArrangements")
+                UserDefaults(suiteName: bDIM.gUD)!.set(list, forKey: "orderedArrangements")
                 self.orderedArrangements = list
             }
         })*/
     }
     @objc func saveUserDefaults(_ notice: Notification) {
          if #available(macOS 11.0, *) { Logger.diag.log("DIMDockTilePlugin distributedNot newArrangement recieved=\(notice.name.rawValue ,privacy: .public)<>\(notice.userInfo?["orderedArrangements"] as? [String] ?? [""],privacy: .public)<") }
-         //if let list = notice.userInfo?["orderedArrangements"] as? [String] { UserDefaults.standard.set(list, forKey: "orderedArrangements") }
+         //if let list = notice.userInfo?["orderedArrangements"] as? [String] { UserDefaults(suiteName: bDIM.gUD)!.set(list, forKey: "orderedArrangements") }
          if let list = notice.userInfo?["orderedArrangements"] as? [String] { orderedArrangements = list}
      }/**/
     
@@ -44,10 +44,10 @@ class DIMDockTilePlugin: NSObject, NSDockTilePlugIn {
         if let _ = dockTile {
       /*      NSWorkspace.shared.notificationCenter.addObserver(forName: NSNotification.Name("newArrangement"), object: nil, queue: .main, using: { notice in
                 if #available(macOS 11.0, *) { Logger.diag.log("DIMDockTilePlugin.WSnotification newArrangement recieved:\(notice.object as? [String] ?? ["nil"], privacy: .public)<")}
-                if let list = notice.object as? [String] { UserDefaults.standard.set(list, forKey: "orderedArrangements")} })
+                if let list = notice.object as? [String] { UserDefaults(suiteName: bDIM.gUD)!.set(list, forKey: "orderedArrangements")} })
             NotificationCenter.default.addObserver(forName: NSNotification.Name("newArrangement"), object: nil, queue: .main, using: { notice in
                 if #available(macOS 11.0, *) { Logger.diag.log("DIMDockTilePlugin.notification newArrangement recieved:\(notice.object as? [String] ?? ["nil"], privacy: .public)<")}
-                if let list = notice.object as? [String] { UserDefaults.standard.set(list, forKey: "orderedArrangements")} }) */
+                if let list = notice.object as? [String] { UserDefaults(suiteName: bDIM.gUD)!.set(list, forKey: "orderedArrangements")} }) */
         } else {
             //NSWorkspace.shared.notificationCenter.removeObserver(self, name: NSNotification.Name("newArrangement"), object: nil)
             //NotificationCenter.default.removeObserver(self, name: NSNotification.Name("newArrangement"), object: nil)
@@ -61,10 +61,10 @@ class DIMDockTilePlugin: NSObject, NSDockTilePlugIn {
         return dockHelper.setMenu(orderedArrangements)
 /*
         allArrangements.removeAll()
-        if #available(macOS 11.0, *) { Logger(subsystem: SUBSYSTEM, category: "info").log("  'orderedArrangements' exist?\(UserDefaults.standard.array(forKey: "orderedArrangements") != nil ,privacy: .public) [String]? \(UserDefaults.standard.array(forKey: "orderedArrangements") as? [String] ?? [" "],privacy: .public) Bunldle.main.ID=\(Bundle.main.bundleIdentifier ?? "nothing", privacy: .public)<") }
+        if #available(macOS 11.0, *) { Logger(subsystem: SUBSYSTEM, category: "info").log("  'orderedArrangements' exist?\(UserDefaults(suiteName: bDIM.gUD)!.array(forKey: "orderedArrangements") != nil ,privacy: .public) [String]? \(UserDefaults(suiteName: bDIM.gUD)!.array(forKey: "orderedArrangements") as? [String] ?? [" "],privacy: .public) Bunldle.main.ID=\(Bundle.main.bundleIdentifier ?? "nothing", privacy: .public)<") }
         if #available(macOS 11.0, *) { Logger(subsystem: SUBSYSTEM, category: "info").log("  CFPreferencesCopyAppValue exist? \(CFPreferencesCopyAppValue("orderedArrangements" as CFString, self.BundleID as CFString) != nil,privacy: .public) [String]? \(CFPreferencesCopyAppValue("orderedArrangements" as CFString, self.BundleID as CFString) as? [String] ?? [" "], privacy: .public)<>\(self.BundleID, privacy: .public)<") }
         
-        if let a = UserDefaults.standard.array(forKey: "orderedArrangements") as? [String] {
+        if let a = UserDefaults(suiteName: bDIM.gUD)!.array(forKey: "orderedArrangements") as? [String] {
             allArrangements = a
             if #available(macOS 11.0, *) { Logger(subsystem: SUBSYSTEM, category: "info").log("  from user defaults: \(self.allArrangements.count,privacy: .public) orderedArrangements=\(self.allArrangements, privacy: .public)<>\(self.BundleID, privacy: .public)<") }
         } else if let a = CFPreferencesCopyAppValue("orderedArrangements" as CFString, BundleID as CFString) as? [String] {
@@ -179,14 +179,14 @@ class DockHelper {
         if arrangements != nil && !(arrangements?.isEmpty ?? true) { allArrangements = arrangements! } else {
             CFPreferencesAppSynchronize(BundleID as CFString)
             
-            if #available(macOS 11.0, *) { Logger.diag.log("  'orderedArrangements' exist?\(UserDefaults.standard.array(forKey: "orderedArrangements") != nil ,privacy: .public) [String]? \(UserDefaults.standard.array(forKey: "orderedArrangements") as? [String] ?? [" "],privacy: .public) Bunldle.main.ID=\(Bundle.main.bundleIdentifier ?? "nothing", privacy: .public)<") }
+            if #available(macOS 11.0, *) { Logger.diag.log("  'orderedArrangements' exist?\(UserDefaults(suiteName: bDIM.gUD)!.array(forKey: "orderedArrangements") != nil ,privacy: .public) [String]? \(UserDefaults(suiteName: bDIM.gUD)!.array(forKey: "orderedArrangements") as? [String] ?? [" "],privacy: .public) Bunldle.main.ID=\(Bundle.main.bundleIdentifier ?? "nothing", privacy: .public)<") }
             if #available(macOS 11.0, *) { Logger.diag.log("  suiteName exist? \(UserDefaults(suiteName: self.BundleID)?.array(forKey: "orderedArrangements") != nil,privacy: .public)<=\(UserDefaults(suiteName: self.BundleID)?.array(forKey: "orderedArrangements") as? [String] != nil, privacy: .public)<>\(self.BundleID, privacy: .public)<") }
             if #available(macOS 11.0, *) { Logger.diag.log("  CFPreferencesCopyAppValue exist? \(CFPreferencesCopyAppValue("orderedArrangements" as CFString, self.BundleID as CFString) != nil,privacy: .public) [String]? \(CFPreferencesCopyAppValue("orderedArrangements" as CFString, self.BundleID as CFString) as? [String] ?? [" "], privacy: .public)<>\(self.BundleID, privacy: .public)<") }
             
             let aa = CFPreferencesCopyAppValue("orderedArrangements" as CFString, BundleID as CFString) as Any?
             if #available(macOS 11.0, *) { Logger.diag.log("  casting Any? \(aa != nil,privacy: .public) aa as [String]=\(aa as? [String] ?? ["nil"], privacy: .public)<>\(self.BundleID, privacy: .public)<") }
             
-            if let a = UserDefaults.standard.array(forKey: "orderedArrangements") as? [String] {
+            if let a = UserDefaults(suiteName: bDIM.gUD)!.array(forKey: "orderedArrangements") as? [String] {
                 allArrangements = a
                 if #available(macOS 11.0, *) { Logger.diag.log("  from UserDefaults: \(self.allArrangements.count,privacy: .public) orderedArrangements=\(self.allArrangements, privacy: .public)<>\(self.BundleID, privacy: .public)<") }
             } else if let a = CFPreferencesCopyAppValue("orderedArrangements" as CFString, BundleID as CFString) as? [String] {

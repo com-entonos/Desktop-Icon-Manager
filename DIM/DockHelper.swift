@@ -34,7 +34,7 @@ class DockHelper {
         if let a = nameList {
             allArrangements = a
             //if #available(macOS 11.0, *) { Logger.diag.log("  from nameList: \(self.allArrangements.count,privacy: .public) nameList=\(self.allArrangements, privacy: .private(mask: .hash))<>\(self.BundleID, privacy: .public)<>\(Bundle.main.bundleIdentifier!, privacy: .public)<") }
-        } else if let a = UserDefaults.standard.array(forKey: "orderedArrangements") as? [String] {
+        } else if let a = UserDefaults(suiteName: bDIM.gUD)!.array(forKey: "orderedArrangements") as? [String] {
             allArrangements = a
             //if #available(macOS 11.0, *) { Logger.diag.log("  from UserDefaults: \(self.allArrangements.count,privacy: .public) allArrangements=\(self.allArrangements, privacy: .private(mask: .hash))<>\(self.BundleID, privacy: .public)<>\(Bundle.main.bundleIdentifier!, privacy: .public)<") }
         } else if let a = CFPreferencesCopyAppValue("orderedArrangements" as CFString, BundleID as CFString) as? [String] {
