@@ -65,6 +65,7 @@ final class SystemEventMonitor {
         //UserDefaults(suiteName: bDIM.gUD)!.removeObject(forKey: "helperData")
         
         //data["test"] = (1.0, ["--restore", "--quit"]); test(); Logger.log("added delay:\(data["test"]!.0) args:\(data["test"]!.1) )",category: .lifecycle, level: .debug)
+        //data["startup"] = (1.0, ["--restore", "--quit"])
         
         var events: [(NotificationCenter, NSNotification.Name, Double, [String])] = []
         for (key, (delay, args)) in data {
