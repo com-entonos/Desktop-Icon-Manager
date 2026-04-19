@@ -25,6 +25,7 @@
 		2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */; };
 		2CE0746C2F9323780096F810 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0746B2F9323780096F810 /* Logger.swift */; };
 		2CE0746D2F9323820096F810 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0746B2F9323780096F810 /* Logger.swift */; };
+		2CE0746E2F945FC30096F810 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0746B2F9323780096F810 /* Logger.swift */; };
 		2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE7240521FA56CE00788C31 /* ErrorSheet.swift */; };
 		2CEAC24A2A6E055400F93535 /* PlistOptionSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CEAC2492A6E055400F93535 /* PlistOptionSheet.swift */; };
 		2CF787F22AB64ED70053E8A9 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF787F12AB64ED70053E8A9 /* Update.swift */; };
@@ -63,6 +64,7 @@
 		2C79D9CD21F8EF1400C612B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddArrangement.swift; sourceTree = "<group>"; };
 		2CE0746B2F9323780096F810 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		2CE074702F946B910096F810 /* NSDockTilePlugIn.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = NSDockTilePlugIn.md; sourceTree = "<group>"; };
 		2CE7240521FA56CE00788C31 /* ErrorSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorSheet.swift; sourceTree = "<group>"; };
 		2CE7240921FA73B300788C31 /* DIM.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIM.entitlements; sourceTree = "<group>"; };
 		2CEAC2492A6E055400F93535 /* PlistOptionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlistOptionSheet.swift; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 		2C066B4D21F1942600DCF5AD = {
 			isa = PBXGroup;
 			children = (
+				2CE074702F946B910096F810 /* NSDockTilePlugIn.md */,
 				2C351E732DD66AF300AFE2CF /* DIMDockTilePlugin */,
 				2C066B5821F1942700DCF5AD /* DIM */,
 				2C728A312372238500D65798 /* DIM 4.0.help */,
@@ -332,6 +335,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C351E752DD66B4500AFE2CF /* DIMDockTilePlugin.swift in Sources */,
+				2CE0746E2F945FC30096F810 /* Logger.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -142,15 +142,6 @@ extension Notification.Name {
     static let doMemorize = Notification.Name("doMemorize")
     static let newArrangement = Notification.Name("newArrangement")
 }
-@available(macOS 11.0, *)
-extension Logger {
-    /// Using your bundle identifier is a great way to ensure a unique identifier.
-    private static let subsystem = "com.parker9.DIM-4" //Bundle.main.bundleIdentifier!
-
-    /// All logs related to tracking and analytics.
-    static let diag = Logger(subsystem: subsystem, category: "info")
-    static let err = Logger(subsystem: subsystem, category: "error")
-}
 
 
 //class DockHelper: NSResponder {
