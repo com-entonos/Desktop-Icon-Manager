@@ -68,9 +68,10 @@ final class SystemEventMonitor {
         
         var events: [(NotificationCenter, NSNotification.Name, Double, [String])] = []
         for (key, (delay, args)) in data {
-            guard key != "startup" else {return}
-            events.append((cn[key]!.0, cn[key]!.1, delay, args))
-            //Logger.log("events: nc:\(cn[key]!.0) name:\(cn[key]!.1) delay:\(delay) args:\(args)", category: .lifecycle, level: .debug)
+            if key != "startup" {
+                events.append((cn[key]!.0, cn[key]!.1, delay, args))
+                //Logger.log("events: nc:\(cn[key]!.0) name:\(cn[key]!.1) delay:\(delay) args:\(args)", category: .lifecycle, level: .debug)
+            }
         }
         //Logger.log("events: \(events)", category: .lifecycle, level: .debug)
         if events.isEmpty {
