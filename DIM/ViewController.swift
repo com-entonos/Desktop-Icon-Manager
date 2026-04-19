@@ -701,7 +701,7 @@ class ViewController: NSViewController {
     func noCommandLineArgs(_ args : [String]) -> Bool {
         let commands : Set = ["--memorize", "--add", "--restore", "--arrangement", "--hide-icons", "--select-missing-icons", "--delete", "--quit", "--update", "--purge"]
         return Set(args).intersection(commands).isEmpty &&
-                UserDefaults(suiteName: bDIM.gUD)!.object(forKey: "args") == nil
+                UserDefaults(suiteName: bDIM.gUD)!.object(forKey: "helperArgs") == nil
         // N=0   UD!=nil  ==nil
         //  T       T       F       F
         //  F       T       F       F
@@ -710,8 +710,8 @@ class ViewController: NSViewController {
     }
     func doCommandLineArgs(_ args : [String]) {
         let groupDefaults = UserDefaults(suiteName: bDIM.gUD)!
-        var newArgs = args + (groupDefaults.stringArray(forKey: "args") ?? [])
-        groupDefaults.removeObject(forKey: "args")
+        var newArgs = args + (groupDefaults.stringArray(forKey: "helperArgs") ?? [])
+        groupDefaults.removeObject(forKey: "helperArgs")
         groupDefaults.synchronize()
         while (!newArgs.isEmpty) {
             let isName = (newArgs.count > 1) ? newArgs[1].prefix(2) != "--"  : false
@@ -1012,7 +1012,7 @@ class ViewController: NSViewController {
                     Logger.diag.info("Failed to unregister DIMHelper: \(error.localizedDescription, privacy: .public)")
                 } else {
                     Logger.diag.info("Unregistered DIMHelper")
-                    groupDefaults.removeObject(forKey: "args") //remove debris...
+                    groupDefaults.removeObject(forKey: "helperArgs") //remove debris...
                 }
             }
         }
