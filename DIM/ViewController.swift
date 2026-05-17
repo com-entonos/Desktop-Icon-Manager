@@ -120,10 +120,20 @@ class ViewController: NSViewController {
     override func viewDidAppear() {
         super.viewDidAppear()
         if start {
+            // Source - https://stackoverflow.com/a/74733681
+            // Posted by Mark Mc
+            // Retrieved 2026-04-20, License - CC BY-SA 4.0
+            let event = NSAppleEventManager.shared().currentAppleEvent
+            let launchedAsLogInItem =
+                event?.eventID == kAEOpenApplication &&
+                event?.paramDescriptor(forKeyword: keyAEPropData)?.enumCodeValue == keyAELaunchedAsLogInItem
+            
             thisVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-            if #available(macOS 11.0, *) { Logger.diag.info("starting DIM \(self.thisVer, privacy: .public)") }
+            if #available(macOS 11.0, *) { Logger.diag.info("starting DIM \(self.thisVer, privacy: .public)")
+                Logger.log("launchedAsLogInItem? \(launchedAsLogInItem)", level: .debug)     }
             doingPI.startAnimation(nil)
-            DispatchQueue.main.async {
+            RunLoop.main.perform {
+            //DispatchQueue.main.async {
                 self.dim = DIM()
                 if self.dim == nil || self.dim!.testBridge == "no" || self.dim!.testBridge == nil {
                     if #available(macOS 11.0, *) { Logger.err.error("DIM failed to connect to Finder") }
@@ -516,33 +526,64 @@ class ViewController: NSViewController {
             let showMenu = NSMenuItem(title: "Select unmemorized Icons", action: #selector(showNewIcons), keyEquivalent: "")    // "Select unmemorized icons" option
             arrangementButton.menu?.addItem(showMenu)
             arrangementButton.menu?.addItem(NSMenuItem.separator())
-            if #available(macOS 13.0, *) {
-                let runningHelper = SMAppService.loginItem(identifier: bDIM.hHI).status == .enabled
-                let hiderMenu = NSMenuItem(title: !runningHelper ? "Start Hide Icons" : "Stop Hide Icons", action: #selector(doHider), keyEquivalent: "")    // "Hide/Show Desktop icons" option
-                arrangementButton.menu?.addItem(hiderMenu)
-            } else {
-                let hiderMenu = NSMenuItem(title: hiding ? "Show Desktop icons" : "Hide Desktop icons", action: #selector(doHider), keyEquivalent: "")    // "Hide/Show Desktop icons" option
-                arrangementButton.menu?.addItem(hiderMenu)
-            }
-            
             
             if #available(macOS 13.0, *) {
-                arrangementButton.menu?.addItem(NSMenuItem.separator())
-
-                let serv = SMAppService.loginItem(identifier: bDIM.hID)
-                let runningHelper = serv.status == .enabled
+                
+                // is user blocking?
+                let servh = SMAppService.loginItem(identifier: bDIM.hID)
                 let want = UserDefaults(suiteName: bDIM.gUD)!.bool(forKey: "doHelper")
-                let userDenied = (runningHelper != want) ? !toggleHelper(to: want) : false
-                let menuTitle = "DIM helper is " + (userDenied ? "denied!" : (serv.status == .enabled ? "running" : "stopped"))
-                let submenuItem = NSMenuItem(title: menuTitle, action: nil, keyEquivalent: "")
-                let submenu = NSMenu(title: menuTitle)
+                var userDenied = !(servh.status == .enabled)
                 if userDenied {
-                    submenu.addItem(NSMenuItem(title: "Perhaps allow DIM in App Background Activity...", action: #selector(doHelperUD), keyEquivalent: ""))
-                } else {
-                    submenu.addItem(NSMenuItem(title: serv.status == .enabled ? "Stop DIM helper" : "Start DIM helper", action: #selector(doHelper), keyEquivalent: ""))
+                    userDenied = false
+                    do { try servh.register() } catch { userDenied = true }
+                    if !want { try? servh.unregister() }
                 }
-                submenuItem.submenu = submenu
-                arrangementButton.menu?.addItem(submenuItem)
+                
+                let runningApp = !NSRunningApplication.runningApplications(withBundleIdentifier: bDIM.hHI).isEmpty
+                let serv = SMAppService.loginItem(identifier: bDIM.hHI)
+                let runningHelper = serv.status == .enabled
+                Logger.diag.info("runningHelper: \(runningHelper, privacy: .public) runningApp: \(runningApp, privacy: .public) userDenied: \(userDenied, privacy: .public)")
+                
+                if userDenied || (runningHelper && runningApp) {
+                    let menuTitle = "Hide Icons is " + (userDenied ? "denied!" : "running")
+                    let submenuItem = NSMenuItem(title: menuTitle, action: nil, keyEquivalent: "")
+                    let submenu = NSMenu(title: menuTitle)
+                    if userDenied {
+                        submenu.addItem(NSMenuItem(title: "Perhaps allow DIM in App Background Activity...", action: #selector(doHelperUD), keyEquivalent: ""))
+                    } else {
+                        submenu.addItem(NSMenuItem(title: "Quit, for now", action: #selector(doHider), keyEquivalent: ""))
+                        submenu.addItem(NSMenuItem(title: "Stop Hide Icons", action: #selector(doHider), keyEquivalent: ""))
+                    }
+                    submenuItem.submenu = submenu
+                    arrangementButton.menu?.addItem(submenuItem)
+                } else if !runningApp {
+                    arrangementButton.menu?.addItem(
+                        NSMenuItem(title: "Start Hide Icons", action: #selector(doHider), keyEquivalent: "") )
+                } else {
+                    arrangementButton.menu?.addItem(
+                        NSMenuItem(title: "Quit Hide Icons", action: #selector(doHider), keyEquivalent: "") )
+                }
+                
+                arrangementButton.menu?.addItem(NSMenuItem.separator())
+                
+                if userDenied || servh.status == .enabled  {
+                    let menuTitle = "DIM helper is " + (userDenied ? "denied!" : "running")
+                    let submenuItem = NSMenuItem(title: menuTitle, action: nil, keyEquivalent: "")
+                    let submenu = NSMenu(title: menuTitle)
+                    if userDenied {
+                        submenu.addItem(NSMenuItem(title: "Perhaps allow DIM in App Background Activity...", action: #selector(doHelperUD), keyEquivalent: ""))
+                    } else {
+                        submenu.addItem(NSMenuItem(title: "Stop DIM helper", action: #selector(doHelper), keyEquivalent: ""))
+                        submenu.addItem(NSMenuItem(title: "Edit actions...", action: #selector(doHelper), keyEquivalent: ""))
+                    }
+                    submenuItem.submenu = submenu
+                    arrangementButton.menu?.addItem(submenuItem)
+                } else if !(servh.status == .enabled) {
+                    arrangementButton.menu?.addItem(NSMenuItem(title: "Start DIM helper", action: #selector(doHelper), keyEquivalent: ""))
+                }
+            } else {
+                arrangementButton.menu?.addItem(
+                    NSMenuItem(title: hiding ? "Show Desktop icons" : "Hide Desktop icons", action: #selector(doHider), keyEquivalent: "") )  // "Hide/Show Desktop icons" option
             }
         }
     }
@@ -588,32 +629,63 @@ class ViewController: NSViewController {
         }
     }
     @objc func doHelper(_ sender: NSMenuItem) {
-        let start = sender.title.contains("Start")
-        if #available(macOS 13.0, *) {
-            _ = toggleHelper(to: start)
+        if sender.title.contains("Edit") {
+            let sb = NSStoryboard(name: "Main", bundle: nil)
+            let vc = sb.instantiateController(withIdentifier: "EventActionsSheet")
+                     as! EventActionsSheetController
+
+            vc.sortedKeys     = [ "startup", "wake", "change", "screenWake", "sleep", "screenSleep" ]
+            vc.options        = [ "startup" : "Login", "wake" : "Computer wake", "change" : "Screen change", "screenWake" : "Screen wake", "sleep" : "Computer sleep", "screenSleep" : "Screen sleep"]          // [String: String]
+            vc.commands       = ["restore", "add", "purge", "quit", "delete", "arrangement", "hide-icons", "select-missing-icons"]        // [String]
+            vc.commandHasName = [ true,      true,  true,    false,  true,     true,          false,        false]         // [Bool], parallel to commands
+            vc.allNames       = ["<current>"] + orderedArrangements           // [String], includes "<current>"
+
+            vc.completion = { result in
+                guard let _ = result else { return }  // nil = user cancelled
+                // result: [String: (Double, [String])]
+                //   key        → option short-code
+                //   .0 Double  → delay in seconds
+                //   .1 [String] → flat interleaved [cmd, name?, cmd, name?, …]
+                if #available(macOS 13.0, *) {  //so xcode shuts up
+                    let serv = SMAppService.loginItem(identifier: bDIM.hID)
+                    try? serv.unregister()
+                    try? serv.register()
+                }
+            }
+            presentAsSheet(vc)
+        } else {
+            let start = sender.title.contains("Start")
+            if #available(macOS 13.0, *) {
+                _ = toggleHelper(to: start)
+            }
         }
     }
     
     // toggle hiding/unhiding Desktop icons
     @objc func doHider(_ sender: NSMenuItem) {
-        _doHider()
+        if #available(macOS 13.0, *) {
+            if sender.title.contains("Quit") {
+                Logger.diag.info("post to terminate \(bDIM.hHI, privacy: .public)...")
+                DistributedNotificationCenter.default().postNotificationName(NSNotification.Name("pleaseQuitHI"), object: nil, userInfo: nil, deliverImmediately: true)
+            } else {
+                Logger.diag.info("doing HI service: \(sender.title, privacy: .public)...")
+                let serv = SMAppService.loginItem(identifier: bDIM.hHI)
+                try? serv.unregister()
+                if sender.title.contains("Start") {
+                    try? serv.register()
+                }
+            }
+            //DistributedNotificationCenter.default().postNotificationName(NSNotification.Name("pingHI"), object: nil, deliverImmediately: false)
+        } else {
+            _doHider()
+        }
     }
     func _doHider() {
         quitTimer?.invalidate()
-        
-        if #available(macOS 13.0, *) {
-            let serv = SMAppService.loginItem(identifier: bDIM.hHI)
-            if serv.status == .enabled {
-                try? serv.unregister()
-            } else {
-                try? serv.register()
-            }
+        if hider != nil {
+            NotificationCenter.default.post(name: .doHide, object: nil)
         } else {
-            if hider != nil {
-                NotificationCenter.default.post(name: .doHide, object: nil)
-            } else {
-                hider = Hider()
-            }
+            hider = Hider()
         }
         hiding = !hiding // toggle state
         //updateInfo() //loadMenu()
@@ -1018,6 +1090,14 @@ class ViewController: NSViewController {
         }
         // filter out junk...
         let systemPrefixes = ["com.apple.", "Apple", "NS", "AK", "ATS", "PL", "KB_", "ACD", "_HI", "shouldShowRSVP", "Countr", "MultipleSess", "NavPanel", "Web", "_AKB", "PKS"]
+        /*
+        var dict0: [String: Any] = [:]
+        dict.forEach { key, value in
+            guard !systemPrefixes.contains(where: { key.hasPrefix($0) }) else { return }
+            dict0[key] = value }
+         print(dict0)
+         */
+        
         dict.forEach { key, value in
             guard !systemPrefixes.contains(where: { key.hasPrefix($0) }) else { return }
             appGroup.set(value, forKey: key) }
