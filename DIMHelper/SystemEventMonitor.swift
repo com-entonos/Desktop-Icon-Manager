@@ -6,8 +6,6 @@
 //  Copyright © 2026 G.J. Parker. All rights reserved.
 //
 
-// wait: 10.0, data: [(10.0, ["--restore", "--quit"]), (0.5, ["--restore", "--quit"]), (0.0, [])]
-
 import Cocoa
 import OSLog
 
@@ -52,7 +50,8 @@ final class SystemEventMonitor {
         }
         // otherwise default
         if data.isEmpty { data = [  "wake": (3.0, ["--restore", "--quit"]),
-                                  "change": (0.5,  ["--restore", "--quit"])]
+                                  "change": (0.5, ["--restore", "--quit"])]
+                               //,"startup": (0.0, ["--quit"])]
             Logger.log("WARNING: DIMHelper using default data",category: .lifecycle, level: .debug)
         }
         //  saving with UserDefaults...
@@ -64,8 +63,11 @@ final class SystemEventMonitor {
         //UserDefaults(suiteName: bDIM.gUD)!.synchronize()
         //UserDefaults(suiteName: bDIM.gUD)!.removeObject(forKey: "helperData")
         
-        //data["test"] = (1.0, ["--restore", "--quit"]); test(); Logger.log("added delay:\(data["test"]!.0) args:\(data["test"]!.1) )",category: .lifecycle, level: .debug)
-        //data["startup"] = (1.0, ["--restore", "--quit"])
+        //data["test"] = (1.0, ["--restore", "--quit"]); test(); Logger.log("added \"test\": delay=\(data["test"]!.0) args=\(data["test"]!.1) )",category: .lifecycle, level: .debug)
+        //data["startup"] = (0.0, ["--quit"])
+        if let (delay, args) = data["startup"] {
+            handleEvent(time: delay, args: args)
+        }
         
         var events: [(NotificationCenter, NSNotification.Name, Double, [String])] = []
         for (key, (delay, args)) in data {
@@ -87,11 +89,6 @@ final class SystemEventMonitor {
                 self?.handleEvent(time: time, args: args)
             }
             observers.append(obs)
-        }
-        if let (delay, args) = data["startup"] {
-            handleEvent(time: delay, args: args)
-            defaults.removeObject(forKey: "newData")
-            defaults.synchronize()
         }
     }
 
