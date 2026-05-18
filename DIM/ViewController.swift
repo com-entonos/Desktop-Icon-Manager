@@ -592,14 +592,16 @@ class ViewController: NSViewController {
         currentTF.stringValue = "Use Icon Arrangement: " + currentName  // some useful(?) info for user
         if let num = dim!.numInSet {
             if let dictEntry = arrangements[currentName] as? NSArray {
-                if dictEntry.count > 5 { currentNumArrangement.stringValue = "Number of memorized window Icons: " + String(num) }
-                else { currentNumArrangement.stringValue = "Number of memorized Desktop Icons: " + String(num) }
+                let num0 = num < 0 ? "N/A" : String(num)
+                if dictEntry.count > 5 { currentNumArrangement.stringValue = "Number of memorized window Icons: " + num0 }
+                else { currentNumArrangement.stringValue = "Number of memorized Desktop Icons: " + num0 }
             }
         } //AppleScript data should be insync
         if let num = dim!.numOnDesktop {
             if let dictEntry = arrangements[currentName] as? NSArray {
-                if dictEntry.count > 5 { currentNumDesktop.stringValue = "Number of current window Icons: " + String(num) }
-                else { currentNumDesktop.stringValue = "Number of current Desktop Icons: " + String(num) }
+                let num0 = num < 0 ? "N/A" : String(num)
+                if dictEntry.count > 5 { currentNumDesktop.stringValue = "Number of current window Icons: " + num0 }
+                else { currentNumDesktop.stringValue = "Number of current Desktop Icons: " + num0 }
             }
         }
     }
