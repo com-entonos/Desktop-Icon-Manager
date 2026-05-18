@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 73;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -17,10 +17,12 @@
 		2C351E752DD66B4500AFE2CF /* DIMDockTilePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C351E742DD66B4500AFE2CF /* DIMDockTilePlugin.swift */; };
 		2C351E8E2DD9585700AFE2CF /* DockHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C351E8D2DD9585700AFE2CF /* DockHelper.swift */; };
 		2C370D732F9045DB0004D08A /* DIMHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2C370D602F9044AE0004D08A /* DIMHelper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2C4A4EC42FB8E4A000B38678 /* EventActionsSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A4EC32FB8E4A000B38678 /* EventActionsSheetController.swift */; };
 		2C5692BE2F91B89C00BDFB02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C066B5D21F1942800DCF5AD /* Assets.xcassets */; };
 		2C728A2C2365239500D65798 /* ChangeArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C728A2B2365239500D65798 /* ChangeArrangement.swift */; };
 		2C728A322372238500D65798 /* DIM 4.0.help in Resources */ = {isa = PBXBuildFile; fileRef = 2C728A312372238500D65798 /* DIM 4.0.help */; };
 		2C73DC292788C7C8005F7BFC /* Hider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C73DC282788C7C8005F7BFC /* Hider.swift */; };
+		2C741C4C2F96ED4C00D111A1 /* Hide Icons.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2C015B322F96E182006BFE75 /* Hide Icons.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2C79D9CE21F8EF1400C612B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C79D9CC21F8EF1400C612B4 /* Main.storyboard */; };
 		2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */; };
 		2CE0746C2F9323780096F810 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0746B2F9323780096F810 /* Logger.swift */; };
@@ -38,6 +40,7 @@
 			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
+				2C741C4C2F96ED4C00D111A1 /* Hide Icons.app in CopyFiles */,
 				2C370D732F9045DB0004D08A /* DIMHelper.app in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -45,6 +48,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2C015B322F96E182006BFE75 /* Hide Icons.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = "Hide Icons.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C066B5621F1942700DCF5AD /* DIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C066B5921F1942700DCF5AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2C066B5B21F1942700DCF5AD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -58,6 +62,7 @@
 		2C351E742DD66B4500AFE2CF /* DIMDockTilePlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DIMDockTilePlugin.swift; sourceTree = "<group>"; };
 		2C351E8D2DD9585700AFE2CF /* DockHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DockHelper.swift; sourceTree = "<group>"; };
 		2C370D602F9044AE0004D08A /* DIMHelper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIMHelper.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C4A4EC32FB8E4A000B38678 /* EventActionsSheetController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventActionsSheetController.swift; sourceTree = "<group>"; };
 		2C728A2B2365239500D65798 /* ChangeArrangement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangeArrangement.swift; sourceTree = "<group>"; };
 		2C728A312372238500D65798 /* DIM 4.0.help */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "DIM 4.0.help"; path = "DIM/Resources/DIM 4.0.help"; sourceTree = "<group>"; };
 		2C73DC282788C7C8005F7BFC /* Hider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Hider.swift; sourceTree = "<group>"; };
@@ -71,34 +76,8 @@
 		2CF787F12AB64ED70053E8A9 /* Update.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Update.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		2CE074E22F95D5110096F810 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Hide Icons.app",
-			);
-			target = 2C066B5521F1942700DCF5AD /* DIM */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		2CE074E42F95D51F0096F810 /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			attributesByRelativePath = {
-				"Hide Icons.app" = (
-					RemoveHeadersOnCopy,
-				);
-			};
-			buildPhase = 2CFDCAC32DCFFEFC009ACE63 /* CopyFiles */;
-			membershipExceptions = (
-				"Hide Icons.app",
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		2C370D612F9044AE0004D08A /* DIMHelper */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = DIMHelper; sourceTree = "<group>"; };
-		2CE074862F9594840096F810 /* HideIcons */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (2CE074E22F95D5110096F810 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, 2CE074E42F95D51F0096F810 /* PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = HideIcons; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -137,7 +116,6 @@
 				2C370D612F9044AE0004D08A /* DIMHelper */,
 				2C066B5721F1942700DCF5AD /* Products */,
 				2C066B6F21F1A67F00DCF5AD /* Frameworks */,
-				2CE074862F9594840096F810 /* HideIcons */,
 			);
 			sourceTree = "<group>";
 		};
@@ -171,6 +149,7 @@
 				2C066B6221F1942800DCF5AD /* Info.plist */,
 				2C351E8D2DD9585700AFE2CF /* DockHelper.swift */,
 				2CE0746B2F9323780096F810 /* Logger.swift */,
+				2C4A4EC32FB8E4A000B38678 /* EventActionsSheetController.swift */,
 			);
 			path = DIM;
 			sourceTree = "<group>";
@@ -178,6 +157,7 @@
 		2C066B6F21F1A67F00DCF5AD /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C015B322F96E182006BFE75 /* Hide Icons.app */,
 				2C066B7021F1A67F00DCF5AD /* AppleScriptObjC.framework */,
 			);
 			name = Frameworks;
@@ -206,9 +186,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				2CE074862F9594840096F810 /* HideIcons */,
 			);
 			name = DIM;
 			productName = "DIM 3.0";
@@ -292,6 +269,7 @@
 				};
 			};
 			buildConfigurationList = 2C066B5121F1942600DCF5AD /* Build configuration list for PBXProject "DIM" */;
+			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -299,7 +277,6 @@
 				Base,
 			);
 			mainGroup = 2C066B4D21F1942600DCF5AD;
-			preferredProjectObjectVersion = 50;
 			productRefGroup = 2C066B5721F1942700DCF5AD /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -348,6 +325,7 @@
 				2C351E8E2DD9585700AFE2CF /* DockHelper.swift in Sources */,
 				2CE7240721FA56CE00788C31 /* ErrorSheet.swift in Sources */,
 				2CEAC24A2A6E055400F93535 /* PlistOptionSheet.swift in Sources */,
+				2C4A4EC42FB8E4A000B38678 /* EventActionsSheetController.swift in Sources */,
 				2C066B6E21F1945800DCF5AD /* DIM.applescript in Sources */,
 				2C73DC292788C7C8005F7BFC /* Hider.swift in Sources */,
 				2C066B5C21F1942700DCF5AD /* ViewController.swift in Sources */,
@@ -524,6 +502,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -560,6 +539,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -654,6 +634,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
@@ -702,6 +683,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_INCOMING_NETWORK_CONNECTIONS = NO;
