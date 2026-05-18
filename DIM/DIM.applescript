@@ -6,8 +6,8 @@ script ApplescriptBridge
     
     property parent : class "NSObject"
     property iconSet : {}         -- this data is shared w/ swift app- swift doesn't know what it is and we don't care
-    property numDesktop : {}      -- just the number of items on the the Desktop, swift wants to know to update some user info
-    property numArrangement : {}  -- just the number of items stored in iconSet, swift wants to know to update some user info
+    property numDesktop = -1      -- just the number of items on the the Desktop, swift wants to know to update some user info
+    property numArrangement = -1  -- just the number of items stored in iconSet, swift wants to know to update some user info
     
     property iconWindows : {}     -- list of Finder window that are in icon view
     property getWindows : {}      -- list of Finder window names that are in icon view
@@ -112,6 +112,7 @@ script ApplescriptBridge
             end repeat
         end tell
         set tWindow to missing value -- not present
+        return
     end setTWindow
     
     on restore() -- given iconSet, restore Desktop icons to the correct postions (along w/ icon size and text size). if screen size changed, scale the postions
