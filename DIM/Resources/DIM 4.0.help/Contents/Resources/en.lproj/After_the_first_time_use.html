@@ -58,13 +58,14 @@
 <p class="Left Normal"><b>9) Which icons are not saved in an Arrangement</b></p>
 <p class="Left Normal">By choosing the “Select unmemorized Icons” option in the action (
 <img src="After_the_first_time_use.jpg" alt="" />
-) drop down menu, any icons on the Desktop/Finder window that are <b>not</b> in the current Icon Arrangement will be selected on the Desktop/Finder window. If no such icons exists, you will be rewarded with a beep.</p>
+) drop down menu, any icons on the Desktop/Finder window that are <b>not</b> in the current Icon Arrangement will be selected on the Desktop/Finder window. If no such icons exist, you will be rewarded with a beep.</p>
 <p class="Left Normal"><b>10) Hiding/unhiding Desktop icons</b></p>
 <p class="Left Normal">By choosing the “Hide Desktop Icons” option in the action (
 <img src="After_the_first_time_use.jpg" alt="" />
 ) drop down menu, any icons on the Desktop will be hidden. By selecting "Show Desktop Icons", they will be unhidden.</p>
+<p class="Left Normal">On macOS 13 (Ventura) and later, the app <a href="https://parker9.com/HideIcons.html#d">Hide Icons</a> is bundled inside of DIM as a LoginItem. By choosing "Start Hide Icons", Hide Icons will be run immediately and at login. You can stop it either through DIM or directly through Hide Icons menu.</p>
 <p class="Left Normal"><b>11)  Checking for updates</b></p>
-<p class="Left Normal">By selecting "Check for update..." in the main DIM menu, you are granting permision for DIM to reach out (via https) to an update server. If there is no update available or an error occurs, then this menu item will be updated accordingling. Otherwise a sheet will appear on the main DIM window giving an option of downloading the update, visiting the website or canceling. If downloading is choosen, the update will be downloaded to the local Downloads folder and the menu item will change to "Locate new update". You should then quit DIM and replace it with the updated version. Otherwise, if there is an error, the menu item will be updated.</p>
+<p class="Left Normal">By selecting "Check for update..." in the main DIM menu, you are granting permission for DIM to reach out (via https) to an update server. If there is no update available or an error occurs, then this menu item will be updated accordingly. Otherwise a sheet will appear on the main DIM window giving an option of downloading the update, visiting the website or canceling. If downloading is chosen, the update will be downloaded to the local Downloads folder and the menu item will change to "Locate new update". You should then quit DIM and replace it with the updated version. Otherwise, if there is an error, the menu item will be updated.</p>
 <p class="Left Normal"><b>12)  Starting from the command line (Terminal or script)</b></p>
 <p class="Left Normal">One can start DIM from the Terminal command line by typing <em>open -a DIM</em> (or <em>open -b com.parker9.DIM-4</em>). One can also pass command line arguments via <em>open -a DIM --args [...]</em> option. The list of valid command line arguments are:</p>
 <p class="Left Normal">
@@ -87,9 +88,17 @@
     <dd>quit DIM</dd>
 </dl>
 </p>
-<p class="Left Normal">where <em>[arrangement]</em> is an optional name of the Icon Arrangement to use. If not provided, the current Arrangement is assumed. Multiple options can be invoked and they will execute from left to right. Therefore, if "--quit" is present, it should be the last option on the command line. For example, <em>open -a DIM --args --add "Start Up" --restore --select-missing-icons</em> would memorize the current Desktop icon arrangment in "Start Up" arrangement (creating one if necessary). Then DIM restores the icons according to the current arrangement. And finally DIM would select any icons that are not present in the current arrangement. DIM will stay open, since the <em>--quit</em> option was not used.</p>
+<p class="Left Normal">where <em>[arrangement]</em> is an optional name of the Icon Arrangement to use. If not provided, the current Arrangement is assumed. Multiple options can be invoked and they will execute from left to right. Therefore, if "--quit" is present, it should be the last option on the command line. For example, <em>open -a DIM --args --add "Start Up" --restore --select-missing-icons</em> would memorize the current Desktop icon arrangement in "Start Up" arrangement (creating one if necessary). Then DIM restores the icons according to the current arrangement. And finally DIM would select any icons that are not present in the current arrangement. DIM will stay open, since the <em>--quit</em> option was not used.</p>
 <p class="Left Normal"><b>13)  Quick Restore and Memorize</b></p>
 <p class="Left Normal">By right-clicking (or holding) the Dock icon, a menu for Restore or Memorize each of the stored Arrangement allows for quick Restore/Memorize. "Restore" and "Memorize" options use the current Arrangement. Holding the option key (⌥) while invoking the Dock menu changes "Memorize" to "Purge". One can Hide DIM so it doesn't take any screen space.</p>
+
+<p class="Left Normal"><b>14)  DIM Helper and actions after certain events</b></p>
+<p class="Left Normal">By choosing the “Start DIM Helper” in the action (
+<img src="After_the_first_time_use.jpg" alt="" />
+￼) drop down menu, you will then be able to specify actions DIM should take when certain system events occur. Once again, in the action menu, select "Edit actions..." under the "DIM helper is running". The following will be presented:</p>
+<p class="Left Normal"><img src="After_the_first_time_use7.jpg" alt="" /></p>
+<p class="Left Normal">Clicking on any one Event on the left, you can Enable and specify actions that should DIM should do when the event happens. You can also specify a delay between the event and executing the action(s). These actions will only occur if DIM is not running. If DIM is running when an event happens, the action(s) will not execute. Details of allowable actions are described above in <b>12</b>. By default, we enable the first three Events.</p>
+
 <p class="Left Normal"><a href="Miscellaneous.html">Miscellaneous</a></p><a href="Miscellaneous.html">
 <p class="Left Normal"><a href="index.html">Index</a></p>
 
