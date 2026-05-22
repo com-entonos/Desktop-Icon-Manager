@@ -11,13 +11,14 @@ enum bDIM {
     static let hID = "com.parker9.DIMHelper"
     static let gUD = "group." + bID
     static let hHI = "com.entonos.HideIcons"
+    static let dID = "com.parker9.DIMDockTilePlugin"
 }
 
 import OSLog
 
 @available(macOS 11.0, *)
 extension Logger {
-    private static var subsystem = bDIM.bID
+    private static let subsystem = bDIM.bID
     static let scriptExecution = Logger(subsystem: subsystem, category: "ScriptExecution")
     static let ui = Logger(subsystem: subsystem, category: "UserInterface")
     static let lifecycle = Logger(subsystem: subsystem, category: "Lifecycle")
