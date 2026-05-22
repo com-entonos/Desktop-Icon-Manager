@@ -58,11 +58,13 @@ class ViewController: NSViewController {
     var hiding = false
     var hider : Hider? //= Hider(false)
     
+    //var previousApp : NSRunningApplication?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         overrideSetting = NSEvent.modifierFlags == .command  // check to see if user is holding command key during launch
         
-        migrateToAppGroupIfNeeded()
+        //migrateToAppGroupIfNeeded()
         
         /* capture option key press/release - FIXME: doesn't trigger if menu is open */
         NSEvent.addLocalMonitorForEvents(matching: .flagsChanged, handler: { event in self.setMemorizeButtonTitle(!event.modifierFlags.contains(.option)); return event})
@@ -98,12 +100,22 @@ class ViewController: NSViewController {
         /* redraw Memorize/Purge Icon Positions button */
         NotificationCenter.default.addObserver(forName: .doMemorizeButton, object: nil, queue: .main, using: { _ in self.setMemorizeButtonTitle() })
         
+        
+        /* keep track of app that had focus before us...
+        NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.didActivateApplicationNotification, object: nil, queue: .main, using: {_ in
+            if let app = NSWorkspace.shared.frontmostApplication {
+                if app.bundleIdentifier != Bundle.main.object(forInfoDictionaryKey: "CFBundleIdentifier") as? String { self.previousApp = app }
+            }
+        })*/
+        
         if #available(macOS 13.0, *) {
             // incase we updated, stop old if running...
-            let serv = SMAppService.loginItem(identifier: bDIM.hID)
-            try? serv.unregister()
-            if UserDefaults(suiteName: bDIM.gUD)!.bool(forKey: "doHelper") {
-                _ = toggleHelper(to: true)
+            if noCommandLineArgs(CommandLine.arguments) {
+                let serv = SMAppService.loginItem(identifier: bDIM.hID)
+                try? serv.unregister()
+                if UserDefaults.standard.bool(forKey: "doHelper") {
+                    _ = toggleHelper(to: true)
+                }
             }
         }
         arrangementButton.cell?.menu?.delegate = self  // so loadMenu constructs itself when button is pressed
@@ -111,7 +123,7 @@ class ViewController: NSViewController {
     func doWaitRestore(_ notice : Notification) {
         if !self.didChangeScreen {
             self.didChangeScreen = true; Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { _ in self.didChangeScreen = false}) // ignore future calls until we reset
-            let waitRestore = UserDefaults(suiteName: bDIM.gUD)!.object(forKey: "waitRestore") != nil ? UserDefaults(suiteName: bDIM.gUD)!.double(forKey: "waitRestore") : 10.0
+            let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
             if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
             self.do_restore(self.restoreButton as Any)
         }
@@ -120,6 +132,7 @@ class ViewController: NSViewController {
     override func viewDidAppear() {
         super.viewDidAppear()
         if start {
+            /*
             // Source - https://stackoverflow.com/a/74733681
             // Posted by Mark Mc
             // Retrieved 2026-04-20, License - CC BY-SA 4.0
@@ -127,10 +140,9 @@ class ViewController: NSViewController {
             let launchedAsLogInItem =
                 event?.eventID == kAEOpenApplication &&
                 event?.paramDescriptor(forKeyword: keyAEPropData)?.enumCodeValue == keyAELaunchedAsLogInItem
-            
+            */
             thisVer = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as! String
-            if #available(macOS 11.0, *) { Logger.diag.info("starting DIM \(self.thisVer, privacy: .public)")
-                Logger.log("launchedAsLogInItem? \(launchedAsLogInItem)", level: .debug)     }
+            if #available(macOS 11.0, *) { Logger.diag.info("starting DIM \(self.thisVer, privacy: .public)") }//;  Logger.log("launchedAsLogInItem? \(launchedAsLogInItem)", level: .debug) }
             doingPI.startAnimation(nil)
             RunLoop.main.perform {
             //DispatchQueue.main.async {
@@ -403,7 +415,7 @@ class ViewController: NSViewController {
                 setSet(set: arrangements[currentName]!)
                 dim!.numOnDesktop = 0  // we have to make sure numArrangement, numDesktop and iconSet is set, if we got here, we only have to update numDesktop so tell Finder to do so
                 if actionAfterStart == .quit && dataVer == thisVer {  // should we quit in 5 seconds?
-                    quitCount = UserDefaults(suiteName: bDIM.gUD)!.object(forKey: "quitCount") != nil ? UserDefaults(suiteName: bDIM.gUD)!.integer(forKey: "quitCount") : 20
+                    quitCount = UserDefaults.standard.object(forKey: "quitCount") != nil ? UserDefaults.standard.integer(forKey: "quitCount") : 20
                     warningTF.stringValue = "Hold ⌘ to abort Quit (\(Int(0.9 + Double(quitCount)/5.0)))"
                     quitTimer = Timer.scheduledTimer(timeInterval: TimeInterval(0.2), target: self, selector: #selector(self.terminate), userInfo: nil, repeats: true)
                 }
@@ -439,7 +451,7 @@ class ViewController: NSViewController {
     
     //let's assume something bad happened to the stored user data...
     func goodLoadPrefs() -> Bool {
-        let defaults = UserDefaults(suiteName: bDIM.gUD)!
+        let defaults = UserDefaults.standard
         guard let name = defaults.string(forKey: "currentName")  else { return false }  // is there a plist?
         guard (defaults.array(forKey: "orderedArrangements") != nil) else { return false }
         currentName = name
@@ -494,7 +506,7 @@ class ViewController: NSViewController {
     
     // save user's preferences
     func savePrefs() {
-        let defaults = UserDefaults(suiteName: bDIM.gUD)!
+        let defaults = UserDefaults.standard
         defaults.set(currentName, forKey: "currentName")
         defaults.set(restoreAtStart, forKey: "restoreAtStart")
         defaults.set(actionAfterStart.rawValue, forKey: "actionAfterStart")
@@ -502,7 +514,7 @@ class ViewController: NSViewController {
         defaults.set(arrangements, forKey: "arrangements")
         defaults.set(automaticSave, forKey: "automaticSave")
         defaults.set(timerSeconds, forKey: "timerSeconds")
-     // DistributedNotificationCenter.default().postNotificationName(.newArrangement, object: nil, userInfo: ["orderedArrangements" : self.orderedArrangements], deliverImmediately: true); if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs DistributedNotice .newArrangement posted") }
+        defaults.synchronize()
         NotificationCenter.default.post(name: .newArrangement, object: orderedArrangements)//; if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs post NotificationCenter .newArrangement >\(self.orderedArrangements,privacy: .private(mask: .hash))<") }
     }
     
@@ -531,7 +543,7 @@ class ViewController: NSViewController {
                 
                 // is user blocking?
                 let servh = SMAppService.loginItem(identifier: bDIM.hID)
-                let want = UserDefaults(suiteName: bDIM.gUD)!.bool(forKey: "doHelper")
+                let want = UserDefaults.standard.bool(forKey: "doHelper")
                 var userDenied = !(servh.status == .enabled)
                 if userDenied {
                     userDenied = false
@@ -630,37 +642,44 @@ class ViewController: NSViewController {
             NSWorkspace.shared.open(url)
         }
     }
+    @available(macOS 13.0, *)
     @objc func doHelper(_ sender: NSMenuItem) {
         if sender.title.contains("Edit") {
-            let sb = NSStoryboard(name: "Main", bundle: nil)
-            let vc = sb.instantiateController(withIdentifier: "EventActionsSheet")
-                     as! EventActionsSheetController
-
-            vc.sortedKeys     = [ "startup", "wake", "change", "screenWake", "sleep", "screenSleep" ]
-            vc.options        = [ "startup" : "Login", "wake" : "Computer wake", "change" : "Screen change", "screenWake" : "Screen wake", "sleep" : "Computer sleep", "screenSleep" : "Screen sleep"]          // [String: String]
-            vc.commands       = ["restore", "add", "purge", "quit", "delete", "arrangement", "hide-icons", "select-missing-icons"]        // [String]
-            vc.commandHasName = [ true,      true,  true,    false,  true,     true,          false,        false]         // [Bool], parallel to commands
-            vc.allNames       = ["<current>"] + orderedArrangements           // [String], includes "<current>"
-
-            vc.completion = { result in
-                guard let _ = result else { return }  // nil = user cancelled
-                // result: [String: (Double, [String])]
-                //   key        → option short-code
-                //   .0 Double  → delay in seconds
-                //   .1 [String] → flat interleaved [cmd, name?, cmd, name?, …]
-                if #available(macOS 13.0, *) {  //so xcode shuts up
-                    let serv = SMAppService.loginItem(identifier: bDIM.hID)
-                    try? serv.unregister()
-                    try? serv.register()
-                }
-            }
-            presentAsSheet(vc)
+            doEventEdit()
         } else {
             let start = sender.title.contains("Start")
-            if #available(macOS 13.0, *) {
-                _ = toggleHelper(to: start)
-            }
+            if toggleHelper(to: start) && UserDefaults(suiteName: bDIM.gUD)!.object(forKey: "helperData") == nil { doEventEdit() }
         }
+    }
+    @available(macOS 13.0, *)
+    func doEventEdit() {
+        let sb = NSStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateController(withIdentifier: "EventActionsSheet")
+                 as! EventActionsSheetController
+
+        let defaults = UserDefaults(suiteName: bDIM.gUD)!
+        if defaults.object(forKey: "helperData") == nil { // First launch — write defaults so UserDefaults is not empty initially.
+            let saved = ["wake":    (3.0, ["--restore", "--quit"]),
+                         "unlock":  (3.0, ["--restore", "--quit"]),
+                         "change":  (1.5, ["--restore", "--quit"]),
+                         "startup": (0.1, ["--restore", "--quit"])]
+            defaults.set(Dictionary(uniqueKeysWithValues: saved.map { ($0, [$1.0, $1.1] as [Any]) }), forKey: "helperData")
+            defaults.synchronize()
+        }
+
+        vc.sortedKeys     = [ "startup", "wake", "unlock", "change", "interval", "mount", "unmount", "power", "screenWake", "sleep", "screenSleep" ]
+        vc.options        = [ "startup" : "Login", "wake" : "Computer wake", "change" : "Screen change", "screenWake" : "Screen wake", "sleep" : "Computer sleep", "screenSleep" : "Screen sleep", "interval" : "Repeat timer", "mount" : "Mount", "unmount" : "Unmount", "unlock" : "Unlock screen", "power" : "Power off"]          // [String: String]
+        vc.commands       = ["restore", "update", "purge", "quit", "arrangement", "hide-icons", "select-missing-icons", "delete"]        // [String]
+        vc.commandHasName = [ true,      true,     true,    false,  true,          false,        false,                  true]         // [Bool], parallel to commands
+        vc.allNames       = ["<current>"] + orderedArrangements           // [String], includes "<current>"
+
+        vc.completion = { result in
+            // result: [String: (Double, [String])]
+            let serv = SMAppService.loginItem(identifier: bDIM.hID)
+            try? serv.unregister()
+            try? serv.register()
+        }
+        presentAsSheet(vc)
     }
     
     // toggle hiding/unhiding Desktop icons
@@ -729,7 +748,7 @@ class ViewController: NSViewController {
         let url = URL(string: "http://www.parker9.com/d")
         NSWorkspace.shared.open(url!)
         donateLabel.textColor = NSColor.systemGray  //labelColor.withAlphaComponent(0.2)
-        UserDefaults(suiteName: bDIM.gUD)!.set("done", forKey: "donate")
+        UserDefaults.standard.set("done", forKey: "donate")
     }
     
     // hardcoded URL for home
@@ -791,6 +810,7 @@ class ViewController: NSViewController {
     
     func noCommandLineArgs(_ args : [String]) -> Bool {
         let commands : Set = ["--memorize", "--add", "--restore", "--arrangement", "--hide-icons", "--select-missing-icons", "--delete", "--quit", "--update", "--purge"]
+        //if #available(macOS 11.0, *) { Logger.diag.info("command empty? = \(Set(args).intersection(commands).isEmpty, privacy: .public), UD == nil? \(UserDefaults.standard.object(forKey: "helperArgs") == nil, privacy: .public)") }
         return Set(args).intersection(commands).isEmpty &&
                 UserDefaults(suiteName: bDIM.gUD)!.object(forKey: "helperArgs") == nil
         // N=0   UD!=nil  ==nil
@@ -872,7 +892,22 @@ class ViewController: NSViewController {
                     refreshTimer()
                 }
             case "--hide-icons" :
-                _doHider()
+                if !NSRunningApplication.runningApplications(withBundleIdentifier: bDIM.hHI).isEmpty {
+                    if #available(macOS 11.0, *) { Logger.diag.info("posting to Hide Icons") }
+                    DistributedNotificationCenter.default().postNotificationName(.doHide, object: nil, userInfo: nil, deliverImmediately: true)  // send into void and hope for a response...
+                } else if #available(macOS 13.0, *) {
+                    do {
+                        let serv = SMAppService.loginItem(identifier: bDIM.hHI)
+                        try serv.register()
+                        Logger.diag.info("we registered Hide Icons")
+                    } catch {
+                        Logger.diag.info("error registering Hide Icons")
+                        _doHider()
+                    }
+                } else {
+                    if #available(macOS 11.0, *) { Logger.diag.info("not allowed to register Hide Icons") }
+                    _doHider()
+                }
             case "--select-missing-icons" :
                 dim!.showNewIcons()
             case "--quit" :
@@ -888,25 +923,25 @@ class ViewController: NSViewController {
 // add Import and Export of UserDefaults
     @IBAction func writePlist(_ sender: NSMenuItem) {  // this will (hopefully) copy the current UserDefaults data to user specified place
         // export any optional UserDefaults
-        let defaults = UserDefaults(suiteName: bDIM.gUD)!
+        let defaults = UserDefaults.standard
         let waitRestore = defaults.object(forKey: "waitRestore") != nil ? defaults.double(forKey: "waitRestore") : 10.0
         let quitCount = defaults.object(forKey: "quitCount") != nil ? defaults.integer(forKey: "quitCount") : 20
         let startHidden = defaults.object(forKey: "startHidden") != nil ? defaults.bool(forKey: "startHidden") : false
         let doHelper = defaults.bool(forKey: "doHelper")
         // old
-        //let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/" + bDIM.bID + ".plist"
+        let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/" + bDIM.bID + ".plist"
         // should have been?
-        //let url2 = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Containers/\(bDIM.bID)/Data/Library/Preferences/\(bDIM.bID).plist")
+        //let url2 = FileManager.default.homeDirectoryForCurrentUser.appendingPathComponent("Library/Containers/\(bDIM.bID)/Data/Library/Preferences/\(bDIM.bID).plist").path
         
         // to read Group App UserDefaults...
         //defaults read ~/Library/Group\ Containers/group.com.parker9.DIM-4/Library/Preferences/group.com.parker9.DIM-4.plist
-        let url2 = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: bDIM.gUD)!
-            .appendingPathComponent("Library/Preferences/\(bDIM.gUD).plist").path
+        //let url2 = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: bDIM.gUD)!.appendingPathComponent("Library/Preferences/\(bDIM.gUD).plist").path
         if FileManager.default.fileExists(atPath: url2) {
             let panel = NSSavePanel()
             panel.canCreateDirectories = true
             panel.message = "Select location to export DIM Settings:"
-            panel.nameFieldStringValue = bDIM.gUD + ".plist"
+        //  panel.nameFieldStringValue = bDIM.gUD + ".plist"
+            panel.nameFieldStringValue = bDIM.bID + ".plist"
             panel.prompt = "Export"
             panel.allowedFileTypes = ["plist"]
             panel.nameFieldLabel = "Export As:"
@@ -986,7 +1021,7 @@ class ViewController: NSViewController {
                 timerSeconds = newData?["timerSeconds"] as? Int ?? timerSeconds
         
                 // if newData has any optional UserDefaults replace them
-                let defaults = UserDefaults(suiteName: bDIM.gUD)!
+                let defaults = UserDefaults.standard
                 if let waitRestore = newData?["waitRestore"] as? Double {defaults.set(waitRestore, forKey: "waitRestore")}
                 if let quitCount = newData?["quitCount"] as? Int {defaults.set(quitCount, forKey: "quitCount")}
                 if let startHidden =  newData?["startHidden"] as? Bool {defaults.set(startHidden, forKey: "startHidden")}
@@ -1124,8 +1159,8 @@ class ViewController: NSViewController {
     @available(macOS 13.0, *)
     func toggleHelper(to start: Bool,_ helperBundleID: String = bDIM.hID) -> Bool {
         
-        let groupDefaults = UserDefaults(suiteName: bDIM.gUD)!
-        groupDefaults.set(start, forKey: "doHelper")
+        UserDefaults.standard.set(start, forKey: "doHelper")
+        UserDefaults.standard.synchronize()
         
         let helperService = SMAppService.loginItem(identifier: helperBundleID)
         let isEnabled = helperService.status == .enabled
@@ -1144,10 +1179,11 @@ class ViewController: NSViewController {
                     Logger.diag.info("Failed to unregister DIMHelper: \(error.localizedDescription, privacy: .public)")
                 } else {
                     Logger.diag.info("Unregistered DIMHelper")
-                    groupDefaults.removeObject(forKey: "helperArgs") //remove debris...
                 }
             }
         }
+        let groupDefaults = UserDefaults(suiteName: bDIM.gUD)!
+        groupDefaults.removeObject(forKey: "helperArgs") //remove debris...
         groupDefaults.synchronize()
         return true
     }
