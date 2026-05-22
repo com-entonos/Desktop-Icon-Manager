@@ -11,12 +11,12 @@ import OSLog
 
 
 extension Notification.Name {
-    static let doTest = Notification.Name("doTest")
+    static let doHelperTimer = Notification.Name("doHelperTimer")
 }
 
 final class SystemEventMonitor {
     
-    private var observers: [NSObjectProtocol] = []
+    private var observers: [(NotificationCenter, NSObjectProtocol)] = []
     
     private var isMainAppRunning: Bool {
         !NSRunningApplication.runningApplications(
@@ -28,13 +28,20 @@ final class SystemEventMonitor {
 
         let ws = NSWorkspace.shared.notificationCenter
         let nc = NotificationCenter.default
-        let cn:[ String: (NotificationCenter, NSNotification.Name)] = [
-                   "wake": (ws, NSWorkspace.didWakeNotification),
-             "screenWake": (ws, NSWorkspace.screensDidWakeNotification),
-                 "change": (nc, NSApplication.didChangeScreenParametersNotification),
-                  "sleep": (ws, NSWorkspace.willSleepNotification),
-            "screenSleep": (ws, NSWorkspace.screensDidSleepNotification),
-                   "test": (nc, .doTest)
+        let dc = DistributedNotificationCenter.default()
+        let cn:[ String: [(NotificationCenter, NSNotification.Name)]] = [
+                   "wake": [(ws, NSWorkspace.didWakeNotification)],
+             "screenWake": [(ws, NSWorkspace.screensDidWakeNotification)],
+                 "change": [(nc, NSApplication.didChangeScreenParametersNotification)],
+                  "sleep": [(ws, NSWorkspace.willSleepNotification)],
+            "screenSleep": [(ws, NSWorkspace.screensDidSleepNotification)],
+                  "mount": [(ws, NSWorkspace.didMountNotification)],
+                "unmount": [(ws, NSWorkspace.didUnmountNotification)],
+                 "unlock": [(ws, NSWorkspace.sessionDidBecomeActiveNotification),
+                            (dc, NSNotification.Name("com.apple.screenIsUnlocked")),
+                            (dc, NSNotification.Name("com.apple.screensaver.didstop"))], // "com.apple.screenIsLocked", "com.apple.screensaver.didstart" and "com.apple.screensaver.willstop" also available?
+                  "power": [(ws, NSWorkspace.willPowerOffNotification)],
+               "interval": [(nc, .doHelperTimer)]
         ]
         
         // what is requested?
@@ -48,32 +55,20 @@ final class SystemEventMonitor {
                 data[key] = (delay, args)
             }
         }
-        // otherwise default
-        if data.isEmpty { data = [  "wake": (3.0, ["--restore", "--quit"]),
-                                  "change": (0.5, ["--restore", "--quit"])]
-                               //,"startup": (0.0, ["--quit"])]
-            Logger.log("WARNING: DIMHelper using default data",category: .lifecycle, level: .debug)
-        }
-        //  saving with UserDefaults...
-        //let plistCompatibleDict = data.reduce(into: [String: [Any]]()) { (result, element) in
-        //    let (key, (delay, args)) = element
-        //    result[key] = [delay, args] // Store as a simple array
-        //}
-        //UserDefaults(suiteName: bDIM.gUD)!.set(plistCompatibleDict, forKey: "helperData")
-        //UserDefaults(suiteName: bDIM.gUD)!.synchronize()
-        //UserDefaults(suiteName: bDIM.gUD)!.removeObject(forKey: "helperData")
+      /*UserDefaults(suiteName: bDIM.gUD)!.set(plistCompatibleDict, forKey: "helperData")
+        UserDefaults(suiteName: bDIM.gUD)!.synchronize()
+        UserDefaults(suiteName: bDIM.gUD)!.removeObject(forKey: "helperData") */
         
-        //data["test"] = (1.0, ["--restore", "--quit"]); test(); Logger.log("added \"test\": delay=\(data["test"]!.0) args=\(data["test"]!.1) )",category: .lifecycle, level: .debug)
+        //data["interval"] = (1.0, ["--restore", "--quit"]); Logger.log("added \"timer\": delay=\(data["timer"]!.0) args=\(data["timer"]!.1) )",category: .lifecycle, level: .debug)
         //data["startup"] = (0.0, ["--quit"])
-        if let (delay, args) = data["startup"] {
-            handleEvent(time: delay, args: args)
-        }
         
         var events: [(NotificationCenter, NSNotification.Name, Double, [String])] = []
         for (key, (delay, args)) in data {
-            if key != "startup" {
-                events.append((cn[key]!.0, cn[key]!.1, delay, args))
-                //Logger.log("events: nc:\(cn[key]!.0) name:\(cn[key]!.1) delay:\(delay) args:\(args)", category: .lifecycle, level: .debug)
+            if let actions = cn[key] {
+                for (c,n) in actions {
+                    events.append((c, n, delay, args))
+                    //Logger.log("events: nc:\(c) name:\(n) delay:\(delay) args:\(args)", category: .lifecycle, level: .debug)
+                }
             }
         }
         //Logger.log("events: \(events)", category: .lifecycle, level: .debug)
@@ -83,22 +78,27 @@ final class SystemEventMonitor {
         }
     
         for (center, name, time, args) in events {
-            //Logger.log("name:\(name) delay:\(time) args:\(args) )",category: .lifecycle, level: .debug)
+            //Logger.log("observing for name:\(name) delay:\(time) args:\(args) )",category: .lifecycle, level: .debug)
             Logger.diag.log("observing for name:\(name.rawValue , privacy: .public) delay:\(time,privacy: .public) args:\(args, privacy: .private(mask: .hash))")
             let obs = center.addObserver(forName: name, object: nil, queue: .main) { [weak self] _ in
-                self?.handleEvent(time: time, args: args)
+                self?.handleEvent(time:  name == .doHelperTimer ? 0.0 : time, args: args, note: name.rawValue)
             }
-            observers.append(obs)
+            observers.append((center,obs))
         }
+        // start any timer...
+        if let (interval, _) = data["interval"] { timer(interval: interval * 60) }
+        
+        // assume this is login if main app is not running
+        if let (delay, args) = data["startup"], !isMainAppRunning { handleEvent(time: delay, args: args, note: "startup") }
     }
 
-    private func handleEvent(time: Double, args: [String]) {
+    private func handleEvent(time: Double, args: [String], note: String) {
         guard let appURl = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bDIM.bID) else {
             Logger.log("failed handleEvent: url for \(bDIM.gUD) failed" ,category: .lifecycle, level: .debug)
             return
         }
         
-        Logger.log("going to start in \(time) seconds...",category: .lifecycle, level: .debug)
+        Logger.log("going to \(note) in \(time) seconds...",category: .lifecycle, level: .debug)
         let GDefaults = UserDefaults(suiteName: bDIM.gUD)!
         Timer.scheduledTimer(withTimeInterval: time, repeats: false) { _ in
             if !self.isMainAppRunning {
@@ -107,7 +107,7 @@ final class SystemEventMonitor {
                 let config = NSWorkspace.OpenConfiguration()
                 config.arguments = args
                 config.activates = false
-                //Logger.log("about to open DIM with \(config.arguments)",category: .lifecycle, level: .debug)
+                Logger.log("about to open DIM with \(config.arguments)",category: .lifecycle, level: .debug)
                 Logger.diag.log("about to open DIM with \(config.arguments, privacy: .private(mask: .hash))")
                 NSWorkspace.shared.openApplication(at: appURl, configuration: config)
             } else {
@@ -116,18 +116,15 @@ final class SystemEventMonitor {
         }
     }
     
-    private func test() {
-        Timer.scheduledTimer(withTimeInterval: 15.0, repeats: true) {_ in
-            NotificationCenter.default.post(name: .doTest, object: nil)
+    private func timer(interval: Double) {
+        Timer.scheduledTimer(withTimeInterval: interval, repeats: true) {_ in
+            NotificationCenter.default.post(name: .doHelperTimer, object: nil)
         }
     }
 
     deinit {
-        let ws = NSWorkspace.shared.notificationCenter
-        let nc = NotificationCenter.default
-        for obs in observers {
-            ws.removeObserver(obs)
-            nc.removeObserver(obs)
+        for (c,obs) in observers {
+            c.removeObserver(obs)
         }
     }
 }
