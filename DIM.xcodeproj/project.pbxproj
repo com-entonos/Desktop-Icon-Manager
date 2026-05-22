@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C00E70A2FBEA0B000A500C3 /* DIMDockTilePlugin.docktileplugin in Embed PlugIns */ = {isa = PBXBuildFile; fileRef = 2C351E6F2DD66A6800AFE2CF /* DIMDockTilePlugin.docktileplugin */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		2C066B5A21F1942700DCF5AD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B5921F1942700DCF5AD /* AppDelegate.swift */; };
 		2C066B5C21F1942700DCF5AD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B5B21F1942700DCF5AD /* ViewController.swift */; };
 		2C066B5E21F1942800DCF5AD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C066B5D21F1942800DCF5AD /* Assets.xcassets */; };
@@ -33,7 +34,28 @@
 		2CF787F22AB64ED70053E8A9 /* Update.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CF787F12AB64ED70053E8A9 /* Update.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		2C00E70B2FBEA0B000A500C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2C066B4E21F1942600DCF5AD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C351E6E2DD66A6800AFE2CF;
+			remoteInfo = DIMDockTilePlugin;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXCopyFilesBuildPhase section */
+		2C00E70D2FBEA0B000A500C3 /* Embed PlugIns */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				2C00E70A2FBEA0B000A500C3 /* DIMDockTilePlugin.docktileplugin in Embed PlugIns */,
+			);
+			name = "Embed PlugIns";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2CFDCAC32DCFFEFC009ACE63 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -48,6 +70,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		2C00E7122FBFE33A00A500C3 /* DIMDockTilePlugin.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DIMDockTilePlugin.entitlements; sourceTree = "<group>"; };
 		2C015B322F96E182006BFE75 /* Hide Icons.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; path = "Hide Icons.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C066B5621F1942700DCF5AD /* DIM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DIM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C066B5921F1942700DCF5AD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -167,6 +190,7 @@
 			isa = PBXGroup;
 			children = (
 				2C351E742DD66B4500AFE2CF /* DIMDockTilePlugin.swift */,
+				2C00E7122FBFE33A00A500C3 /* DIMDockTilePlugin.entitlements */,
 			);
 			path = DIMDockTilePlugin;
 			sourceTree = "<group>";
@@ -182,10 +206,12 @@
 				2C066B5321F1942700DCF5AD /* Frameworks */,
 				2C066B5421F1942700DCF5AD /* Resources */,
 				2CFDCAC32DCFFEFC009ACE63 /* CopyFiles */,
+				2C00E70D2FBEA0B000A500C3 /* Embed PlugIns */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				2C00E70C2FBEA0B000A500C3 /* PBXTargetDependency */,
 			);
 			name = DIM;
 			productName = "DIM 3.0";
@@ -357,6 +383,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		2C00E70C2FBEA0B000A500C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C351E6E2DD66A6800AFE2CF /* DIMDockTilePlugin */;
+			targetProxy = 2C00E70B2FBEA0B000A500C3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		2C79D9CC21F8EF1400C612B4 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -501,7 +535,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -538,7 +572,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
 				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -572,21 +606,27 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = DIMDockTilePlugin/DIMDockTilePlugin.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 G.J. Parker. All rights reserved.";
+				INFOPLIST_FILE = DIMDockTilePlugin/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 G.J. Parker. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = DIMDockTilePlugin;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parker9.DIMDockTilePlugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -601,21 +641,27 @@
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = DIMDockTilePlugin/DIMDockTilePlugin.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = XJ9ZL4KYVN;
+				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2025 G.J. Parker. All rights reserved.";
+				INFOPLIST_FILE = DIMDockTilePlugin/Info.plist;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 G.J. Parker. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = DIMDockTilePlugin;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parker9.DIMDockTilePlugin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 6.0;
@@ -649,6 +695,7 @@
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSBackgroundOnly = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 G.J. Parker. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -698,6 +745,7 @@
 				ENABLE_RESOURCE_ACCESS_USB = NO;
 				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_LSBackgroundOnly = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "Copyright © 2026 G.J. Parker. All rights reserved.";
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
