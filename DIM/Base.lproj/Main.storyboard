@@ -658,7 +658,7 @@ Gw
                                 </connections>
                             </button>
                             <popUpButton hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WbH-dN-Gnb">
-                                <rect key="frame" x="375" y="82" width="78" height="22"/>
+                                <rect key="frame" x="377" y="82" width="78" height="22"/>
                                 <popUpButtonCell key="cell" type="smallSquare" title="stay open" bezelStyle="smallSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" inset="2" selectedItem="Wtv-xz-gdL" id="HpZ-ek-Uh2">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="message"/>
@@ -709,7 +709,7 @@ Gw
                             <constraint firstItem="YOj-kM-lfG" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="28" id="VNO-PM-YLO"/>
                             <constraint firstItem="mY5-36-2f7" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KLe-R5-x8e" secondAttribute="trailing" constant="8" symbolic="YES" id="ZA1-Gg-rMu"/>
                             <constraint firstItem="gU9-tS-bgT" firstAttribute="top" secondItem="YOj-kM-lfG" secondAttribute="bottom" constant="5" id="ZTi-Ey-iSb"/>
-                            <constraint firstItem="WbH-dN-Gnb" firstAttribute="leading" secondItem="YOj-kM-lfG" secondAttribute="trailing" constant="1" id="Zd0-nQ-vCs"/>
+                            <constraint firstItem="WbH-dN-Gnb" firstAttribute="leading" secondItem="YOj-kM-lfG" secondAttribute="trailing" constant="2.5" id="Zd0-nQ-vCs"/>
                             <constraint firstAttribute="trailing" secondItem="uO3-a2-taD" secondAttribute="trailing" constant="1" id="bJj-H5-A10"/>
                             <constraint firstItem="1ML-jo-5DP" firstAttribute="leading" relation="lessThanOrEqual" secondItem="DZ9-EQ-FiY" secondAttribute="trailing" constant="75" id="bPF-2S-abR"/>
                             <constraint firstItem="uO3-a2-taD" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="cjk-Ty-TPl"/>
