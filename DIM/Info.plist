@@ -6,5 +6,7 @@
 	<string>DIM 4.0.help</string>
 	<key>CFBundleHelpBookName</key>
 	<string>com.parker9.DIM-4-0.help</string>
+	<key>NSDockTilePlugIn</key>
+	<string>DIMDockTilePlugin.docktileplugin</string>
 </dict>
 </plist>
