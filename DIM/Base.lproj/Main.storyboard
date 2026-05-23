@@ -658,7 +658,7 @@ Gw
                                 </connections>
                             </button>
                             <popUpButton hidden="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WbH-dN-Gnb">
-                                <rect key="frame" x="377" y="82" width="78" height="22"/>
+                                <rect key="frame" x="377" y="81" width="78" height="22"/>
                                 <popUpButtonCell key="cell" type="smallSquare" title="stay open" bezelStyle="smallSquare" imagePosition="left" alignment="left" lineBreakMode="truncatingTail" enabled="NO" state="on" borderStyle="border" inset="2" selectedItem="Wtv-xz-gdL" id="HpZ-ek-Uh2">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="message"/>
@@ -732,7 +732,7 @@ Gw
                             <constraint firstItem="2Or-ax-3hg" firstAttribute="top" secondItem="KLe-R5-x8e" secondAttribute="bottom" id="uZF-iN-fvX"/>
                             <constraint firstItem="YOj-kM-lfG" firstAttribute="top" secondItem="DZ9-EQ-FiY" secondAttribute="bottom" constant="16" id="vLh-x6-vqV"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="MhN-1z-ysc" secondAttribute="trailing" constant="20" symbolic="YES" id="wCc-13-nBI"/>
-                            <constraint firstItem="WbH-dN-Gnb" firstAttribute="centerY" secondItem="YOj-kM-lfG" secondAttribute="centerY" id="we2-BR-0Mj"/>
+                            <constraint firstItem="WbH-dN-Gnb" firstAttribute="centerY" secondItem="YOj-kM-lfG" secondAttribute="centerY" constant="1" id="we2-BR-0Mj"/>
                             <constraint firstItem="ZTL-f0-jOz" firstAttribute="top" secondItem="DZ9-EQ-FiY" secondAttribute="bottom" constant="23" id="xgL-79-10I"/>
                             <constraint firstItem="xOZ-1p-tLp" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="6" id="z57-2P-Jli"/>
                         </constraints>
@@ -749,6 +749,7 @@ Gw
                         <outlet property="donateLabel" destination="uO3-a2-taD" id="agr-Ap-tFK"/>
                         <outlet property="memorizeButton" destination="DZ9-EQ-FiY" id="kMS-dP-lE7"/>
                         <outlet property="restoreButton" destination="1ML-jo-5DP" id="Uac-zQ-sbm"/>
+                        <outlet property="selectActionMenu" destination="WbH-dN-Gnb" id="oRn-oM-67V"/>
                         <outlet property="timeMenu" destination="MhN-1z-ysc" id="0Qq-UD-MbD"/>
                         <outlet property="warningButton" destination="YOj-kM-lfG" id="2qL-ft-E5L"/>
                         <outlet property="warningTF" destination="gU9-tS-bgT" id="sd9-Rk-UXK"/>
