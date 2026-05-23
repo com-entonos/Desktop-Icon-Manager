@@ -17,7 +17,7 @@ class ViewController: NSViewController {
     
     // variables to deal w/ different Arrangements and what the code should do (these are default values which will be overwritten soon)
     var restoreAtStart = false  // Restore icon positions at start?
-    var actionAfterStart = ActionItems.open
+    var actionAfterStart = ActionItems.quit
     var automaticSave = false
     var currentName = "Default" // some name for an icon Arrangment
     var arrangements = [String: Any]()  // dictionary keyed to name w/ corresponding iconSet (AppleScript data object)
