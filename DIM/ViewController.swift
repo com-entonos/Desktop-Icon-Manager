@@ -455,6 +455,12 @@ class ViewController: NSViewController {
     //let's assume something bad happened to the stored user data...
     func goodLoadPrefs() -> Bool {
         let defaults = UserDefaults.standard
+        
+        if defaults.object(forKey: "dataVerString") != nil { dataVer = defaults.string(forKey: "dataVerString")!}
+        defaults.set(thisVer, forKey: "dataVerString") // since we ran, update dataVer
+        if dataVer != thisVer { defaults.removeObject(forKey: "donate") }
+        if defaults.string(forKey: "donate") != nil {donateLabel.textColor = NSColor.labelColor}
+        
         guard let name = defaults.string(forKey: "currentName")  else { return false }  // is there a plist?
         guard (defaults.array(forKey: "orderedArrangements") != nil) else { return false }
         currentName = name
@@ -470,11 +476,6 @@ class ViewController: NSViewController {
         arrangements = defaults.dictionary(forKey: "arrangements")!
         if defaults.object(forKey: "timerSeconds") != nil {timerSeconds = defaults.integer(forKey: "timerSeconds")}
         if defaults.object(forKey: "automaticSave") != nil {automaticSave = defaults.bool(forKey: "automaticSave")}
-        
-        if defaults.object(forKey: "dataVerString") != nil { dataVer = defaults.string(forKey: "dataVerString")!}
-        defaults.set(thisVer, forKey: "dataVerString") // since we ran, update dataVer
-        if dataVer != thisVer { defaults.removeObject(forKey: "donate") }
-        if defaults.string(forKey: "donate") != nil {donateLabel.textColor = NSColor.labelColor}
         
         // in a perfect world we would be done. but let's not assume perfect and instead assume non-perfect
         // first, let's construct a new array using the data we (supposedly) have in arrangements dictionary
