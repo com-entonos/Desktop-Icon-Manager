@@ -922,12 +922,6 @@ class ViewController: NSViewController {
 
 // add Import and Export of UserDefaults
     @IBAction func writePlist(_ sender: NSMenuItem) {  // this will (hopefully) copy the current UserDefaults data to user specified place
-        // export any optional UserDefaults
-        let defaults = UserDefaults.standard
-        let waitRestore = defaults.object(forKey: "waitRestore") != nil ? defaults.double(forKey: "waitRestore") : 10.0
-        let quitCount = defaults.object(forKey: "quitCount") != nil ? defaults.integer(forKey: "quitCount") : 20
-        let startHidden = defaults.object(forKey: "startHidden") != nil ? defaults.bool(forKey: "startHidden") : false
-        let doHelper = defaults.bool(forKey: "doHelper")
         // old
         let url2 = FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/" + bDIM.bID + ".plist"
         // should have been?
@@ -947,18 +941,20 @@ class ViewController: NSViewController {
             panel.nameFieldLabel = "Export As:"
             panel.beginSheetModal(for: self.view.window! ) {(reply) in
                 if reply == .OK, let exportURL = panel.url {
-                    let data = NSDictionary(dictionary: [
-                        "currentName" : self.currentName,
-                        "restoreAtStart" : self.restoreAtStart,
-                        "actionAfterStart" : self.actionAfterStart.rawValue,
-                        "orderedArrangements" : self.orderedArrangements,
-                        "arrangements" : self.arrangements,
-                        "automaticSave" : self.automaticSave,
-                        "timerSeconds" : self.timerSeconds,
-                        "waitRestore" : waitRestore,
-                        "quitCount" : quitCount,
-                        "startHidden" : startHidden,
-                        "doHelper" : doHelper] )
+                    var d: [String: Any] = [ "currentName" : self.currentName,
+                                             "restoreAtStart" : self.restoreAtStart,
+                                             "actionAfterStart" : self.actionAfterStart.rawValue,
+                                             "orderedArrangements" : self.orderedArrangements,
+                                             "arrangements" : self.arrangements,
+                                             "automaticSave" : self.automaticSave,
+                                             "timerSeconds" : self.timerSeconds ]
+                    // export any optional UserDefaults
+                    let defaults = UserDefaults.standard
+                    if let quitCount = defaults.object(forKey: "quitCount") as? Int { d["quitCount"] = quitCount }
+                    if let waitRestore = defaults.object(forKey: "waitRestore") as? Double {d["waitRestore"] = waitRestore }
+                    if let startHidden = defaults.object(forKey: "startHidden") as? Bool {d["startHidden"] = startHidden }
+                    if let doHelper = defaults.object(forKey: "doHelper") as? Bool {d["doHelper"] = doHelper }
+                    var data = NSDictionary(dictionary: d )
                     if !data.write(toFile: exportURL.path, atomically: true) {if #available(macOS 11.0, *) { Logger.err.error("could not create exported Settings to \(exportURL.path, privacy: .private(mask: .hash))")}}
                 }
             }
