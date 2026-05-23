@@ -438,6 +438,7 @@ class ViewController: NSViewController {
         // set up timer options
         setTimerMenu()
         
+        selectActionMenu.selectItem(at: actionAfterStart.rawValue)
         warningButton.state = (restoreAtStart ? .on : .off) // set default state of check for Restore at start
         actionMenu.isEnabled = restoreAtStart                   // if Restore at startup, allow the user to pick action for after
         warningTF.isHidden = !(restoreAtStart && actionAfterStart == .quit) // if Restore and Quit at startup, warn the user how to get back to our screen
@@ -448,6 +449,8 @@ class ViewController: NSViewController {
         updateInfo() // loadMenu()  // finally, construct the arrangement drop down menu
         refreshTimer()
     }
+    
+    @IBOutlet weak var selectActionMenu: NSPopUpButton!
     
     //let's assume something bad happened to the stored user data...
     func goodLoadPrefs() -> Bool {
