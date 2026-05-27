@@ -265,27 +265,19 @@ script ApplescriptBridge
                 if {x as string} is not in oldNames then set end of newIcons to x
             end repeat
             
-            if count of newIcons > 0 then -- if there are new icons, select them and get out
+            if count of newicons > 0 then  -- if there are new icons, select them and get out
                 set sel to {}
                 tell application "Finder"
-                    repeat with aName in newIcons
-                        if notWindow then
-                            set end of sel to item aName of desktop
+                    repeat with aname in newicons
+                        if notwindow then
+                            set end of sel to item aname of desktop
                         else
-                            set end of sel to item aName in tWindow
+                            set end of sel to item aname in twindow
                         end if
                     end repeat
-                    activate
-                    
-                    if notWindow then
-                        activate window of desktop
-                    else
-                        --activate Finder window of tWindow
-                        activate tWindow
-                    end if
                     set selection to sel
+                    reveal sel  -- Forces the background window (including Desktop) to repaint and show the highlights
                 end tell
-                tell application "DIM" to activate -- and regain focus
             else -- no new icons, just beep
                 beep
             end if
