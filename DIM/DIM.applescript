@@ -265,14 +265,14 @@ script ApplescriptBridge
                 if {x as string} is not in oldNames then set end of newIcons to x
             end repeat
             
-            if count of newicons > 0 then  -- if there are new icons, select them and get out
+            if count of newIcons > 0 then  -- if there are new icons, select them and get out
                 set sel to {}
                 tell application "Finder"
-                    repeat with aname in newicons
-                        if notwindow then
-                            set end of sel to item aname of desktop
+                    repeat with aName in newIcons
+                        if notWindow then
+                            set end of sel to item aName of desktop
                         else
-                            set end of sel to item aname in twindow
+                            set end of sel to item aName in tWindow
                         end if
                     end repeat
                     set selection to sel
