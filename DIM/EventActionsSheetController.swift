@@ -219,6 +219,7 @@ final class EventActionsSheetController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadFromUserDefaults()
 
         // Build left-pane table programmatically (no storyboard prototype needed).
         let tv = NSTableView()
@@ -240,7 +241,6 @@ final class EventActionsSheetController: NSViewController {
         // Explicit position overrides any stale autosaved divider value.
         splitView.setPosition(K.leftW, ofDividerAt: 0)
 
-        loadFromUserDefaults()
         eventTableView.reloadData()
         eventTableView.selectRowIndexes(IndexSet(integer: 0), byExtendingSelection: false)
         selectEvent(at: 0)
