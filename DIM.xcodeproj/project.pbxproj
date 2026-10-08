@@ -550,7 +550,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.6.1;
+				MARKETING_VERSION = 4.27;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -587,7 +587,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.6.1;
+				MARKETING_VERSION = 4.27;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
