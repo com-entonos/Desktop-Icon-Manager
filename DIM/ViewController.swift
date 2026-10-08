@@ -958,7 +958,7 @@ class ViewController: NSViewController {
                     if let waitRestore = defaults.object(forKey: "waitRestore") as? Double {d["waitRestore"] = waitRestore }
                     if let startHidden = defaults.object(forKey: "startHidden") as? Bool {d["startHidden"] = startHidden }
                     if let doHelper = defaults.object(forKey: "doHelper") as? Bool {d["doHelper"] = doHelper }
-                    var data = NSDictionary(dictionary: d )
+                    let data = NSDictionary(dictionary: d )
                     if !data.write(toFile: exportURL.path, atomically: true) {if #available(macOS 11.0, *) { Logger.err.error("could not create exported Settings to \(exportURL.path, privacy: .private(mask: .hash))")}}
                 }
             }
