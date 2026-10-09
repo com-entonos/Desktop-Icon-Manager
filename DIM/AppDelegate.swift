@@ -23,8 +23,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let defaults = UserDefaults.standard
         if defaults.object(forKey: "startHidden") != nil ? defaults.bool(forKey: "startHidden") : false { NSApplication.shared.hide(self) }
-        //if UserDefaults.object(forKey: "startHidden") != nil ? UserDefaults.standard.bool(forKey: "startHidden") : false { NSApplication.shared.hide(self) }
-      //NSWorkspace.shared.notificationCenter.addObserver(forName: NSWorkspace.willPowerOffNotification, object: nil, queue: .main, using: { note in NSApplication.shared.mainWindow?.performClose(nil)})
         NSApplication.shared.disableRelaunchOnLogin()
         if !FileManager.default.fileExists(atPath: FileManager.default.homeDirectoryForCurrentUser.path+"/Library/Preferences/" + bDIM.bID + ".plist") {
             exportMenuItem.isEnabled = false
