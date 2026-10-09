@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         return true
     }
     func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows: Bool) -> Bool {
-        return false
+        return true
     }
     
     /*  do applicationDockMenu? */
