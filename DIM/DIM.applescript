@@ -127,9 +127,10 @@ script ApplescriptBridge
             if count of iconSet < 6 then        -- we're doing the Desktop?
                 tell application "Finder"           -- find current screen size and get rid of arranged by if screen size changed
                     copy the bounds of the desktop's window to the newScreenSize -- get current resolution
-                    if arrangement of (icon view options of desktop's window) ­ not arranged and newScreenSize ­ screenSize then
-                        set arrangement of (icon view options of desktop's window) to not arranged -- we have to turn off Snap to Grid or whatever else if resolution changed
-                    end if
+                    --set oldArr to arrangement of (icon view options of desktop's window)
+                    --if oldArr ­ not arranged and newScreenSize ­ screenSize then
+                        --set arrangement of (icon view options of desktop's window) to not arranged -- we have to turn off Snap to Grid or whatever else if resolution changed
+                    --end if
                     set newIconSize to icon size of (icon view options of desktop's window)
                     set newTextSize to text size of (icon view options of desktop's window)
                 end tell
