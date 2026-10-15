@@ -125,8 +125,23 @@ class ViewController: NSViewController {
             self.didChangeScreen = true; Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { _ in self.didChangeScreen = false}) // ignore future calls until we reset
             let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
             if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
+            self.updateExtScreenSize() // screens changed - refresh desktop bounds for the AppleScript (macOS 27+)
             self.do_restore(self.restoreButton as Any)
         }
+    }
+
+    /* macOS 27+ removed Finder's "window of desktop" AppleScript interface. Feed the desktop bounds
+       (union of all NSScreen frames, same semantics as the old desktop window bounds) to the script instead. */
+    func updateExtScreenSize() {
+        var minX = CGFloat.greatestFiniteMagnitude, minY = CGFloat.greatestFiniteMagnitude
+        var maxX = -CGFloat.greatestFiniteMagnitude, maxY = -CGFloat.greatestFiniteMagnitude
+        for s in NSScreen.screens {
+            minX = min(minX, s.frame.minX); minY = min(minY, s.frame.minY)
+            maxX = max(maxX, s.frame.maxX); maxY = max(maxY, s.frame.maxY)
+        }
+        guard maxX > minX, maxY > minY else { return }
+        dim?.extScreenSize = [minX, minY, maxX, maxY]
+        if #available(macOS 11.0, *) { Logger.diag.log("extScreenSize -> [\(minX), \(minY), \(maxX), \(maxY)]") }
     }
 
     override func viewDidAppear() {
@@ -147,6 +162,7 @@ class ViewController: NSViewController {
             RunLoop.main.perform {
             //DispatchQueue.main.async {
                 self.dim = DIM()
+                self.updateExtScreenSize() // macOS 27+: provide desktop bounds from NSScreen before any AppleScript runs
                 if self.dim == nil || self.dim!.testBridge == "no" || self.dim!.testBridge == nil {
                     if #available(macOS 11.0, *) { Logger.err.error("DIM failed to connect to Finder") }
                     self.errorwithAS()

@@ -20,6 +20,8 @@ import AppleScriptObjC
     func listWindows()  // function to construct getWindows
 
     var testBridge: NSString { get }  // test function to see if AppleScriptObjC bridge is working
+
+    var extScreenSize: Any { get set } // desktop bounds {x1,y1,x2,y2} injected from NSScreen (macOS 27+ removed Finder's window of desktop)
 }
 
 
@@ -58,6 +60,12 @@ class DIM {  // this class deals directly
     }
     var testBridge : String? { // test AppleScriptObjC bridge
         get { return _DIM?.testBridge as String? }
+    }
+    var extScreenSize : Any? { // desktop bounds injected from Swift (NSScreen) - see DIM.applescript extScreenSize
+        get { return _DIM?.extScreenSize }
+        set (value) {
+            if value != nil, _DIM != nil { _DIM!.extScreenSize = value as Any }
+        }
     }
     var targetWindow : Int {  // used only from AddArrangement.swift to deal w/ Finder windows
         get { return _DIM!.targetWindow as! Int }
