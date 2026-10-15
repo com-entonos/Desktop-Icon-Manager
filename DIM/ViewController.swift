@@ -125,8 +125,22 @@ class ViewController: NSViewController {
             self.didChangeScreen = true; Timer.scheduledTimer(withTimeInterval: 5.0, repeats: false, block: { _ in self.didChangeScreen = false}) // ignore future calls until we reset
             let waitRestore = UserDefaults.standard.object(forKey: "waitRestore") != nil ? UserDefaults.standard.double(forKey: "waitRestore") : 10.0
             if #available(macOS 11.0, *) { Logger.diag.log("notice->\(notice.name.rawValue, privacy: .public) \(waitRestore, privacy: .public)")}
+            self.updateExtScreenSize() // screens changed - refresh desktop bounds for the AppleScript (macOS 27+)
             self.do_restore(self.restoreButton as Any)
         }
+    }
+
+    /* macOS 27+ removed Finder's "window of desktop" AppleScript interface. Feed the desktop bounds
+       (union of all NSScreen frames, same semantics as the old desktop window bounds) to the script instead. */
+    func updateExtScreenSize() {
+        var minX = CGFloat.greatestFiniteMagnitude, minY = CGFloat.greatestFiniteMagnitude
+        var maxX = -CGFloat.greatestFiniteMagnitude, maxY = -CGFloat.greatestFiniteMagnitude
+        for s in NSScreen.screens {
+            minX = min(minX, s.frame.minX); minY = min(minY, s.frame.minY)
+            maxX = max(maxX, s.frame.maxX); maxY = max(maxY, s.frame.maxY)
+        }
+        guard maxX > minX, maxY > minY else { return }
+        dim?.extScreenSize = [Int(minX), Int(minY), Int(maxX), Int(maxY)] // Int array: guarantees plain NSNumber bridging (CGFloat array broke UserDefaults serialization)
     }
 
     override func viewDidAppear() {
@@ -147,7 +161,9 @@ class ViewController: NSViewController {
             RunLoop.main.perform {
             //DispatchQueue.main.async {
                 self.dim = DIM()
-                if self.dim == nil || self.dim!.testBridge == "no" || self.dim!.testBridge == nil {
+                self.updateExtScreenSize() // macOS 27+: provide desktop bounds from NSScreen before any AppleScript runs
+                let tb = self.dim?.testBridge
+                if self.dim == nil || tb == "no" || tb == nil {
                     if #available(macOS 11.0, *) { Logger.err.error("DIM failed to connect to Finder") }
                     self.errorwithAS()
                 } else {
@@ -240,7 +256,9 @@ class ViewController: NSViewController {
     // restore from arrangement given by name
     func restore(_ name: String) {
         updateUI("Restoring Icon Positions...")
-        DispatchQueue.global(qos: .utility).async { [unowned self] in
+        // macOS 27: Finder silently drops 'set position' Apple events sent from background threads;
+        // run the AppleScript on the main thread (Apple's own guidance for AppleScriptObjC anyway)
+        DispatchQueue.main.async { [unowned self] in
             self.setSet(set: self.arrangements[name]!)
             self.dim!.numOnDesktop = 0
             if name != self.currentName { self.dim!.iconSet = self.arrangements[self.currentName]}
@@ -295,13 +313,31 @@ class ViewController: NSViewController {
     }
     
     // memorize icon positions and return AppleScript data
+    /* Recursively replace NSNull (AppleScript missing value = icons without manual coordinates) with
+       {-1,-1} placeholders. NSNull breaks UserDefaults plist serialization; -1 matches the legacy
+       "no explicit position" semantics already present in real data. */
+    func sanitizeForPrefs(_ value: Any) -> Any {
+        switch value {
+        case is NSNull:
+            return [-1, -1]
+        case let arr as [Any]:
+            return arr.map { sanitizeForPrefs($0) }
+        case let dict as [String: Any]:
+            return dict.mapValues { sanitizeForPrefs($0) }
+        default:
+            return value
+        }
+    }
+
     func fetchSet() -> Any {
         dim!.memorize()
-        return dim!.iconSet as Any
+        let s = dim!.iconSet as Any
+        let clean = sanitizeForPrefs(s)
+        return clean
     }
     func refetchSet() -> Any {
         dim!.rememorize()
-        return dim!.iconSet as Any
+        return sanitizeForPrefs(dim!.iconSet as Any) // must sanitize here too: NSNull from missing positions crashes mergeArrangements' force casts
     }
     
     // Check for Restore at start was toggled
@@ -473,7 +509,7 @@ class ViewController: NSViewController {
         }
         restoreAtStart = defaults.bool(forKey: "restoreAtStart")
         orderedArrangements = defaults.array(forKey: "orderedArrangements") as! [String]
-        arrangements = defaults.dictionary(forKey: "arrangements")!
+        arrangements = defaults.dictionary(forKey: "arrangements") ?? [:] // hardening: half-written prefs (interrupted savePrefs) must not crash at launch; the corrected-count logic below handles empties
         if defaults.object(forKey: "timerSeconds") != nil {timerSeconds = defaults.integer(forKey: "timerSeconds")}
         if defaults.object(forKey: "automaticSave") != nil {automaticSave = defaults.bool(forKey: "automaticSave")}
         
