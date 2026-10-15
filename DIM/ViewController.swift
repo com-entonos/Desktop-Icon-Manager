@@ -141,7 +141,6 @@ class ViewController: NSViewController {
         }
         guard maxX > minX, maxY > minY else { return }
         dim?.extScreenSize = [Int(minX), Int(minY), Int(maxX), Int(maxY)] // Int array: guarantees plain NSNumber bridging (CGFloat array broke UserDefaults serialization)
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: extScreenSize -> [\(Int(minX)), \(Int(minY)), \(Int(maxX)), \(Int(maxY))]") }
     }
 
     override func viewDidAppear() {
@@ -164,14 +163,11 @@ class ViewController: NSViewController {
                 self.dim = DIM()
                 self.updateExtScreenSize() // macOS 27+: provide desktop bounds from NSScreen before any AppleScript runs
                 let tb = self.dim?.testBridge
-                if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: testBridge -> \(tb ?? "nil", privacy: .public)") }
                 if self.dim == nil || tb == "no" || tb == nil {
                     if #available(macOS 11.0, *) { Logger.err.error("DIM failed to connect to Finder") }
                     self.errorwithAS()
                 } else {
-                    if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: loadPrefs begin") }
                     self.loadPrefs()
-                    if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: loadPrefs done -> UI update") }
                     self.start = false
                     self.updateUI()
                     if !self.noCommandLineArgs(CommandLine.arguments) {self.doCommandLineArgs(CommandLine.arguments) }
@@ -312,11 +308,8 @@ class ViewController: NSViewController {
     
     //set AppleScript data and restore icon positions
     func setSet(set: Any) {
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: setSet enter (iconSet -> AppleScript, then restore)") }
         dim!.iconSet = set
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: setSet iconSet injected, calling restore()") }
         dim!.restore()
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: setSet restore() returned") }
     }
     
     // memorize icon positions and return AppleScript data
@@ -337,21 +330,9 @@ class ViewController: NSViewController {
     }
 
     func fetchSet() -> Any {
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: fetchSet -> memorize begin") }
         dim!.memorize()
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: memorize done, reading iconSet back") }
         let s = dim!.iconSet as Any
-        if #available(macOS 11.0, *) {
-            Logger.diag.log("DIY-Probe: iconSet type = \(type(of: s), privacy: .public)")
-            if let arr = s as? [Any] {
-                for (i, e) in arr.enumerated() {
-                    let sub = (e as? [Any])?.map({ String(describing: type(of: $0)) }).joined(separator: ",") ?? String(describing: type(of: e))
-                    Logger.diag.log("DIY-Probe: iconSet[\(i)] = \(sub, privacy: .public)")
-                }
-            }
-        }
         let clean = sanitizeForPrefs(s)
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: iconSet sanitized (NSNull -> {-1,-1}), returning") }
         return clean
     }
     func refetchSet() -> Any {
@@ -566,19 +547,14 @@ class ViewController: NSViewController {
     // save user's preferences
     func savePrefs() {
         let defaults = UserDefaults.standard
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: savePrefs enter") }
         defaults.set(currentName, forKey: "currentName")
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: savePrefs 1 currentName ok") }
         defaults.set(restoreAtStart, forKey: "restoreAtStart")
         defaults.set(actionAfterStart.rawValue, forKey: "actionAfterStart")
         defaults.set(orderedArrangements, forKey: "orderedArrangements")
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: savePrefs 2 orderedArrangements ok") }
         defaults.set(arrangements, forKey: "arrangements")
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: savePrefs 3 arrangements ok") }
         defaults.set(automaticSave, forKey: "automaticSave")
         defaults.set(timerSeconds, forKey: "timerSeconds")
         defaults.synchronize()
-        if #available(macOS 11.0, *) { Logger.diag.log("DIY-Probe: savePrefs 4 all done") }
         NotificationCenter.default.post(name: .newArrangement, object: orderedArrangements)//; if #available(macOS 11.0, *) { Logger.diag.log("SavePrefs post NotificationCenter .newArrangement >\(self.orderedArrangements,privacy: .private(mask: .hash))<") }
     }
     

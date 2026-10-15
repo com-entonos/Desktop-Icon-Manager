@@ -192,11 +192,8 @@ script ApplescriptBridge
                 repeat with i from 1 to number of items of iconNames -- for each desktop icon, compute and put back at the old position
                     try
                         tell application "Finder" to set position of item (item i of iconNames as string) of desktop to {newdx + (0.5 + ((item 1 of (item i of iconPositions)) as integer - newdx) * xrel) div 1, newdy + (0.5 + ((item 2 of (item i of iconPositions)) as integer - newdy) * yrel) div 1} -- new position (macOS 27: 'desktop position' is dead, 'position' works)
-                    on error e number num
-                        if i < 4 then do shell script "echo " & quoted form of ("restore set err item " & i & ": [" & num & "] " & e) & " >> /tmp/dim_as.log"
                     end try
                 end repeat
-                do shell script "echo " & quoted form of ("restore loop done, dx=" & (newdx as string) & " xrel=" & (xrel as string)) & " >> /tmp/dim_as.log"
             else                                    -- we're restoring a Finder window
                 setTWindow()                            -- find Finder window...
                 if tWindow is missing value then        -- no such window open in icon view, so let's make one
