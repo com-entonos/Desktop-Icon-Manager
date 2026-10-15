@@ -45,7 +45,7 @@ script ApplescriptBridge
         if tWindow is missing value then -- save Desktop
             tell application "Finder" -- go get names, positions, current screen size, icon size and text size...
                 set iconNames to name of items of desktop
-                set iconPositions to desktop position of items of desktop
+                set iconPositions to position of items of desktop -- macOS 27: 'desktop position' returns missing value for all items; 'position' works and always has real coordinates
                 if extScreenSize is missing value then
                     copy the bounds of the desktop's window to the screenSize
                 else
@@ -54,12 +54,12 @@ script ApplescriptBridge
                 try
                     set iconSize to icon size of (icon view options of desktop's window)
                 on error
-                    set iconSize to missing value -- macOS 27+: interface removed
+                    set iconSize to 0 -- macOS 27+: interface removed; 0 = not captured (UserDefaults-safe)
                 end try
                 try
                     set textSize to text size of (icon view options of desktop's window)
                 on error
-                    set textSize to missing value -- macOS 27+: interface removed
+                    set textSize to 0 -- macOS 27+: interface removed; 0 = not captured (UserDefaults-safe)
                 end try
             end tell
             set iconSet to {iconNames, iconPositions, screenSize, iconSize, textSize} -- array of arrays
@@ -155,16 +155,16 @@ script ApplescriptBridge
                     try
                         set newIconSize to icon size of (icon view options of desktop's window)
                     on error
-                        set newIconSize to missing value -- macOS 27+: interface removed
+                        set newIconSize to 0 -- macOS 27+: interface removed
                     end try
                     try
                         set newTextSize to text size of (icon view options of desktop's window)
                     on error
-                        set newTextSize to missing value -- macOS 27+: interface removed
+                        set newTextSize to 0 -- macOS 27+: interface removed
                     end try
                 end tell
                 
-                if iconSize is not missing value and newIconSize is not missing value then
+                if iconSize as integer > 0 and newIconSize as integer > 0 then
                     if iconSize ≠ newIconSize  then -- if icon sizes change, change it back (may require a Finder restart)
                         ignoring application responses
                             try
@@ -174,7 +174,7 @@ script ApplescriptBridge
                     end if
                 end if
                 
-                if textSize is not missing value and newTextSize is not missing value then
+                if textSize as integer > 0 and newTextSize as integer > 0 then
                     if textSize ≠ newTextSize then -- if text sizes change, change it back (may require a Finder restart)
                         ignoring application responses
                             try
@@ -190,10 +190,13 @@ script ApplescriptBridge
                 set yrel to ((item 4 of newScreenSize as integer) - newdy) / ((item 4 of screenSize as integer) - (item 2 of screenSize as integer))
                 
                 repeat with i from 1 to number of items of iconNames -- for each desktop icon, compute and put back at the old position
-                    ignoring application responses
-                        tell application "Finder" to set desktop position of item (item i of iconNames as string) of desktop to {newdx + (0.5 + ((item 1 of (item i of iconPositions)) as integer - newdx) * xrel) div 1, newdy + (0.5 + ((item 2 of (item i of iconPositions)) as integer - newdy) * yrel) div 1} -- new position
-                    end ignoring
+                    try
+                        tell application "Finder" to set position of item (item i of iconNames as string) of desktop to {newdx + (0.5 + ((item 1 of (item i of iconPositions)) as integer - newdx) * xrel) div 1, newdy + (0.5 + ((item 2 of (item i of iconPositions)) as integer - newdy) * yrel) div 1} -- new position (macOS 27: 'desktop position' is dead, 'position' works)
+                    on error e number num
+                        if i < 4 then do shell script "echo " & quoted form of ("restore set err item " & i & ": [" & num & "] " & e) & " >> /tmp/dim_as.log"
+                    end try
                 end repeat
+                do shell script "echo " & quoted form of ("restore loop done, dx=" & (newdx as string) & " xrel=" & (xrel as string)) & " >> /tmp/dim_as.log"
             else                                    -- we're restoring a Finder window
                 setTWindow()                            -- find Finder window...
                 if tWindow is missing value then        -- no such window open in icon view, so let's make one

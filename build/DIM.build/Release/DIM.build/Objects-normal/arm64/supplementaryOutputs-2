@@ -1,0 +1,12 @@
+{
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/Update.swift" : {
+    "abi-baseline-json" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM.abi.json",
+    "const-values" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-primary.swiftconstvalues",
+    "dependencies" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-primary.d",
+    "diagnostics" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-primary.dia",
+    "objc-header" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-Swift.h",
+    "swiftdoc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM.swiftdoc",
+    "swiftmodule" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM.swiftmodule",
+    "swiftsourceinfo" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM.swiftsourceinfo"
+  }
+}

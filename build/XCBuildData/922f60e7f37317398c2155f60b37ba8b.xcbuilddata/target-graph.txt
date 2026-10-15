@@ -1,0 +1,4 @@
+Target dependency graph (2 targets)
+Target 'DIM' in project 'DIM'
+➜ Explicit dependency on target 'DIMDockTilePlugin' in project 'DIM'
+Target 'DIMDockTilePlugin' in project 'DIM' (no dependencies)

@@ -1,0 +1,38 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     '/Users/jon/Projects/Desktop-Icon-Manager/build/Release/DIMDockTilePlugin.docktileplugin/Contents/MacOS/DIMDockTilePlugin'
+relocations:
+  - { offset: 0xAD22D, size: 0x8, addend: 0x0, symName: '_$ss21_arrayConditionalCastySayq_GSgSayxGr0_lFyp_SSTg5', symObjAddr: 0x1D4, symBinAddr: 0x13FC, symSize: 0x110 }
+  - { offset: 0xAD40A, size: 0x8, addend: 0x0, symName: '_$sSo13os_log_type_taSQSCSQ2eeoiySbx_xtFZTW', symObjAddr: 0xCCC, symBinAddr: 0x1EF4, symSize: 0x14 }
+  - { offset: 0xAD826, size: 0x8, addend: 0x0, symName: '_$s17DIMDockTilePluginAACfETo', symObjAddr: 0xC4C, symBinAddr: 0x1E74, symSize: 0x48 }
+  - { offset: 0xAD855, size: 0x8, addend: 0x0, symName: '_$s17DIMDockTilePluginAACMa', symObjAddr: 0xC94, symBinAddr: 0x1EBC, symSize: 0x20 }
+  - { offset: 0xAD869, size: 0x8, addend: 0x0, symName: ___swift_project_value_buffer, symObjAddr: 0xCB4, symBinAddr: 0x1EDC, symSize: 0x18 }
+  - { offset: 0xAD888, size: 0x8, addend: 0x0, symName: '_$ss15ContiguousArrayV16_createNewBuffer14bufferIsUnique15minimumCapacity13growForAppendySb_SiSbtFSS_Tg5', symObjAddr: 0xCFC, symBinAddr: 0x1F24, symSize: 0x24 }
+  - { offset: 0xAD971, size: 0x8, addend: 0x0, symName: '_$sSa6append10contentsOfyqd__n_t7ElementQyd__RszSTRd__lFSS_SaySSGTg5', symObjAddr: 0xE34, symBinAddr: 0x205C, symSize: 0x100 }
+  - { offset: 0xADBD9, size: 0x8, addend: 0x0, symName: ___swift_instantiateConcreteTypeFromMangledNameV2, symObjAddr: 0xF34, symBinAddr: 0x215C, symSize: 0x50 }
+  - { offset: 0xADBED, size: 0x8, addend: 0x0, symName: '_$sSo20NSRunningApplicationCMa', symObjAddr: 0xF84, symBinAddr: 0x21AC, symSize: 0x44 }
+  - { offset: 0xADC22, size: 0x8, addend: 0x0, symName: '_$sypWOc', symObjAddr: 0x17FC, symBinAddr: 0x2A24, symSize: 0x3C }
+  - { offset: 0xADC36, size: 0x8, addend: 0x0, symName: '_$sSo13os_log_type_taMa', symObjAddr: 0x1838, symBinAddr: 0x2A60, symSize: 0x50 }
+  - { offset: 0xADE62, size: 0x8, addend: 0x0, symName: '_$s17DIMDockTilePluginAAC07setDockB0yySo06NSDockB0CSgF', symObjAddr: 0x0, symBinAddr: 0x1228, symSize: 0x180 }
+  - { offset: 0xADF40, size: 0x8, addend: 0x0, symName: '_$s17DIMDockTilePluginAAC07setDockB0yySo06NSDockB0CSgFTo', symObjAddr: 0x180, symBinAddr: 0x13A8, symSize: 0x54 }
+  - { offset: 0xADF62, size: 0x8, addend: 0x0, symName: '_$s17DIMDockTilePluginAAC8dockMenuSo6NSMenuCSgyFTo', symObjAddr: 0x2E4, symBinAddr: 0x150C, symSize: 0x38 }
+  - { offset: 0xAE007, size: 0x8, addend: 0x0, symName: '_$s17DIMDockTilePluginAAC10selectMenuyySo10NSMenuItemCF', symObjAddr: 0x31C, symBinAddr: 0x1544, symSize: 0x838 }
+  - { offset: 0xAE499, size: 0x8, addend: 0x0, symName: '_$s17DIMDockTilePluginAAC10selectMenuyySo10NSMenuItemCFTo', symObjAddr: 0xB54, symBinAddr: 0x1D7C, symSize: 0x50 }
+  - { offset: 0xAE4DA, size: 0x8, addend: 0x0, symName: '_$s17DIMDockTilePluginAACABycfcTo', symObjAddr: 0xBA4, symBinAddr: 0x1DCC, symSize: 0x78 }
+  - { offset: 0xAE53A, size: 0x8, addend: 0x0, symName: '_$s17DIMDockTilePluginAACfD', symObjAddr: 0xC1C, symBinAddr: 0x1E44, symSize: 0x30 }
+  - { offset: 0xAE568, size: 0x8, addend: 0x0, symName: '_$sSo13os_log_type_taSYSCSY8rawValuexSg03RawE0Qz_tcfCTW', symObjAddr: 0xCE0, symBinAddr: 0x1F08, symSize: 0x10 }
+  - { offset: 0xAE57C, size: 0x8, addend: 0x0, symName: '_$sSo13os_log_type_taSYSCSY8rawValue03RawE0QzvgTW', symObjAddr: 0xCF0, symBinAddr: 0x1F18, symSize: 0xC }
+  - { offset: 0xAE6E8, size: 0x8, addend: 0x0, symName: '_$s17DIMDockTilePluginAAC8dockMenuSo6NSMenuCSgyFTf4n_g', symObjAddr: 0xFC8, symBinAddr: 0x21F0, symSize: 0x834 }
+  - { offset: 0xAEEBA, size: 0x8, addend: 0x0, symName: '_$s2os6LoggerV17DIMDockTilePluginE9lifecycle_WZ', symObjAddr: 0x0, symBinAddr: 0x2AB0, symSize: 0x78 }
+  - { offset: 0xAEED2, size: 0x8, addend: 0x0, symName: '_$s2os6LoggerV17DIMDockTilePluginE9lifecycle_WZ', symObjAddr: 0x0, symBinAddr: 0x2AB0, symSize: 0x78 }
+  - { offset: 0xAEEEC, size: 0x8, addend: 0x0, symName: '_$s2os32getNullTerminatedUTF8PointerImpl_21storingStringOwnersInSVSS_SpyypGSgztF', symObjAddr: 0x78, symBinAddr: 0x2B28, symSize: 0xC8 }
+  - { offset: 0xAEF0F, size: 0x8, addend: 0x0, symName: '_$ss11_StringGutsV16_deconstructUTF87scratchyXlSg5owner_xSi6lengthSb11usesScratchSb15allocatedMemorytSwSg_ts8_PointerRzlFSV_Tgq5', symObjAddr: 0x140, symBinAddr: 0x2BF0, symSize: 0x110 }
+  - { offset: 0xAEF66, size: 0x8, addend: 0x0, symName: '_$ss11_StringGutsV23_allocateForDeconstructyXl5owner_SVSi6lengthtyF', symObjAddr: 0x250, symBinAddr: 0x2D00, symSize: 0x64 }
+  - { offset: 0xAEFA8, size: 0x8, addend: 0x0, symName: '_$ss32_copyCollectionToContiguousArrayys0dE0Vy7ElementQzGxSlRzlFSS8UTF8ViewV_Tgq5', symObjAddr: 0x2B4, symBinAddr: 0x2D64, symSize: 0xA0 }
+  - { offset: 0xAEFFF, size: 0x8, addend: 0x0, symName: '_$sSa6append10contentsOfyqd__n_t7ElementQyd__RszSTRd__lFs5UInt8V_SayAFGTgq5', symObjAddr: 0x354, symBinAddr: 0x2E04, symSize: 0xF0 }
+  - { offset: 0xAF0D2, size: 0x8, addend: 0x0, symName: '_$ss22_ContiguousArrayBufferV19_uninitializedCount15minimumCapacityAByxGSi_SitcfCs5UInt8V_Tt1gq5', symObjAddr: 0x444, symBinAddr: 0x2EF4, symSize: 0x70 }
+  - { offset: 0xAF127, size: 0x8, addend: 0x0, symName: '_$ss12_ArrayBufferV20_consumeAndCreateNew14bufferIsUnique15minimumCapacity13growForAppendAByxGSb_SiSbtFs5UInt8V_Tgq5', symObjAddr: 0x4B4, symBinAddr: 0x2F64, symSize: 0xF0 }
+  - { offset: 0xAF286, size: 0x8, addend: 0x0, symName: ___swift_destroy_boxed_opaque_existential_0, symObjAddr: 0x894, symBinAddr: 0x32F4, symSize: 0x20 }
+  - { offset: 0xAF29A, size: 0x8, addend: 0x0, symName: ___swift_allocate_value_buffer, symObjAddr: 0x8F0, symBinAddr: 0x3314, symSize: 0x40 }
+  - { offset: 0xAF47D, size: 0x8, addend: 0x0, symName: '_$s2os6LoggerV17DIMDockTilePluginE3log_8category5levelySS_ACSo0a1_F7_type_tatFZTf4nnnd_n', symObjAddr: 0x5A4, symBinAddr: 0x3054, symSize: 0x2A0 }
+...

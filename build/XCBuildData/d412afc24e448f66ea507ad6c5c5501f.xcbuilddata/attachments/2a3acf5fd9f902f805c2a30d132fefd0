@@ -1,0 +1,81 @@
+{
+  "" : {
+    "const-values" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-primary.swiftconstvalues",
+    "dependencies" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-primary.d",
+    "diagnostics" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-primary.dia",
+    "emit-module-dependencies" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-primary-emit-module.dia",
+    "pch" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIM-primary.swiftdeps"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/AddArrangement.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/AddArrangement.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/AddArrangement.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/AddArrangement.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/AppDelegate.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/AppDelegate.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/AppDelegate.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/AppDelegate.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/ChangeArrangement.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/ChangeArrangement.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/ChangeArrangement.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/ChangeArrangement.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/DIMBridge.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/DIMBridge.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIMBridge.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DIMBridge.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/DockHelper.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/DockHelper.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DockHelper.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/DockHelper.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/EditSheet.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/EditSheet.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/EditSheet.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/EditSheet.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/ErrorSheet.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/ErrorSheet.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/ErrorSheet.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/ErrorSheet.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/EventActionsSheetController.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/EventActionsSheetController.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/EventActionsSheetController.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/EventActionsSheetController.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/Hider.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/Hider.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/Hider.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/Hider.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/Logger.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/Logger.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/Logger.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/Logger.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/PlistOptionSheet.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/PlistOptionSheet.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/PlistOptionSheet.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/PlistOptionSheet.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/Update.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/Update.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/Update.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/Update.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/ViewController.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/ViewController.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/ViewController.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/ViewController.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIM.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIM.build/Objects-normal/arm64/GeneratedAssetSymbols.o"
+  }
+}

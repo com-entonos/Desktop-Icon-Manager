@@ -1,0 +1,21 @@
+{
+  "" : {
+    "const-values" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/DIMDockTilePlugin-primary.swiftconstvalues",
+    "dependencies" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/DIMDockTilePlugin-primary.d",
+    "diagnostics" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/DIMDockTilePlugin-primary.dia",
+    "emit-module-dependencies" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/DIMDockTilePlugin-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/DIMDockTilePlugin-primary-emit-module.dia",
+    "pch" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/DIMDockTilePlugin-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/DIMDockTilePlugin-primary.swiftdeps"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIM/Logger.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/Logger.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/Logger.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/Logger.o"
+  },
+  "/Users/jon/Projects/Desktop-Icon-Manager/DIMDockTilePlugin/DIMDockTilePlugin.swift" : {
+    "index-unit-output-path" : "/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/DIMDockTilePlugin.o",
+    "llvm-bc" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/DIMDockTilePlugin.bc",
+    "object" : "/Users/jon/Projects/Desktop-Icon-Manager/build/DIM.build/Release/DIMDockTilePlugin.build/Objects-normal/arm64/DIMDockTilePlugin.o"
+  }
+}
