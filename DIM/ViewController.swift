@@ -699,6 +699,26 @@ class ViewController: NSViewController {
                 if sender.title.contains("Start") {
                     try? serv.register()
                 }
+                 /*
+                do {
+                    try serv.unregister()
+                } catch {
+                    Logger.diag.debug("Unregister note (safe to ignore if not registered): \(error.localizedDescription)")
+                }
+
+                if sender.title.contains("Start") {
+                    do {
+                        try serv.register()
+                        Logger.diag.info("Successfully registered: \(bDIM.hHI)")
+                    } catch {
+                        // 🛑 THIS WILL TELL YOU EXACTLY WHY IT FAILS ON THE UNSANDBOXED BRANCH
+                        Logger.diag.error("Failed to register \(bDIM.hHI): \(error)")
+                        
+                        // Cast to NSError to inspect the exact failure code if needed
+                        let nsError = error as NSError
+                        Logger.diag.error("Error Code: \(nsError.code), Domain: \(nsError.domain)")
+                    }
+                } */
             }
             //DistributedNotificationCenter.default().postNotificationName(NSNotification.Name("pingHI"), object: nil, deliverImmediately: false)
         } else {
