@@ -17,15 +17,16 @@
 		2C066B9621F320F700DCF5AD /* EditSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C066B9521F320F700DCF5AD /* EditSheet.swift */; };
 		2C351E752DD66B4500AFE2CF /* DIMDockTilePlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C351E742DD66B4500AFE2CF /* DIMDockTilePlugin.swift */; };
 		2C351E8E2DD9585700AFE2CF /* DockHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C351E8D2DD9585700AFE2CF /* DockHelper.swift */; };
-		2C370D732F9045DB0004D08A /* DIMHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2C370D602F9044AE0004D08A /* DIMHelper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2C4A4EC42FB8E4A000B38678 /* EventActionsSheetController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4A4EC32FB8E4A000B38678 /* EventActionsSheetController.swift */; };
 		2C5692BE2F91B89C00BDFB02 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2C066B5D21F1942800DCF5AD /* Assets.xcassets */; };
 		2C728A2C2365239500D65798 /* ChangeArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C728A2B2365239500D65798 /* ChangeArrangement.swift */; };
 		2C728A322372238500D65798 /* DIM 4.0.help in Resources */ = {isa = PBXBuildFile; fileRef = 2C728A312372238500D65798 /* DIM 4.0.help */; };
 		2C73DC292788C7C8005F7BFC /* Hider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C73DC282788C7C8005F7BFC /* Hider.swift */; };
-		2C741C4C2F96ED4C00D111A1 /* Hide Icons.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2C015B322F96E182006BFE75 /* Hide Icons.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		2C79D9CE21F8EF1400C612B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2C79D9CC21F8EF1400C612B4 /* Main.storyboard */; };
 		2C9AB91921F3C48100EB09A7 /* AddArrangement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C9AB91821F3C48100EB09A7 /* AddArrangement.swift */; };
+		2CC8ADBD308806F700BEB217 /* Hide Icons.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2C015B322F96E182006BFE75 /* Hide Icons.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2CC8ADBE3088070900BEB217 /* DIMHelper.app in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2C370D602F9044AE0004D08A /* DIMHelper.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		2CCF10A03087FECF0041CC4E /* Hide Icons.app in Resources */ = {isa = PBXBuildFile; fileRef = 2C015B322F96E182006BFE75 /* Hide Icons.app */; };
 		2CE0746C2F9323780096F810 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0746B2F9323780096F810 /* Logger.swift */; };
 		2CE0746D2F9323820096F810 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0746B2F9323780096F810 /* Logger.swift */; };
 		2CE0746E2F945FC30096F810 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CE0746B2F9323780096F810 /* Logger.swift */; };
@@ -62,8 +63,8 @@
 			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
-				2C741C4C2F96ED4C00D111A1 /* Hide Icons.app in CopyFiles */,
-				2C370D732F9045DB0004D08A /* DIMHelper.app in CopyFiles */,
+				2CC8ADBE3088070900BEB217 /* DIMHelper.app in CopyFiles */,
+				2CC8ADBD308806F700BEB217 /* Hide Icons.app in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,6 +321,7 @@
 				2C728A322372238500D65798 /* DIM 4.0.help in Resources */,
 				2C79D9CE21F8EF1400C612B4 /* Main.storyboard in Resources */,
 				2C066B5E21F1942800DCF5AD /* Assets.xcassets in Resources */,
+				2CCF10A03087FECF0041CC4E /* Hide Icons.app in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -550,7 +552,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.27;
+				MARKETING_VERSION = 4.27ns;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
@@ -587,7 +589,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 4.27;
+				MARKETING_VERSION = 4.27ns;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parker9.DIM-4";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = YES;
