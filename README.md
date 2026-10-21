@@ -10,6 +10,8 @@ It also can toggle between showing and hiding Desktop icons- useful for privacy 
 
 DIM uses AppleScript (DIM/DIM.applescript) via AppleScriptObjC (DIM/DIMBridge.swift) to request various Finder actions.
 
+For macOS 27+ users if DIM can not communicate with Finder, there appears to be a bug in TCC. Quit DIM. In Terminal type 'sudo tccutil reset All com.parker9.DIM-4' and press enter. Enter your password. Press enter. Restart. This resets the permissions for DIM. When DIM is run after the restart it will ask for permissions. Say OK.
+
 Binaries can be found at:<br>
 
   https://entonos.com/index.php/the-geek-shop/ <br>
