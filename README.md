@@ -1,3 +1,5 @@
+This is the nosandbox branch. This is not a sandbox app. Mostly for not sandbox version of helper Hide Icons. This uses ~/Library/Preferences/com.parker9.DIM-4.plist not any container version of DIM (~/Library/Containers/com.parker9.DIM-4/Data/Library/Preferences/com.parker9.DIM-4.plist). nor does it automatically import the container version. if you want that, first use the sandbox version of DIM and Export settings. Then use Import settings in this DIM version.
+
 <b>Desktop Icon Manager (DIM)</b><br>
 ![image](https://user-images.githubusercontent.com/51520928/113028392-115a5800-9140-11eb-83b2-c887e04ec3f5.png)
 
