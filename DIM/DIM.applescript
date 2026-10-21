@@ -8,6 +8,7 @@ script ApplescriptBridge
     property iconSet : {}         -- this data is shared w/ swift app- swift doesn't know what it is and we don't care
     property numDesktop = -1      -- just the number of items on the the Desktop, swift wants to know to update some user info
     property numArrangement = -1  -- just the number of items stored in iconSet, swift wants to know to update some user info
+    property extScreenSize : missing value -- macOS 27+ removed Finder's "window of desktop"; Swift injects desktop bounds (union of NSScreens) as {x1, y1, x2, y2}
     
     property iconWindows : {}     -- list of Finder window that are in icon view
     property getWindows : {}      -- list of Finder window names that are in icon view
@@ -44,15 +45,31 @@ script ApplescriptBridge
         if tWindow is missing value then -- save Desktop
             tell application "Finder" -- go get names, positions, current screen size, icon size and text size...
                 set iconNames to name of items of desktop
-                set iconPositions to desktop position of items of desktop
-                copy the bounds of the desktop's window to the screenSize
-                set iconSize to icon size of (icon view options of desktop's window)
-                set textSize to text size of (icon view options of desktop's window)
+                set iconPositions to position of items of desktop -- macOS 27: 'desktop position' returns missing value for all items; 'position' works and always has real coordinates
+                if extScreenSize is missing value then
+                    copy the bounds of the desktop's window to the screenSize
+                else
+                    copy extScreenSize to the screenSize
+                end if
+                try
+                    set iconSize to icon size of (icon view options of desktop's window)
+                on error
+                    set iconSize to 0 -- macOS 27+: interface removed; 0 = not captured (UserDefaults-safe)
+                end try
+                try
+                    set textSize to text size of (icon view options of desktop's window)
+                on error
+                    set textSize to 0 -- macOS 27+: interface removed; 0 = not captured (UserDefaults-safe)
+                end try
             end tell
             set iconSet to {iconNames, iconPositions, screenSize, iconSize, textSize} -- array of arrays
         else -- save Finder window pointed to by tWindow
             tell application "Finder"
-                copy the bounds of the desktop's window to the screenSize
+                if extScreenSize is missing value then
+                    copy the bounds of the desktop's window to the screenSize
+                else
+                    copy extScreenSize to the screenSize
+                end if
                 copy the bounds of tWindow to windowBounds
                 copy the position of tWindow to windowPosition
                 set iconNames to name of items of tWindow
@@ -126,25 +143,45 @@ script ApplescriptBridge
             
             if count of iconSet < 6 then        -- we're doing the Desktop?
                 tell application "Finder"           -- find current screen size and get rid of arranged by if screen size changed
-                    copy the bounds of the desktop's window to the newScreenSize -- get current resolution
+                    if extScreenSize is missing value then
+                        copy the bounds of the desktop's window to the newScreenSize -- get current resolution
+                    else
+                        copy extScreenSize to the newScreenSize
+                    end if
                     --set oldArr to arrangement of (icon view options of desktop's window)
-                    --if oldArr ­ not arranged and newScreenSize ­ screenSize then
+                    --if oldArr â‰  not arranged and newScreenSize â‰  screenSize then
                         --set arrangement of (icon view options of desktop's window) to not arranged -- we have to turn off Snap to Grid or whatever else if resolution changed
                     --end if
-                    set newIconSize to icon size of (icon view options of desktop's window)
-                    set newTextSize to text size of (icon view options of desktop's window)
+                    try
+                        set newIconSize to icon size of (icon view options of desktop's window)
+                    on error
+                        set newIconSize to 0 -- macOS 27+: interface removed
+                    end try
+                    try
+                        set newTextSize to text size of (icon view options of desktop's window)
+                    on error
+                        set newTextSize to 0 -- macOS 27+: interface removed
+                    end try
                 end tell
                 
-                if iconSize ­ newIconSize  then -- if icon sizes change, change it back (may require a Finder restart)
-                    ignoring application responses
-                        tell application "Finder" to set icon size of (icon view options of desktop's window) to iconSize as integer
-                    end ignoring
+                if iconSize as integer > 0 and newIconSize as integer > 0 then
+                    if iconSize â‰  newIconSize  then -- if icon sizes change, change it back (may require a Finder restart)
+                        ignoring application responses
+                            try
+                                tell application "Finder" to set icon size of (icon view options of desktop's window) to iconSize as integer
+                            end try
+                        end ignoring
+                    end if
                 end if
                 
-                if textSize ­ newTextSize then -- if text sizes change, change it back (may require a Finder restart)
-                    ignoring application responses
-                        tell application "Finder" to set text size of (icon view options of desktop's window) to textSize as integer
-                    end ignoring
+                if textSize as integer > 0 and newTextSize as integer > 0 then
+                    if textSize â‰  newTextSize then -- if text sizes change, change it back (may require a Finder restart)
+                        ignoring application responses
+                            try
+                                tell application "Finder" to set text size of (icon view options of desktop's window) to textSize as integer
+                            end try
+                        end ignoring
+                    end if
                 end if
                 
                 set newdx to item 1 of newScreenSize as integer -- scaling parameters incase screen size changed
@@ -153,9 +190,9 @@ script ApplescriptBridge
                 set yrel to ((item 4 of newScreenSize as integer) - newdy) / ((item 4 of screenSize as integer) - (item 2 of screenSize as integer))
                 
                 repeat with i from 1 to number of items of iconNames -- for each desktop icon, compute and put back at the old position
-                    ignoring application responses
-                        tell application "Finder" to set desktop position of item (item i of iconNames as string) of desktop to {newdx + (0.5 + ((item 1 of (item i of iconPositions)) as integer - newdx) * xrel) div 1, newdy + (0.5 + ((item 2 of (item i of iconPositions)) as integer - newdy) * yrel) div 1} -- new position
-                    end ignoring
+                    try
+                        tell application "Finder" to set position of item (item i of iconNames as string) of desktop to {newdx + (0.5 + ((item 1 of (item i of iconPositions)) as integer - newdx) * xrel) div 1, newdy + (0.5 + ((item 2 of (item i of iconPositions)) as integer - newdy) * yrel) div 1} -- new position (macOS 27: 'desktop position' is dead, 'position' works)
+                    end try
                 end repeat
             else                                    -- we're restoring a Finder window
                 setTWindow()                            -- find Finder window...
@@ -175,19 +212,23 @@ script ApplescriptBridge
                     beep
                 else
                     tell application "Finder" -- find current screen size and get rid of arranged by if screen size changed
-                        copy the bounds of the desktop's window to the newScreenSize -- get current resolution
+                        if extScreenSize is missing value then
+                            copy the bounds of the desktop's window to the newScreenSize -- get current resolution
+                        else
+                            copy extScreenSize to the newScreenSize
+                        end if
                         copy the position of tWindow to pos  -- set pos to actual position in case we don't need to change it
                         set newIconSize to icon size of (icon view options of tWindow)
                         set newTextSize to text size of (icon view options of tWindow)
                     end tell
                     
-                    if iconSize as integer ­ newIconSize as integer  then -- if icon sizes change, change it back (may require a Finder restart)
+                    if iconSize as integer â‰  newIconSize as integer  then -- if icon sizes change, change it back (may require a Finder restart)
                         ignoring application responses
                             tell application "Finder" to set icon size of (icon view options of tWindow) to iconSize as integer
                         end ignoring
                     end if
                     
-                    if textSize as integer ­ newTextSize as integer then -- if text sizes change, change it back (may require a Finder restart)
+                    if textSize as integer â‰  newTextSize as integer then -- if text sizes change, change it back (may require a Finder restart)
                         ignoring application responses
                             tell application "Finder" to set text size of (icon view options of tWindow) to textSize as integer
                         end ignoring
@@ -304,7 +345,7 @@ script ApplescriptBridge
     
     on testBridge()
         try
-            tell application "Finder" to set x to arrangement of (icon view options of desktop's window)
+            tell application "Finder" to set x to count of items of desktop
             return "yes"
         on error
             return "no"
